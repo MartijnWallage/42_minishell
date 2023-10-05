@@ -6,7 +6,7 @@
 /*   By: mwallage <mwallage@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 11:44:55 by mwallage          #+#    #+#             */
-/*   Updated: 2023/10/05 17:12:36 by mwallage         ###   ########.fr       */
+/*   Updated: 2023/10/05 17:29:32 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,19 +90,19 @@ char	*get_path(char *cmd, char **env)
 
 void	check_format(int ac, char **av)
 {
-	if (ac < 5)
+	if (ac < 4)
 	{
 		ft_putstr_fd("Format:\n", 2);
-		ft_putstr_fd("\t./pipex_bonus infile cmd1 cmd2 ... outfile\n", 2);
+		ft_putstr_fd("\tinfile cmd1 cmd2 ... outfile\n", 2);
 		ft_putstr_fd(
-			"\t./pipex_bonus here_doc DELIMITER cmd1 cmd2 ... outfile\n", 2);
+			"\there_doc DELIMITER cmd1 cmd2 ... outfile\n", 2);
 		exit(1);
 	}
-	if ((ft_strcmp(av[1], "here_doc") == 0) && ac < 6)
+	if ((ft_strcmp(av[0], "here_doc") == 0) && ac < 5)
 	{
 		ft_putstr_fd("Format:\n", 2);
 		ft_putstr_fd(
-			"\t./pipex_bonus here_doc DELIMITER cmd1 cmd2 ... outfile\n", 2);
+			"\there_doc DELIMITER cmd1 cmd2 ... outfile\n", 2);
 		exit(1);
 	}
 }

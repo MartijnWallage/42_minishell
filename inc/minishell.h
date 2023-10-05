@@ -6,7 +6,7 @@
 /*   By: mwallage <mwallage@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 15:40:59 by mwallage          #+#    #+#             */
-/*   Updated: 2023/10/05 17:09:31 by mwallage         ###   ########.fr       */
+/*   Updated: 2023/10/05 17:30:02 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,4 +25,6 @@
 
 # include "../libft/inc/libft.h"
 
+int		pipex(int ac, char **av, char **env);
+void	free_tab(char **tab);
 #endif

@@ -6,7 +6,7 @@
 /*   By: mwallage <mwallage@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 11:44:55 by mwallage          #+#    #+#             */
-/*   Updated: 2023/10/05 17:14:07 by mwallage         ###   ########.fr       */
+/*   Updated: 2023/10/05 17:37:03 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ static int	get_input(char **av)
 	int		infile;
 	pid_t	pid;
 
-	if (ft_strcmp(av[1], "here_doc") == 0)
+	if (ft_strcmp(av[0], "here_doc") == 0)
 	{
 		if (pipe(pipefd) == -1)
 			handle_error("pipe error", 1);
@@ -88,19 +88,19 @@ static int	get_input(char **av)
 		if (pid == -1)
 			handle_error("pid error", 1);
 		if (pid == 0)
-			write_heredoc(av[2], pipefd);
+			write_heredoc(av[1], pipefd);
 		waitpid(pid, NULL, 0);
 		dup2(pipefd[0], STDIN_FILENO);
 		close(pipefd[0]);
 		close(pipefd[1]);
-		return (2);
+		return (1);
 	}
-	infile = open(av[1], O_RDONLY, 0777);
+	infile = open(av[0], O_RDONLY, 0777);
 	if (infile == -1)
-		handle_error(av[1], 0);
+		handle_error(av[0], 0);
 	dup2(infile, STDIN_FILENO);
 	close(infile);
-	return (1);
+	return (0);
 }
 
 int	pipex(int ac, char **av, char **env)
@@ -110,16 +110,16 @@ int	pipex(int ac, char **av, char **env)
 
 	check_format(ac, av);
 	i = get_input(av);
-	while (++i < ac - 2)
+	while (++i < ac - 1)
 		child(av[i], env);
-	if (ft_strcmp(av[1], "here_doc") == 0)
-		outfile = open(av[ac - 1], O_WRONLY | O_CREAT | O_APPEND, 0777);
+	if (ft_strcmp(av[0], "here_doc") == 0)
+		outfile = open(av[ac], O_WRONLY | O_CREAT | O_APPEND, 0777);
 	else
-		outfile = open(av[ac - 1], O_WRONLY | O_CREAT | O_TRUNC, 0777);
+		outfile = open(av[ac], O_WRONLY | O_CREAT | O_TRUNC, 0777);
 	if (outfile == -1)
-		handle_error(av[ac -1], 1);
+		handle_error(av[ac], 1);
 	dup2(outfile, STDOUT_FILENO);
 	close(outfile);
-	exec(av[ac - 2], env, 127);
+	exec(av[ac - 1], env, 127);
 	return (0);
 }

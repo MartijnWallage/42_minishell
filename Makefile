@@ -6,7 +6,7 @@
 #    By: mwallage <mwallage@student.42berlin.de>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/10/05 15:16:08 by mwallage          #+#    #+#              #
-#    Updated: 2023/10/05 16:57:29 by mwallage         ###   ########.fr        #
+#    Updated: 2023/10/05 17:13:46 by mwallage         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,7 +20,9 @@ LIBFT		:= $(LIBFTDIR)/libft.a
 HEADERS		:= -I$(INCDIR) -I$(LIBFTDIR)/inc
 READLINE	:= -lreadline -lhistory
 LIBFLAGS	:= -L$(LIBFTDIR) -lft $(READLINE)
-SRC			:= main.c
+SRC			:= main.c \
+				pipex.c \
+				pipex_utils.c
 SRCS		:= $(addprefix $(SRCDIR)/, $(SRC))
 OBJS		:= $(patsubst $(SRCDIR)/%.c, $(OBJDIR)/%.o, $(SRCS))
 NAME		:= minishell

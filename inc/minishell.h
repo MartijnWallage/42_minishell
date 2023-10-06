@@ -30,6 +30,16 @@
 # include <sys/wait.h>
 # include "../libft/inc/libft.h"
 
+typedef struct s_branch
+{
+	char			*command;
+	char			connector;
+	struct s_branch	*left;
+	struct s_branch	*right;
+}					t_branch;
+
+extern char	**genv;
+
 int		pipex(int ac, char **av, char **env);
 void	free_tab(char **tab);
 char	*get_path(char *cmd, char **env);

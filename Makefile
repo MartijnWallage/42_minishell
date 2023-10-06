@@ -11,7 +11,7 @@
 # **************************************************************************** #
 
 CC			:= cc
-CFLAGS		:= -Wall -Wextra -Werror
+CFLAGS		:= #-Wall -Wextra -Werror
 SRCDIR		:= ./src
 OBJDIR		:= ./obj
 INCDIR		:= ./inc
@@ -38,10 +38,10 @@ $(LIBFT): $(LIBFTDIR)
 $(OBJDIR):
 	mkdir obj;
 
-$(NAME): $(OBJS)
+$(NAME): $(LIBFT) $(OBJDIR) $(OBJS)
 	$(CC) $(OBJS) $(CFLAGS) $(LIBFLAGS) -o $@
 
-$(OBJDIR)/%.o: $(SRCDIR)/%.c $(LIBFT) $(OBJDIR)
+$(OBJDIR)/%.o: $(SRCDIR)/%.c
 	$(CC) -c $< $(CFLAGS) $(HEADERS) -o $@
 
 clean:

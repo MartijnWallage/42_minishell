@@ -53,7 +53,8 @@ static char	*try_paths(char *cmd, char **paths)
 		whole_cmd = ft_strjoin(paths[i], "/");
 		temp = whole_cmd;
 		whole_cmd = ft_strjoin(whole_cmd, cmd);
-		free(temp);
+		if (temp != whole_cmd)
+			free(temp);
 		if (access(whole_cmd, F_OK | X_OK) == 0)
 			return (whole_cmd);
 		free(whole_cmd);

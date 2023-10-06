@@ -24,6 +24,7 @@
 # include <sys/wait.h>
 # include "../libft/inc/libft.h"
 
+void	exec(char *cmd, char **env);
 /*	utils	*/
 void	handle_error(char *info, int exitcode);
 void	free_tab(char **tab);

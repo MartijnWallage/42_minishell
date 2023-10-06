@@ -12,7 +12,7 @@
 
 #include "../inc/pipex.h"
 
-static void	exec(char *cmd, char **env, int exitcode)
+void	exec(char *cmd, char **env)
 {
 	char	*path;
 	char	**whole_cmd;
@@ -26,7 +26,7 @@ static void	exec(char *cmd, char **env, int exitcode)
 		free_tab(whole_cmd);
 		ft_putstr_fd("pipex: command not found: ", 2);
 		ft_putendl_fd(cmd, 2);
-		exit(exitcode);
+		exit(errno);
 	}
 }
 
@@ -45,7 +45,7 @@ static void	child(char *cmd, char **env)
 		dup2(pipefd[1], STDOUT_FILENO);
 		close(pipefd[0]);
 		close(pipefd[1]);
-		exec(cmd, env, 0);
+		exec(cmd, env);
 	}
 	waitpid(pid, NULL, 0);
 	dup2(pipefd[0], STDIN_FILENO);
@@ -120,6 +120,6 @@ int	pipex(int ac, char **av, char **env)
 		handle_error(av[ac], 1);
 	dup2(outfile, STDOUT_FILENO);
 	close(outfile);
-	exec(av[ac - 1], env, 127);
+	exec(av[ac - 1], env);
 	return (0);
 }

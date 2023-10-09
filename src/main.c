@@ -6,11 +6,13 @@
 /*   By: mwallage <mwallage@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 16:46:09 by mwallage          #+#    #+#             */
-/*   Updated: 2023/10/05 17:31:33 by mwallage         ###   ########.fr       */
+/*   Updated: 2023/10/09 14:52:04 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
+
+char	**genv;
 
 static int	is_valid_input(char *input)
 {
@@ -35,15 +37,22 @@ void	init_branch(t_branch *branch, char *command)
 	branch->command = command;
 }
 
-void	branch(t_branch	*branch)
+t_branch	*branch(t_branch	*branch)
 {
+	char	*s;
+	char	*left;
+	char	*right
+
+	//	Make a stack for parantheses and quotes
+	//		If they don't match, readline for more input.
+	//	Find first free occurances of |, &&, or ||.
+	s = ft_strchr(branch->command, '|');
+	if (s == NULL)
+		return (branch);	// First take out redirections and expand variables
+	branch->connector = PIPE;
+	right = branch->command
+	init_branch(branch->left, )
 	/* 
-	 	Make a stack for parentheses and quotes
-		If they don't match, readline("\t> ") for more input.
-		If | or && or || occurs freely (outside quotes), branch left and right.
-			Else if there are no more pipes or logical operators, 
-			take out redirections (save in struct), expand variables
-			and return current branch.
 		branch->connector = connector; // | or && or ||.
 		init_branch(branch->left, left_side);
 		branch(branch->left);
@@ -67,7 +76,6 @@ void	read_tree(t_branch *branch)
 	*/
 }
 
-char	**genv;
 
 void	simple_command(char *cmd)
 {
@@ -97,7 +105,7 @@ int	main(int argc, char **argv, char **envp)
 			continue ;
 /* 		init_branch(tree, line);
 		tree->command = line; 
-		branch(tree);
+		tree = branch(tree);
 		read_tree(tree); */
 		simple_command(line); // this will later be called after descending the tree
 		free(line);

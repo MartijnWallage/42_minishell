@@ -6,16 +6,20 @@
 /*   By: mwallage <mwallage@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 15:40:59 by mwallage          #+#    #+#             */
-/*   Updated: 2023/10/05 17:30:02 by mwallage         ###   ########.fr       */
+/*   Updated: 2023/10/09 14:31:10 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
-# define FORMAT	"minishell: run minishell without arguments"
+# define FORMAT	"philoshell: format\n\t./minishell [no arguments]"
 # define PROMPT "philoshell 🤔> "
 # define INVALID_INPUT	"philoshell: input is invalid"
+
+# define PIPE	1
+# define AND	2
+# define OR		3
 
 # include <errno.h>
 # include <string.h>

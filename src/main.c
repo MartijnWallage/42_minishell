@@ -6,7 +6,7 @@
 /*   By: mwallage <mwallage@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 16:46:09 by mwallage          #+#    #+#             */
-/*   Updated: 2023/10/09 14:52:04 by mwallage         ###   ########.fr       */
+/*   Updated: 2023/10/09 15:44:18 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,42 +27,51 @@ static int	is_valid_input(char *input)
 	return (1);
 }
 
-void	init_branch(t_branch *branch, char *command)
+char	*init_str(const char *origin, size_t size)
 {
-	branch = malloc(sizeof(t_branch));
-	// if malloc fails, throw error
-	branch->left = NULL;
-	branch->right = NULL;
-	branch->connector = 0;
-	branch->command = command;
+	char	*ret;
+
+	ret = malloc(size);
+	// protect malloc
+	ft_strlcpy(ret, origin, size);
+	return (ret);
 }
 
-t_branch	*branch(t_branch	*branch)
+void	do_branch(t_branch	*branch)
 {
 	char	*s;
 	char	*left;
-	char	*right
+	char	*right;
+	int		space;
 
 	//	Make a stack for parantheses and quotes
 	//		If they don't match, readline for more input.
 	//	Find first free occurances of |, &&, or ||.
 	s = ft_strchr(branch->command, '|');
 	if (s == NULL)
-		return (branch);	// First take out redirections and expand variables
+		return ;	// First take out redirections and expand variables
 	branch->connector = PIPE;
-	right = branch->command
-	init_branch(branch->left, )
-	/* 
-		branch->connector = connector; // | or && or ||.
-		init_branch(branch->left, left_side);
-		branch(branch->left);
-		init_branch(branch->right, right_side);
-		branch(branch->right); 
-		*/
+	left = init_str(branch->command, s - branch->command + 1);
+	branch->left = init_branch(left);
+	do_branch(branch->left);
+	space = (*(s + 1) == ' ');
+	right = init_str(s + 1 + space, ft_strlen(s) - space);
+	branch->right = init_branch(right);
+	do_branch(branch->right);
 }
 
 void	read_tree(t_branch *branch)
 {
+	if (branch->left && branch->right)
+	{
+		// if (branch->operator == PIPE){};
+		// else if (branch->operator == AND){};
+		// else if (branch->operator == OR){};
+		pipe_left(branch->left);
+		pipe_right(branch->right);
+	}
+	else
+		simple_command(branch->command);
 	/* 
 	 * if (branch->left) {
 	 * 	if (branch->operator == '|')
@@ -88,11 +97,23 @@ void	simple_command(char *cmd)
 		waitpid(pid, NULL, 0);
 }
 
+t_branch	*init_branch(char *command)
+{
+	t_branch	*branch;
+	
+	branch = malloc(sizeof(t_branch));
+	// if malloc fails, throw error
+	branch->left = NULL;
+	branch->right = NULL;
+	branch->connector = 0;
+	branch->command = command;
+	return (branch);
+}
 
 int	main(int argc, char **argv, char **envp)
 {
 	char		*line;
-//	t_branch	*tree;
+	t_branch	*tree;
 
 	if (argc != 1)
 		return (1);
@@ -103,11 +124,11 @@ int	main(int argc, char **argv, char **envp)
 		line = readline(PROMPT);
 		if (!is_valid_input(line))
 			continue ;
-/* 		init_branch(tree, line);
-		tree->command = line; 
-		tree = branch(tree);
-		read_tree(tree); */
+ 		tree = init_branch(ft_strdup(line));
+		do_branch(tree);
+//		read_tree(tree); */
 		simple_command(line); // this will later be called after descending the tree
+//		free_tree(tree);
 		free(line);
 	}
 	return (0);

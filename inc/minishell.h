@@ -6,7 +6,7 @@
 /*   By: mwallage <mwallage@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 15:40:59 by mwallage          #+#    #+#             */
-/*   Updated: 2023/10/09 14:31:10 by mwallage         ###   ########.fr       */
+/*   Updated: 2023/10/09 15:27:25 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,9 +44,10 @@ typedef struct s_branch
 
 extern char	**genv;
 
-int		pipex(int ac, char **av, char **env);
-void	free_tab(char **tab);
-char	*get_path(char *cmd, char **env);
-void	exec(char *cmd, char **env);
+int			pipex(int ac, char **av, char **env);
+void		free_tab(char **tab);
+char		*get_path(char *cmd, char **env);
+void		exec(char *cmd, char **env);
+t_branch	*init_branch(char *command);
 
 #endif

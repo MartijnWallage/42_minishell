@@ -6,7 +6,7 @@
 /*   By: mwallage <mwallage@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 16:46:09 by mwallage          #+#    #+#             */
-/*   Updated: 2023/10/09 15:44:18 by mwallage         ###   ########.fr       */
+/*   Updated: 2023/10/09 17:26:25 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ char	*init_str(const char *origin, size_t size)
 	return (ret);
 }
 
-void	do_branch(t_branch	*branch)
+void	grow_tree(t_branch	*branch)
 {
 	char	*s;
 	char	*left;
@@ -53,48 +53,61 @@ void	do_branch(t_branch	*branch)
 	branch->connector = PIPE;
 	left = init_str(branch->command, s - branch->command + 1);
 	branch->left = init_branch(left);
-	do_branch(branch->left);
+	grow_tree(branch->left);
 	space = (*(s + 1) == ' ');
 	right = init_str(s + 1 + space, ft_strlen(s) - space);
 	branch->right = init_branch(right);
-	do_branch(branch->right);
+	grow_tree(branch->right);
 }
 
 void	read_tree(t_branch *branch)
 {
+	pid_t	pid, pid2;
+
 	if (branch->left && branch->right)
 	{
 		// if (branch->operator == PIPE){};
 		// else if (branch->operator == AND){};
 		// else if (branch->operator == OR){};
-		pipe_left(branch->left);
-		pipe_right(branch->right);
+		if (pipe(branch->pipefd) == -1)
+			handle_error("pipe error", 1);
+		pid = fork();
+		if (pid == -1)
+			handle_error("pid error", 1);
+		if (pid == 0)
+		{
+			dup2(branch->pipefd[1], STDOUT_FILENO);
+			close(branch->pipefd[0]);
+			close(branch->pipefd[1]);
+			exec(branch->left->command, genv);
+		}
+		pid2 = fork();
+		if (pid2 == -1)
+			handle_error("pid error", 1);
+		if (pid2 == 0)
+		{
+			dup2(branch->pipefd[0], STDIN_FILENO);
+			close(branch->pipefd[0]);
+			close(branch->pipefd[1]);
+			exec(branch->right->command, genv);
+		}
 	}
 	else
-		simple_command(branch->command);
-	/* 
-	 * if (branch->left) {
-	 * 	if (branch->operator == '|')
-	 *		pipe(branch);   // In this function we'd have to call simple_command
-	 *	else if (branch->operator == '&&')
-	 *		conjunct(branch);  // same
-	 *	else if (branch->operator == '||')
-	 *		disjunct(branch); // same
-	 *  else
-	 *		simple_command(branch->command);
-	*/
+		simple_command(branch);
 }
 
 
-void	simple_command(char *cmd)
+void	simple_command(t_branch *branch)
 {
 	pid_t	pid;
 
+	// if cmd is an in-built function, don't fork, otherwise:
 	pid = fork();
+	if (pid == -1)
+		handle_error("pid error", 1);
 	if (pid == 0)
-		exec(cmd, genv);
-	else // if !(command ends on &)
-		waitpid(pid, NULL, 0);
+		exec(branch->command, genv);
+	waitpid(pid, NULL, 0);	// unless command ends with &
 }
 
 t_branch	*init_branch(char *command)
@@ -105,6 +118,9 @@ t_branch	*init_branch(char *command)
 	// if malloc fails, throw error
 	branch->left = NULL;
 	branch->right = NULL;
+	branch->infile = STDIN_FILENO;
+	branch->outfile = STDOUT_FILENO;
+	branch->errfile = STDERR_FILENO;
 	branch->connector = 0;
 	branch->command = command;
 	return (branch);
@@ -124,12 +140,10 @@ int	main(int argc, char **argv, char **envp)
 		line = readline(PROMPT);
 		if (!is_valid_input(line))
 			continue ;
- 		tree = init_branch(ft_strdup(line));
-		do_branch(tree);
-//		read_tree(tree); */
-		simple_command(line); // this will later be called after descending the tree
+ 		tree = init_branch(line);
+		grow_tree(tree);
+		read_tree(tree);
 //		free_tree(tree);
-		free(line);
 	}
 	return (0);
 }

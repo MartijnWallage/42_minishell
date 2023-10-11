@@ -62,52 +62,36 @@ void	grow_tree(t_branch	*branch)
 
 void	read_tree(t_branch *branch)
 {
-	pid_t	pid, pid2;
+	pid_t	pid;
 
-	if (branch->left && branch->right)
-	{
-		// if (branch->operator == PIPE){};
-		// else if (branch->operator == AND){};
-		// else if (branch->operator == OR){};
-		if (pipe(branch->pipefd) == -1)
-			handle_error("pipe error", 1);
-		pid = fork();
-		if (pid == -1)
-			handle_error("pid error", 1);
-		if (pid == 0)
-		{
-			dup2(branch->pipefd[1], STDOUT_FILENO);
-			close(branch->pipefd[0]);
-			close(branch->pipefd[1]);
-			exec(branch->left->command, genv);
-		}
-		pid2 = fork();
-		if (pid2 == -1)
-			handle_error("pid error", 1);
-		if (pid2 == 0)
-		{
-			dup2(branch->pipefd[0], STDIN_FILENO);
-			close(branch->pipefd[0]);
-			close(branch->pipefd[1]);
-			exec(branch->right->command, genv);
-		}
-	}
-	else
+	/* if (branch->operator == PIPE){}; 	//	create two child processes
+	 * else if (branch->operator == AND){};	//	do not create child processes.
+	 * else if (branch->operator == OR){}; 	//	do not create child processes
+	 */
+	if (!branch->left || !branch->right)
 		simple_command(branch);
+	if (pipe(branch->pipefd) == -1)
+		handle_error(PIPE_ERR, 1);
+	pid = fork();
+	if (pid == -1)
+		handle_error(FORK_ERR, 1);
+	if (pid == 0)
+	{
+		dup2(branch->pipefd[1], STDOUT_FILENO);
+		close(branch->pipefd[0]);
+		close(branch->pipefd[1]);
+		read_tree(branch->left);
+	}
+	waitpid(pid, NULL, 0);
+	dup2(branch->pipefd[0], STDIN_FILENO);
+	close(branch->pipefd[0]);
+	close(branch->pipefd[1]);
+	read_tree(branch->right);
 }
-
 
 void	simple_command(t_branch *branch)
 {
-	pid_t	pid;
-
-	// if cmd is an in-built function, don't fork, otherwise:
-	pid = fork();
-	if (pid == -1)
-		handle_error("pid error", 1);
-	if (pid == 0)
-		exec(branch->command, genv);
-	waitpid(pid, NULL, 0);	// unless command ends with &
+	exec(branch->command, genv);
 }
 
 t_branch	*init_branch(char *command)
@@ -130,6 +114,7 @@ int	main(int argc, char **argv, char **envp)
 {
 	char		*line;
 	t_branch	*tree;
+	pid_t		pid;
 
 	if (argc != 1)
 		return (1);
@@ -142,7 +127,12 @@ int	main(int argc, char **argv, char **envp)
 			continue ;
  		tree = init_branch(line);
 		grow_tree(tree);
-		read_tree(tree);
+		pid = fork();
+		if (pid == -1)
+			handle_error(FORK_ERR, 1);
+		if (pid == 0)
+			read_tree(tree);
+		waitpid(pid, NULL, 0);
 //		free_tree(tree);
 	}
 	return (0);

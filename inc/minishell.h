@@ -20,6 +20,9 @@
 # define PIPE	1
 # define AND	2
 # define OR		3
+# define PIPE_ERR	"pipe error"
+# define FORK_ERR	"fork error"
+# define MALLOC_ERR	"malloc error"
 
 # include <errno.h>
 # include <string.h>

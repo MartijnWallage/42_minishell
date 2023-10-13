@@ -6,7 +6,7 @@
 /*   By: mwallage <mwallage@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 15:40:59 by mwallage          #+#    #+#             */
-/*   Updated: 2023/10/09 17:16:42 by mwallage         ###   ########.fr       */
+/*   Updated: 2023/10/13 18:14:19 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@
 # include <unistd.h>
 # include <stddef.h>
 # include <limits.h>
+# include <stdbool.h>
 # include <sys/wait.h>
 # include "../libft/inc/libft.h"
 
@@ -45,6 +46,7 @@ typedef struct s_branch
 	int				infile;
 	int				outfile;
 	int				errfile;
+	bool			child;
 	struct s_branch	*left;
 	struct s_branch	*right;
 }					t_branch;
@@ -55,7 +57,7 @@ int			pipex(int ac, char **av, char **env);
 void		handle_error(char *info, int exitcode);
 void		free_tab(char **tab);
 char		*get_path(char *cmd, char **env);
-void		exec(char *cmd, char **env);
+void		exec(char *cmd);
 t_branch	*init_branch(char *command);
 void		read_tree(t_branch *branch);
 void		simple_command(t_branch *branch);

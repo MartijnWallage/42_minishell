@@ -6,7 +6,7 @@
 /*   By: mwallage <mwallage@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 16:46:09 by mwallage          #+#    #+#             */
-/*   Updated: 2023/10/09 17:26:25 by mwallage         ###   ########.fr       */
+/*   Updated: 2023/10/13 18:16:34 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,7 @@ void	read_tree(t_branch *branch)
 
 void	simple_command(t_branch *branch)
 {
-	exec(branch->command, genv);
+	exec(branch->command);
 }
 
 t_branch	*init_branch(char *command)

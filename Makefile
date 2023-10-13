@@ -6,7 +6,7 @@
 #    By: mwallage <mwallage@student.42berlin.de>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/10/05 15:16:08 by mwallage          #+#    #+#              #
-#    Updated: 2023/10/05 17:13:46 by mwallage         ###   ########.fr        #
+#    Updated: 2023/10/13 17:53:26 by mwallage         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,7 +18,8 @@ INCDIR		:= ./inc
 LIBFTDIR	:= ./libft
 LIBFT		:= $(LIBFTDIR)/libft.a
 HEADERS		:= -I$(INCDIR) -I$(LIBFTDIR)/inc
-READLINE	:= -lreadline -lhistory
+READLINE_DIR := $(shell brew --prefix readline)
+READLINE	:= -lreadline -lhistory -L $(READLINE_DIR)/lib
 LIBFLAGS	:= -L$(LIBFTDIR) -lft $(READLINE)
 SRC			:= main.c \
 				pipex.c \

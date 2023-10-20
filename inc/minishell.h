@@ -41,7 +41,7 @@
 
 typedef struct s_token
 {
-	char	*words;
+	char	**command;
 	char	*meta;
 	char	*metameta;
 	bool	last_token;
@@ -49,7 +49,7 @@ typedef struct s_token
 
 typedef struct s_branch
 {
-	token_t			*command;
+	t_token			*tokens;
 	char			**env;
 	int				pipefd[2];
 	int				infile;
@@ -66,7 +66,6 @@ char		*reader(void);
 /*	lexer.c		*/
 t_token		*lexer(char *line);
 /*	parser.c	*/
-t_branch	*init_branch(char *command);
 char		*get_path(char *cmd, char **env);
 t_branch	*parser(t_token *tokens, char **envp);
 /*	executor.c	*/
@@ -84,6 +83,6 @@ size_t		tokens_len(t_token *tokens);
 size_t		tab_len(void **tab);
 void		free_tab(char **tab);
 /*	clean.c		*/
-void		cleanup(t_branch *tree)
+void		cleanup(t_branch *tree);
 
 #endif

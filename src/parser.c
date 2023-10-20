@@ -1,4 +1,4 @@
-#include “../inc/minishell.h”
+#include "../inc/minishell.h"
 
 static t_branch	*init_branch(t_token *command, char **env)
 {
@@ -13,7 +13,6 @@ static t_branch	*init_branch(t_token *command, char **env)
 	branch->outfile = STDOUT_FILENO;
 	branch->errfile = STDERR_FILENO;
 	branch->command = command;
-	branch->pipefd = NULL;
 	branch->child = false;
 	return (branch);
 }

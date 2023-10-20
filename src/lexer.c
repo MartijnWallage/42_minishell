@@ -1,4 +1,4 @@
-#include “../inc/minishell.h”
+#include "../inc/minishell.h"
 
 t_token	*lexer(char *line)
 {
@@ -8,29 +8,23 @@ t_token	*lexer(char *line)
 	char	*name;
 	int		i;
 	
-	tab = ft_split(line, ‘ ‘);
+	tab = ft_split(line, ' ');
 	size = tab_size(tab);
 	tokens = malloc(sizeof(t_token) * size + 1);
-	if (!tokens)
-		handle_error(MALLOC_MSG, MALLOC_CODE);
+	// protect malloc
 	i = -1;
 	while (++i < size)
 	{
 		name = ft_strdup(tab[i]);
-		if (!name)
-		{
-			free(tokens);
-			free_tab(tab);
-			handle_error(MALLOC_MSG, MALLOC_CODE);
-		}
-		tokens[i].word = NULL;
+		// protect malloc
+		tokens[i].command = NULL;
 		tokens[i].meta = NULL;
 		tokens[i].metameta = NULL;
 		tokens[i].last_token = false;
-		if (ft_strcmp(tab[i], ‘|’) == 0)
+		if (ft_strcmp(tab[i], '|') == 0)
 			tokens[i].meta = name;
 		else {
-			tokens[i].word = name;
+			tokens[i].command = tab;
 		}
 	}
 	tokens[i - 1].last_token = true;

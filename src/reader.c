@@ -1,4 +1,4 @@
-#include “../inc/minishell.c”
+#include "../inc/minishell.h"
 
 static int	is_valid_input(char *input)
 {

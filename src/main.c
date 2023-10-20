@@ -26,9 +26,9 @@ int	main(int argc, char **argv, char **envp)
 		line = reader();
 		if (!line)
 			continue ;
-		if (ft_strncmp(line, “exit”, 4) == 0)
+		if (ft_strncmp(line, "exit", 4) == 0)
 		{
-			cleanup(tree);
+			free(line);
 			break ;
 		}
 		tokens = lexer(line);

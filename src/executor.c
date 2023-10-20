@@ -1,14 +1,14 @@
-#include “../inc/minishell.h”
+#include "../inc/minishell.h"
 
 
-void	exec(char *cmd)
+void	exec(char *cmd, char **env)
 {
 	char	*path;
 	char	**whole_cmd;
 
-	whole_cmd = ft_split(cmd, ' ');
-	path = get_path(whole_cmd[0], genv);
-	if (execve(path, whole_cmd, genv) == -1)
+	whole_cmd = ft_split(cmd->, ' ');
+	path = get_path(whole_cmd[0], env);
+	if (execve(path, whole_cmd, env) == -1)
 	{
 		if (ft_strcmp(path, whole_cmd[0]))
 			free(path);

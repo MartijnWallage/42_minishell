@@ -6,26 +6,56 @@
 /*   By: mwallage <mwallage@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 11:44:55 by mwallage          #+#    #+#             */
-/*   Updated: 2023/10/13 18:16:25 by mwallage         ###   ########.fr       */
+/*   Updated: 2023/10/09 16:17:44 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../inc/minishell.h"
+#include "../inc/pipex.h"
 
-void	exec(char *cmd)
+static char	*try_paths(char *cmd, char **paths)
 {
-	char	*path;
-	char	**whole_cmd;
+	int		i;
+	char	*whole_cmd;
+	char	*temp;
 
-	whole_cmd = ft_split(cmd, ' ');
-	path = get_path(whole_cmd[0], genv);
-	if (execve(path, whole_cmd, genv) == -1)
+	i = 0;
+	while (paths[i])
 	{
-		if (ft_strcmp(path, whole_cmd[0]))
-			free(path);
-		free_tab(whole_cmd);
-		ft_putstr_fd("pipex: command not found: ", 2);
-		ft_putendl_fd(cmd, 2);
-		exit(errno);
+		whole_cmd = ft_strjoin(paths[i], "/");
+		temp = whole_cmd;
+		whole_cmd = ft_strjoin(whole_cmd, cmd);
+		if (temp != whole_cmd)
+			free(temp);
+		if (access(whole_cmd, F_OK | X_OK) == 0)
+			return (whole_cmd);
+		free(whole_cmd);
+		i++;
 	}
+	return (cmd);
+}
+
+char	*get_path(char *cmd, char **env)
+{
+	char	**line;
+	char	**paths;
+	char	*whole_cmd;
+	int		i;
+
+	if (!env)
+		return (cmd);
+	i = 0;
+	while (1)
+	{
+		if (!env[i])
+			return (cmd);
+		line = ft_split(env[i++], '=');
+		if (ft_strncmp(line[0], "PATH", 4) == 0)
+			break ;
+		free_tab(line);
+	}
+	paths = ft_split(line[1], ':');
+	free_tab(line);
+	whole_cmd = try_paths(cmd, paths);
+	free_tab(paths);
+	return (whole_cmd);
 }

@@ -22,8 +22,14 @@ READLINE_DIR := $(shell brew --prefix readline)
 READLINE	:= -lreadline -lhistory -L $(READLINE_DIR)/lib
 LIBFLAGS	:= -L$(LIBFTDIR) -lft $(READLINE)
 SRC			:= main.c \
+				reader.c \
+				lexer.c \
+				parser.c \
+				executor.c \
 				pipex.c \
-				pipex_utils.c
+				utils.c \
+				error.c \
+				clean.c
 SRCS		:= $(addprefix $(SRCDIR)/, $(SRC))
 OBJS		:= $(patsubst $(SRCDIR)/%.c, $(OBJDIR)/%.o, $(SRCS))
 NAME		:= minishell

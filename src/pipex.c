@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../inc/pipex.h"
+#include "../inc/minishell.h"
 
 static char	*try_paths(char *cmd, char **paths)
 {

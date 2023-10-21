@@ -15,9 +15,8 @@
 int	main(int argc, char **argv, char **envp)
 {
 	char		*line;
-	t_token		*tokens;
+	char		**tokens;
 	t_branch	*tree;
-	pid_t		pid;
 
 	if (argc != 1 || argv[1])
 		return (1);
@@ -25,13 +24,14 @@ int	main(int argc, char **argv, char **envp)
 	{
 		line = reader();
 		if (!line)
-			continue ;
+			handle_error("No input", 1); 		// exits directly, but that is not allowed
 		if (ft_strncmp(line, "exit", 4) == 0)
 		{
 			free(line);
 			break ;
 		}
 		tokens = lexer(line);
+		free(line);
 		tree = parser(tokens, envp);
 		executor(tree);
 		cleanup(tree);

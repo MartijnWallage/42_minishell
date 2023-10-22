@@ -34,7 +34,7 @@ static char	*try_paths(char *cmd, char **paths)
 	return (cmd);
 }
 
-char	*get_path(char *cmd, char **env)
+static char	*get_path(char *cmd, char **env)
 {
 	char	**line;
 	char	**paths;
@@ -58,4 +58,20 @@ char	*get_path(char *cmd, char **env)
 	whole_cmd = try_paths(cmd, paths);
 	free_tab(paths);
 	return (whole_cmd);
+}
+
+void	exec(char **cmd, char **env)
+{
+	char	*path;
+
+	path = get_path(cmd[0], env);
+	if (execve(path, cmd, env) == -1)
+	{
+		if (ft_strcmp(path, cmd[0]))
+			free(path);
+		free_tab(cmd);
+		ft_putstr_fd("philoshell: command not found: ", 2);
+		ft_putendl_fd(cmd[0], 2);
+		exit(errno);
+	}
 }

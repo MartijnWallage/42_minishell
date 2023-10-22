@@ -12,22 +12,6 @@
 
 #include "../inc/minishell.h"
 
-void	exec(char **cmd, char **env)
-{
-	char	*path;
-
-	path = get_path(cmd[0], env);
-	if (execve(path, cmd, env) == -1)
-	{
-		if (ft_strcmp(path, cmd[0]))
-			free(path);
-		free_tab(cmd);
-		ft_putstr_fd("philoshell: command not found: ", 2);
-		ft_putendl_fd(cmd[0], 2);
-		exit(errno);
-	}
-}
-
 void	simple_command(t_group *group)
 {
 	pid_t	pid;

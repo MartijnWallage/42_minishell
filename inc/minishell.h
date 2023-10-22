@@ -61,15 +61,12 @@ char	*reader(void);
 /*	lexer.c		*/
 char	**lexer(char *line);
 /*	parser.c	*/
-char	*get_path(char *cmd, char **env);
 t_group	*parser(char **tokens, char **env);
 /*	executor.c	*/
-
-void	exec(char **cmd, char **env);
 void	simple_command(t_group *node);
 void	executor(t_group *group);
-/*	pipex.c		*/
-char	*get_path(char *cmd, char **env);
+/*	exec.c		*/
+void	exec(char **cmd, char **env);
 /*	error.c		*/
 void	handle_error(char *info, int exitcode);
 /*	utils.c		*/

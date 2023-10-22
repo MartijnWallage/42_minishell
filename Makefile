@@ -26,7 +26,7 @@ SRC			:= main.c \
 				lexer.c \
 				parser.c \
 				executor.c \
-				pipex.c \
+				exec.c \
 				utils.c \
 				error.c \
 				clean.c

@@ -39,38 +39,45 @@
 # include <sys/wait.h>
 # include "../libft/inc/libft.h"
 
-typedef struct s_branch
+typedef	struct s_var
+{
+	char	*line;
+	char	**env;
+}			t_var;
+
+typedef struct s_group
 {
 	char			**cmd;
-	char			operator;
+	int				operator;
 	char			**env;
 	int				pipefd[2];
-	bool			child;
-	bool			lastborn;
-	struct s_branch	*left;
-	struct s_branch	*right;
-}					t_branch;
+	struct s_group	*previous;
+	struct s_group	*next;
+}					t_group;
+
 
 /*	reader.c	*/
-char		*reader(void);
+char	*reader(void);
 /*	lexer.c		*/
-char		**lexer(char *line);
+char	**lexer(char *line);
 /*	parser.c	*/
-char		*get_path(char *cmd, char **env);
-t_branch	*parser(char **tokens, char **envp);
+char	*get_path(char *cmd, char **env);
+t_group	*parser(char **tokens, char **env);
 /*	executor.c	*/
-void		read_tree(t_branch *branch);
-void		exec(char **cmd, char **env);
-void		simple_command(t_branch *branch);
-void		executor(t_branch *tree);
+
+void	exec(char **cmd, char **env);
+void	simple_command(t_group *node);
+void	executor(t_group *group);
 /*	pipex.c		*/
-char		*get_path(char *cmd, char **env);
+char	*get_path(char *cmd, char **env);
 /*	error.c		*/
-void		handle_error(char *info, int exitcode);
+void	handle_error(char *info, int exitcode);
 /*	utils.c		*/
-size_t		tab_len(void **tab);
-void		free_tab(char **tab);
+size_t	tab_len(void **tab);
+void	free_tab(char **tab);
 /*	clean.c		*/
-void		cleanup(t_branch *tree);
+void	free_list(t_group *list);
+void	free_vars(t_var *vars);
+void	cleanup(t_var *vars, t_group *list);
 
 #endif

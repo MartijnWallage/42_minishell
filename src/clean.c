@@ -1,14 +1,25 @@
 #include "../inc/minishell.h"
 
-void	cleanup(t_branch *tree)
+void	free_list(t_group *list)
 {
-	t_branch	*left;
-	t_branch	*right;
+	t_group	*temp;
 
-	if (tree->left)
-		cleanup(tree->left);
-	if (tree->right)
-		cleanup(tree->right);
-	free_tab(tree->cmd);
-	free(tree);
+	if (!list)
+		return ;
+	temp = list->next;
+	free_tab(list->cmd);
+	free(list);
+	free_list(temp);
+}
+
+void	free_vars(t_var *vars)
+{
+	free(vars->line);
+	free(vars);
+}
+
+void	cleanup(t_var *vars, t_group *list)
+{
+	free_list(list);
+	free_vars(vars);
 }

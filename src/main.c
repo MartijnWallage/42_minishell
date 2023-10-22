@@ -37,7 +37,7 @@ int	main(int argc, char **argv, char **envp)
 		tokens = lexer(vars->line);
  		list = parser(tokens, envp);
 		executor(list); 
-//		cleanup(vars, list);
+		cleanup(vars, list);
 	}
 	return (0);
 }

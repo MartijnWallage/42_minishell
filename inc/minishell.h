@@ -16,7 +16,6 @@
 # define FORMAT	"philoshell: format\n\t./minishell [no arguments]"
 # define PROMPT "philoshell 🤔> "
 # define INVALID_INPUT	"philoshell: input is invalid"
-
 # define PIPE			1
 # define AND			2
 # define OR				3
@@ -39,7 +38,7 @@
 # include <sys/wait.h>
 # include "../libft/inc/libft.h"
 
-typedef	struct s_var
+typedef struct s_var
 {
 	char	*line;
 	char	**env;
@@ -54,7 +53,6 @@ typedef struct s_group
 	struct s_group	*previous;
 	struct s_group	*next;
 }					t_group;
-
 
 /*	reader.c	*/
 char	*reader(void);

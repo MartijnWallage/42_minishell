@@ -24,10 +24,10 @@ int	main(int argc, char **argv, char **envp)
 	{
 		vars = malloc(sizeof(t_var));
 		if (!vars)
-			handle_error(MALLOC_MSG, MALLOC_CODE);  // exits directly, not allowed
+			handle_error(MALLOC_MSG, MALLOC_CODE);	// exits directly, not allowed
 		vars->line = reader();
 		if (!vars->line)
-			handle_error("No input", 1); 		// exits directly, but that is not allowed
+			handle_error("No input", 1);			// exits directly, not allowed
 		if (ft_strncmp(vars->line, "exit", 4) == 0)
 		{
 			free_vars(vars);

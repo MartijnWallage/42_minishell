@@ -68,6 +68,8 @@ t_group	*parser(char **cmd, char **env)
 	list->next = NULL;
 	list->env = env;
 	list->operator = 0;
+	list->infd = STDIN_FILENO;
+	list->outfd = STDOUT_FILENO;
 	breakpoint = first_pipe(cmd);
 	if (breakpoint == -1)
 		return (list);

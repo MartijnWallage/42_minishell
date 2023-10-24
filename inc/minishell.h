@@ -61,6 +61,8 @@ typedef struct s_group
 	char			**env;
 	int				operator;	// will become redundant
 	int				pipefd[2];
+	int				infd;
+	int				outfd;
 	struct s_group	*previous;
 	struct s_group	*next;
 }					t_group;
@@ -83,7 +85,7 @@ void	executor(t_group *group);
 void	exec(char **cmd, char **env);
 /*	builtin			*/
 bool	is_builtin(char *cmd);
-void	builtin(char **cmd, char **env);
+void	builtin(t_group *group);
 /*	error			*/
 	/*	error.c		*/
 void	handle_error(char *info, int exitcode);

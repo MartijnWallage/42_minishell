@@ -28,6 +28,10 @@ char	**split_line(char *line)
 {
 	char	**tab;
 
+	/*	It would be great to return an array of tokens,
+	/*	instead of an array of strings */
+	/*	But it makes execution a little more complicated, 
+	/*	since execve() wants an array of strings */
 	tab = ft_split(line, ' ');
 	// take care of quotes etc.
 	return (tab);

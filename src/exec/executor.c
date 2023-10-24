@@ -17,7 +17,7 @@ void	simple_command(t_group *group)
 	pid_t	pid;
 	
 	if (is_builtin(group->cmd[0]))
-		builtin(group->cmd, group->env);
+		builtin(group);
 	else if (group->previous || group->next)
 		exec(group->cmd, group->env);
 	else

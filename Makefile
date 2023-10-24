@@ -22,14 +22,15 @@ READLINE_DIR := $(shell brew --prefix readline)
 READLINE	:= -lreadline -lhistory -L $(READLINE_DIR)/lib
 LIBFLAGS	:= -L$(LIBFTDIR) -lft $(READLINE)
 SRC			:= main.c \
-				reader.c \
-				lexer.c \
-				parser.c \
-				executor.c \
-				exec.c \
-				utils.c \
-				error.c \
-				clean.c
+				reader/reader.c \
+				lexer/lexer.c \
+				parser/parser.c \
+				exec/executor.c \
+				exec/exec.c \
+				utils/utils.c \
+				error/error.c \
+				clean/clean.c \
+				builtin/builtin.c
 SRCS		:= $(addprefix $(SRCDIR)/, $(SRC))
 OBJS		:= $(patsubst $(SRCDIR)/%.c, $(OBJDIR)/%.o, $(SRCS))
 NAME		:= minishell
@@ -44,6 +45,14 @@ $(LIBFT): $(LIBFTDIR)
 	
 $(OBJDIR):
 	mkdir obj;
+	mkdir obj/reader;
+	mkdir obj/lexer;
+	mkdir obj/parser;
+	mkdir obj/exec;
+	mkdir obj/error;
+	mkdir obj/clean;
+	mkdir obj/utils;
+	mkdir obj/builtin;
 
 $(NAME): $(LIBFT) $(OBJDIR) $(OBJS)
 	$(CC) $(OBJS) $(CFLAGS) $(LIBFLAGS) -o $@
@@ -52,12 +61,12 @@ $(OBJDIR)/%.o: $(SRCDIR)/%.c
 	$(CC) -c $< $(CFLAGS) $(HEADERS) -o $@
 
 clean:
-	rm -f $(OBJS);
+	rm -rf $(OBJS);
 	make clean -C$(LIBFTDIR)
 
 fclean: clean
 	rm $(NAME);
-	rmdir $(OBJDIR);
+	rm -rf $(OBJDIR);
 	rm -rf $(LIBFTDIR);
 
 re: fclean all

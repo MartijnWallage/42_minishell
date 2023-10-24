@@ -10,11 +10,11 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../inc/minishell.h"
+#include "minishell.h"
 
 int	main(int argc, char **argv, char **envp)
 {
-	t_var	*vars;
+	char	*line;
 	char	**tokens;
 	t_group	*list;
 
@@ -22,22 +22,17 @@ int	main(int argc, char **argv, char **envp)
 		return (1);
 	while (1)
 	{
-		vars = malloc(sizeof(t_var));
-		if (!vars)
-			handle_error(MALLOC_MSG, MALLOC_CODE);	// exits directly, not allowed
-		vars->line = reader();
-		if (!vars->line)
-			handle_error("No input", 1);			// exits directly, not allowed
-		if (ft_strncmp(vars->line, "exit", 4) == 0)
+		line = reader();
+		if (!line)
 		{
-			free_vars(vars);
-			break ;
+			perror("philoshell: no input");
+			return (1);
 		}
-		vars->env = envp;
-		tokens = lexer(vars->line);
+		tokens = split_line(line);
+		free(line);
  		list = parser(tokens, envp);
 		executor(list); 
-		cleanup(vars, list);
+		cleanup(list);
 	}
 	return (0);
 }

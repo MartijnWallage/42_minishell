@@ -1,41 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   reader.c                                           :+:      :+:    :+:   */
+/*   clean.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mwallage <mwallage@student.42berlin.d      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/10/22 18:15:25 by mwallage          #+#    #+#             */
-/*   Updated: 2023/10/22 18:15:26 by mwallage         ###   ########.fr       */
+/*   Created: 2023/10/22 18:14:40 by mwallage          #+#    #+#             */
+/*   Updated: 2023/10/22 18:14:43 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../inc/minishell.h"
+#include "minishell.h"
 
-static int	is_valid_input(char *input)
+void	cleanup(t_group *list)
 {
-	if (*input == '?') // just to test for now
-	{
-		ft_printf("%s\n", INVALID_INPUT);
-		return (0);
-	}
-	return (1);
-}
+	t_group	*temp;
 
-char	*reader(void)
-{
-	char	*str;
-	
-	str = readline(PROMPT);
-	if (!str)
-	{
-		printf("No line\n");
-		return (NULL);
-	}
-	if (!is_valid_input(str))
-	{
-		free(str);
-		return (NULL);
-	}
-	return (str);
+	if (!list)
+		return ;
+	temp = list->next;
+	free_tab(list->cmd);
+	free(list);
+	cleanup(temp);
 }

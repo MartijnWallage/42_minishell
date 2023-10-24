@@ -1,37 +1,41 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   clean.c                                            :+:      :+:    :+:   */
+/*   reader.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mwallage <mwallage@student.42berlin.d      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/10/22 18:14:40 by mwallage          #+#    #+#             */
-/*   Updated: 2023/10/22 18:14:43 by mwallage         ###   ########.fr       */
+/*   Created: 2023/10/22 18:15:25 by mwallage          #+#    #+#             */
+/*   Updated: 2023/10/22 18:15:26 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../inc/minishell.h"
+#include "minishell.h"
 
-void	free_list(t_group *list)
+static int	is_valid_input(char *input)
 {
-	t_group	*temp;
-
-	if (!list)
-		return ;
-	temp = list->next;
-	free_tab(list->cmd);
-	free(list);
-	free_list(temp);
+	if (*input == '?') // just to test for now
+	{
+		ft_printf("%s\n", INVALID_INPUT);
+		return (0);
+	}
+	return (1);
 }
 
-void	free_vars(t_var *vars)
+char	*reader(void)
 {
-	free(vars->line);
-	free(vars);
-}
-
-void	cleanup(t_var *vars, t_group *list)
-{
-	free_list(list);
-	free_vars(vars);
+	char	*str;
+	
+	str = readline(PROMPT);
+	if (!str)
+	{
+		printf("No line\n");
+		return (NULL);
+	}
+	if (!is_valid_input(str))
+	{
+		free(str);
+		return (NULL);
+	}
+	return (str);
 }

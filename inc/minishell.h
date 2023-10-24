@@ -38,41 +38,62 @@
 # include <sys/wait.h>
 # include "../libft/inc/libft.h"
 
-typedef struct s_var
+typedef struct s_token
 {
-	char	*line;
-	char	**env;
-}			t_var;
+	char	*value;
+	enum
+	{
+		TOKEN_WORD,
+		TOKEN_PIPE,
+		TOKEN_SQUOTE,
+		TOKEN_DQUOTE,
+		TOKEN_LPARENTHESIS,
+		TOKEN_RPARENTHESIS,
+		TOKEN_VAR,
+		TOKEN_OPERATOR,
+	}	type;
+}		t_token;
 
 typedef struct s_group
 {
-	char			**cmd;
-	int				operator;
+	t_token			*token;
+	char			**cmd;		// redundant, but easier for execve()
 	char			**env;
+	int				operator;	// will become redundant
 	int				pipefd[2];
 	struct s_group	*previous;
 	struct s_group	*next;
 }					t_group;
 
-/*	reader.c	*/
+/*	reader			*/
+	/*	reader.c	*/
 char	*reader(void);
-/*	lexer.c		*/
-char	**lexer(char *line);
-/*	parser.c	*/
+/*	lexer			*/
+	/*	lexer.c		*/
+t_token	*lexer(char *line);
+char	**split_line(char *line);
+/*	parser		*/
+	/*	parser.c	*/
 t_group	*parser(char **tokens, char **env);
-/*	executor.c	*/
+/*	exec			*/
+	/*	executor.c	*/
 void	simple_command(t_group *node);
 void	executor(t_group *group);
-/*	exec.c		*/
+	/*	exec.c		*/
 void	exec(char **cmd, char **env);
-/*	error.c		*/
+/*	builtin			*/
+bool	is_builtin(char *cmd);
+void	builtin(char **cmd, char **env);
+/*	error			*/
+	/*	error.c		*/
 void	handle_error(char *info, int exitcode);
-/*	utils.c		*/
+/*	utils			*/
+	/*	utils.c		*/
 size_t	tab_len(void **tab);
 void	free_tab(char **tab);
-/*	clean.c		*/
+/*	clean			*/
+	/*	clean.c		*/
 void	free_list(t_group *list);
-void	free_vars(t_var *vars);
-void	cleanup(t_var *vars, t_group *list);
+void	cleanup(t_group *list);
 
 #endif

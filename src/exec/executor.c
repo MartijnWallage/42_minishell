@@ -10,19 +10,26 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../inc/minishell.h"
+#include "minishell.h"
 
 void	simple_command(t_group *group)
 {
 	pid_t	pid;
 	
-  	pid = fork();
-	if (pid == 0)
+	if (is_builtin(group->cmd[0]))
+		builtin(group->cmd, group->env);
+	else if (group->previous || group->next)
 		exec(group->cmd, group->env);
-	waitpid(pid, NULL, 0);
+	else
+	{
+	  	pid = fork();
+		if (pid == 0)
+			exec(group->cmd, group->env);
+		waitpid(pid, NULL, 0);
+	}
 }
 
-static void	child(t_group *group, char **env)
+static void	child(t_group *group)
 {
 	pid_t	pid;
 
@@ -44,7 +51,7 @@ static void	child(t_group *group, char **env)
 			dup2(group->pipefd[1], STDOUT_FILENO);
 			close(group->pipefd[1]);
 		}
-		exec(group->cmd, env);
+		simple_command(group);
 	}
 	waitpid(pid, NULL, 0);
 	if (group->next)
@@ -64,7 +71,7 @@ void	executor(t_group *group)
 	current = group;
 	while (current)
 	{
-		child(current, current->env);
+		child(current);
 		current = current->next;
 	}
 }

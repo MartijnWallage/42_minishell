@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   reader.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mwallage <mwallage@student.42berlin.d      +#+  +:+       +#+        */
+/*   By: mwallage <mwallage@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/22 18:15:25 by mwallage          #+#    #+#             */
-/*   Updated: 2023/10/22 18:15:26 by mwallage         ###   ########.fr       */
+/*   Updated: 2023/10/25 17:16:41 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,10 +28,7 @@ char	*reader(void)
 	
 	str = readline(PROMPT);
 	if (!str)
-	{
-		printf("No line\n");
 		return (NULL);
-	}
 	if (!is_valid_input(str))
 	{
 		free(str);

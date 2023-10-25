@@ -6,7 +6,7 @@
 /*   By: mwallage <mwallage@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/22 18:15:04 by mwallage          #+#    #+#             */
-/*   Updated: 2023/10/25 17:12:13 by mwallage         ###   ########.fr       */
+/*   Updated: 2023/10/25 17:40:33 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,9 +29,9 @@ char	**split_line(char *line)
 	char	**tab;
 
 	/*	It would be great to return an array of tokens,
-	/*	instead of an array of strings
-	/*	But it makes execution a little more complicated, 
-	/*	since execve() wants an array of strings */
+	 *	instead of an array of strings
+	 *	But it makes execution a little more complicated, 
+	 *	since execve() wants an array of strings 			*/
 	tab = ft_split(line, ' ');
 	if (!tab)
 		handle_error(MALLOC_MSG, MALLOC_CODE);

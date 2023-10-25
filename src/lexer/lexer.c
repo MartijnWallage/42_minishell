@@ -33,6 +33,9 @@ char	**split_line(char *line)
 	/*	But it makes execution a little more complicated, 
 	/*	since execve() wants an array of strings */
 	tab = ft_split(line, ' ');
+	tab = NULL;
+	if (!tab)
+		handle_error(MALLOC_MSG);
 	// take care of quotes etc.
 	return (tab);
 }

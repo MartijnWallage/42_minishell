@@ -24,10 +24,7 @@ int	main(int argc, char **argv, char **envp)
 	{
 		line = reader();
 		if (!line)
-		{
-			perror("philoshell: no input");
-			return (1);
-		}
+			handle_error("no input", 1);
 		tokens = split_line(line);
 		free(line);
  		list = parser(tokens, envp);

@@ -19,11 +19,14 @@ void	handle_error(char *info, int exitcode)
 
 	errno_readable = strerror(errno);
 	len = ft_strlen(errno_readable);
-	write(2, "philoshell: ", 7);
-	write(2, errno_readable, len);
+	write(STDERR_FILENO, "philoshell: ", 12);
+	if (errno)
+	{
+		write(STDERR_FILENO, errno_readable, len);
+		write(STDERR_FILENO, ": ", 2);
+	}
 	len = ft_strlen(info);
-	write(2, ": ", 2);
-	write(2, info, len);
-	write(2, "\n", 1);
-	exit(exitcode);			// not allowed!
+	write(STDERR_FILENO, info, len);
+	write(STDERR_FILENO, "\n", 1);
+	exit(exitcode);
 }

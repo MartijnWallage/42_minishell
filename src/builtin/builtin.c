@@ -1,8 +1,8 @@
 #include "minishell.h"
 
-/*	We have to exit without using exit()	*/
-void	minishell_exit()
+void	minishell_exit(t_group *group)
 {
+	cleanup(group);
 	exit(0);
 }
 
@@ -13,7 +13,7 @@ void	minishell_env(t_group *group)
 	i = 0;
 	while (group->env[i])
 	{
-		ft_putendl_fd(group->env[i], group->outfd);
+		printf("%s\n", group->env[i]);
 		i++;
 	}
 }
@@ -27,7 +27,7 @@ void	minishell_pwd(t_group *group)
 	{
 		if (ft_strncmp(group->env[i], "PWD", 3) == 0)
 		{
-			ft_putendl_fd(&(group->env[i][4]), group->outfd);
+			printf("%s\n", &(group->env[i][4]));
 			break ;
 		}
 		i++;
@@ -37,11 +37,16 @@ void	minishell_pwd(t_group *group)
 void	builtin(t_group	*group)
 {
 	if (ft_strcmp(group->cmd[0], "exit") == 0)
-		minishell_exit();
+		minishell_exit(group);
 	if (ft_strcmp(group->cmd[0], "env") == 0)
 		minishell_env(group);
 	if (ft_strcmp(group->cmd[0], "pwd") == 0)
 		minishell_pwd(group);
+	if (group->operator == PIPE)
+	{
+		cleanup(group);
+		exit(0);
+	}
 }
 
 bool	is_builtin(char *cmd)

@@ -6,7 +6,7 @@
 /*   By: mwallage <mwallage@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 16:46:09 by mwallage          #+#    #+#             */
-/*   Updated: 2023/10/25 18:15:34 by mwallage         ###   ########.fr       */
+/*   Updated: 2023/10/25 18:17:06 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ int	main(int argc, char **argv, char **envp)
 			handle_error(MALLOC_MSG, MALLOC_CODE);
 		if (!*tokens)
 		{
-			free_tab(tokens);
+			free(tokens);
 			continue ;
 		}
   		list = parser(tokens, envp);

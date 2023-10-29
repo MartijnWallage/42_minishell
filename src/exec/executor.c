@@ -6,7 +6,7 @@
 /*   By: mwallage <mwallage@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/22 18:14:58 by mwallage          #+#    #+#             */
-/*   Updated: 2023/10/25 18:14:49 by mwallage         ###   ########.fr       */
+/*   Updated: 2023/10/29 17:24:09 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,9 +53,10 @@ static void	child(t_group *group)
 		}
 		simple_command(group);
 	}
-	waitpid(pid, NULL, 0);
 	if (group->next)
 		close(group->pipefd[1]);
+	else
+		waitpid(pid, NULL, 0);
 }
 
 void	executor(t_group *group)

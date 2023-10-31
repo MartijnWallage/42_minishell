@@ -24,7 +24,7 @@ t_token	*init_token(char *value, int type)
 	return (token);
 }
 
-char	**split_line(char *line)
+char	**lexer(char *line)
 {
 	char	**tab;
 

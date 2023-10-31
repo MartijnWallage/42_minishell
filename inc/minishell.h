@@ -72,8 +72,7 @@ typedef struct s_group
 char	*reader(void);
 /*	lexer			*/
 	/*	lexer.c		*/
-t_token	*lexer(char *line);
-char	**split_line(char *line);
+char	**lexer(char *line);
 /*	parser		*/
 	/*	parser.c	*/
 t_group	*parser(char **tokens, char **env);

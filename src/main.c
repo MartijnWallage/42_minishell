@@ -25,7 +25,7 @@ int	main(int argc, char **argv, char **envp)
 		line = reader();
 		if (!line)
 			handle_error("no input", 1);
-		tokens = split_line(line);
+		tokens = lexer(line);
 		free(line);
 		if (!tokens)
 			handle_error(MALLOC_MSG, MALLOC_CODE);

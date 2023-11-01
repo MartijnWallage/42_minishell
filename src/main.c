@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mwallage <mwallage@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: jmuller <jmuller@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 16:46:09 by mwallage          #+#    #+#             */
-/*   Updated: 2023/10/25 18:17:06 by mwallage         ###   ########.fr       */
+/*   Updated: 2023/11/01 14:33:09 by jmuller          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ int	main(int argc, char **argv, char **envp)
 			free(tokens);
 			continue ;
 		}
-  		list = parser(tokens, envp);
+		list = parser(tokens, envp);
 		// expand variables
 		executor(list);
 		cleanup(list);

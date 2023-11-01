@@ -1,0 +1,12 @@
+total 8
+drwxr-xr-x 1 julian julian 4096 Oct 25 11:48 .
+drwxr-xr-x 1 julian julian 4096 Oct 24 14:08 ..
+drwxr-xr-x 1 julian julian 4096 Oct 24 14:08 .git
+-rw-r--r-- 1 julian julian  430 Oct 24 14:08 .gitignore
+-rw-r--r-- 1 julian julian 1072 Oct 24 14:08 LICENSE
+-rw-r--r-- 1 julian julian 1963 Oct 24 14:08 Makefile
+-rw-r--r-- 1 julian julian   60 Oct 24 14:08 README.md
+drwxr-xr-x 1 julian julian 4096 Oct 24 14:08 inc
+-rw-r--r-- 1 julian julian    0 Oct 25 11:48 out
+-rw-r--r-- 1 julian julian   16 Oct 24 14:08 outfile
+drwxr-xr-x 1 julian julian 4096 Oct 24 14:08 src

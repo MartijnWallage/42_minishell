@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mwallage <mwallage@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: jmuller <jmuller@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 15:40:59 by mwallage          #+#    #+#             */
-/*   Updated: 2023/10/13 18:14:19 by mwallage         ###   ########.fr       */
+/*   Updated: 2023/11/01 15:45:29 by jmuller          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,8 @@ char	*reader(void);
 /*	lexer			*/
 	/*	lexer.c		*/
 char	**lexer(char *line);
+	/*	split.c		*/
+char	**token_split(char const *s);
 /*	parser		*/
 	/*	parser.c	*/
 t_group	*parser(char **tokens, char **env);

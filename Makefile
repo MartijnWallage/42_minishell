@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: mwallage <mwallage@student.42berlin.de>    +#+  +:+       +#+         #
+#    By: jmuller <jmuller@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/10/05 15:16:08 by mwallage          #+#    #+#              #
-#    Updated: 2023/10/13 17:53:26 by mwallage         ###   ########.fr        #
+#    Updated: 2023/11/01 15:45:31 by jmuller          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,6 +24,7 @@ LIBFLAGS	:= -L$(LIBFTDIR) -lft $(READLINE)
 SRC			:= main.c \
 				reader/reader.c \
 				lexer/lexer.c \
+				lexer/split.c \
 				parser/parser.c \
 				exec/executor.c \
 				exec/exec.c \

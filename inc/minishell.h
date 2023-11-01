@@ -6,7 +6,7 @@
 /*   By: jmuller <jmuller@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 15:40:59 by mwallage          #+#    #+#             */
-/*   Updated: 2023/11/01 15:45:29 by jmuller          ###   ########.fr       */
+/*   Updated: 2023/11/01 18:01:21 by jmuller          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,8 @@ typedef struct s_token
 		TOKEN_VAR,
 		TOKEN_AND,
 		TOKEN_OR,
+		TOKEN_SINGLE_QUOTE,
+		TOKEN_DOUBLE_QUOTE,
 		TOKEN_LPARENTH,
 		TOKEN_RPARENTH,
 	}	type;
@@ -61,7 +63,8 @@ typedef struct s_group
 	t_token			*token;
 	char			**cmd;		// redundant, but easier for execve()
 	char			**env;
-	int				operator;	// will become redundant
+	int				operator;	// Operator between this and the next group
+								// PIPE, or AND (&&), or OR (||)
 	int				pipefd[2];
 	int				infd;
 	int				outfd;

@@ -6,7 +6,7 @@
 /*   By: jmuller <jmuller@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/02 11:13:16 by mwallage          #+#    #+#             */
-/*   Updated: 2023/11/01 17:09:01 by jmuller          ###   ########.fr       */
+/*   Updated: 2023/11/01 17:53:35 by jmuller          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,10 +62,22 @@ bool	is_duplicate(char a, char b)
 	return (false);
 }
 
-static size_t	ft_wordlen(const char *s)
+size_t	wordlen(char *str, char c)
+{
+	size_t	len;
+
+	len = 0;
+	while (str[len] && str[len] != c)
+		len++;
+	return (len);
+}
+
+static size_t	ft_split_wordlen(const char *s)
 {
 	size_t	size;
 
+	if (*s == '\'' || *s == '\"')
+		return (wordlen(s + 1, *s));
 	if (is_duplicate(*s, *(s + 1)))
 		return (2);
     if (is_special_char(*s))
@@ -86,6 +98,15 @@ static size_t	count_words(const char *s)
 	counter = 0;
 	while (*s)
 	{
+		if (*s == '\'' || *s == '\"')
+		{
+			s++;
+			s += wordlen(s, *(s - 1));
+			s++;
+			counter++;
+			lastchar = ' ';
+			continue ;
+		}
         if (is_special_char(*s) && !is_duplicate(lastchar, *s))
             counter++;
         else if ((is_whitespace(lastchar) || is_special_char(lastchar)) 
@@ -128,16 +149,23 @@ char	**token_split(char const *s)
 	{
 		while (is_whitespace(*s))
 			s++;
-		wordlen = ft_wordlen(s);
+		wordlen = ft_split_wordlen(s);
 		tab[i] = malloc(wordlen + 1);
 		if (tab[i] == NULL)
         {
 			free_tab(tab);
             return (NULL);
         }
+		if (*s == '\'' || *s == '\"')
+			s++;
 		fill_str(tab[i], s, wordlen + 1);
 		s += wordlen;
+		if (*s == '\'' || *s == '\"')
+			s++;
 		i++;
 	}
+/* 	i = -1;
+	while (++i < words)
+		printf("%s--\n", tab[i]); */
 	return (tab);
 }

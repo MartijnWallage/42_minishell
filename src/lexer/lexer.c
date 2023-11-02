@@ -35,8 +35,6 @@ char	**lexer(char *line)
 	tab = tokenizer(line);
 	if (!tab)
 		handle_error(MALLOC_MSG, MALLOC_CODE);
- 	for (int i = 0; tab[i] != NULL; i++)
-		printf("%s--\n", tab[i]);
 	// take care of quotes etc.
 	return (tab);
 }

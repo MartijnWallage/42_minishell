@@ -80,6 +80,8 @@ char	**lexer(char *line);
 /*	parser		*/
 	/*	parser.c	*/
 t_group	*parser(char **tokens, char **env);
+/*	expander	*/
+void	expander(t_group *list);
 /*	exec			*/
 	/*	executor.c	*/
 void	simple_command(t_group *node);

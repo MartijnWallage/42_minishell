@@ -35,7 +35,7 @@ int	main(int argc, char **argv, char **envp)
 			continue ;
 		}
 		list = parser(tokens, envp);
-		// expand variables
+		expander(list);
 		executor(list);
 		cleanup(list);
 	}

@@ -27,6 +27,7 @@ SRC			:= main.c \
 				lexer/tokenizer.c \
 				lexer/lexer_utils.c \
 				parser/parser.c \
+				expander/expander.c \
 				exec/executor.c \
 				exec/exec.c \
 				utils/utils.c \
@@ -50,6 +51,7 @@ $(OBJDIR):
 	mkdir obj/reader;
 	mkdir obj/lexer;
 	mkdir obj/parser;
+	mkdir obj/expander;
 	mkdir obj/exec;
 	mkdir obj/error;
 	mkdir obj/clean;
@@ -67,9 +69,9 @@ clean:
 	make clean -C$(LIBFTDIR)
 
 fclean: clean
-	rm $(NAME);
 	rm -rf $(OBJDIR);
 	rm -rf $(LIBFTDIR);
+	rm $(NAME);
 
 re: fclean all
 

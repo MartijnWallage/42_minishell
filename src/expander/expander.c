@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-void	remove_first_char_pair(char *str)
+static void	remove_first_char(char *str)
 {
 	while (str && *str && *(str + 1))
 	{
@@ -10,7 +10,7 @@ void	remove_first_char_pair(char *str)
 	*str = *(str + 1);
 }
 
-void	remove_quotes(char *str)
+static void	remove_quotes(char *str)
 {
 	char	opening_quote;
 
@@ -19,11 +19,11 @@ void	remove_quotes(char *str)
 		if (*str == '\'' || *str == '\"')
 		{
 			opening_quote = *str;
-			remove_first_char_pair(str);
+			remove_first_char(str);
 			while (*str && *str != opening_quote)
 				str++;
 			if (*str == opening_quote)
-				remove_first_char_pair(str);
+				remove_first_char(str);
 		}
 		else
 			str++; 

@@ -1,12 +1,12 @@
 #include "minishell.h"
 
-void	minishell_exit(t_group *group)
+void	builtin_exit(t_group *group)
 {
 	cleanup(group);
 	exit(0);
 }
 
-void	minishell_env(t_group *group)
+void	builtin_env(t_group *group)
 {
 	int	i;
 
@@ -18,7 +18,7 @@ void	minishell_env(t_group *group)
 	}
 }
 
-void	minishell_pwd(t_group *group)
+void	builtin_pwd(t_group *group)
 {
 	int	i;
 
@@ -39,28 +39,17 @@ void	minishell_pwd(t_group *group)
 - Single and double quotes work differently for escape chars, but we dont need to handle them
 */
 
-void	minishell_echo(t_group *group)
+void	builtin_echo(t_group *group)
 {
 	int	i;
-	int j;
-	int flag;
 
 	i = 1;
-	j = 0;
-	flag = 0;
-
 	while (group->cmd[i])
 	{
-		if (flag == 1)
-			printf(" ");
-		while (group->cmd[i][j])
-		{
-			printf("%c", group->cmd[i][j]);
-			j++;
-		}
+		printf("%s", group->cmd[i]);
 		i++;
-		j = 0;
-		flag = 1;
+		if (group->cmd[i])
+			printf(" ");
 	}
 	printf("\n"); 
 }
@@ -68,13 +57,13 @@ void	minishell_echo(t_group *group)
 void	builtin(t_group	*group)
 {
 	if (ft_strcmp(group->cmd[0], "exit") == 0)
-		minishell_exit(group);
+		builtin_exit(group);
 	if (ft_strcmp(group->cmd[0], "env") == 0)
-		minishell_env(group);
+		builtin_env(group);
 	if (ft_strcmp(group->cmd[0], "pwd") == 0)
-		minishell_pwd(group);
+		builtin_pwd(group);
 	if (ft_strcmp(group->cmd[0], "echo") == 0)
-		minishell_echo(group);
+		builtin_echo(group);
 	if (group->operator == PIPE)
 	{
 		cleanup(group);

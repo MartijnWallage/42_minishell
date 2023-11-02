@@ -53,7 +53,7 @@ static int	count_words(const char *s)
 	{
 		if (*s == '\'' || *s == '\"')
 		{
-			s += wordlen(s + 1, *s);
+			s += token_len(s);
 			s += 2;
 			counter++;
 			lastchar = ' ';

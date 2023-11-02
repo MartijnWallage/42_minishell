@@ -34,6 +34,37 @@ void	minishell_pwd(t_group *group)
 	}
 }
 
+/*
+- Needs to handle variable expansion $variable, and $variable.txt
+- Single and double quotes work differently for escape chars, but we dont need to handle them
+*/
+
+void	minishell_echo(t_group *group)
+{
+	int	i;
+	int j;
+	int flag;
+
+	i = 1;
+	j = 0;
+	flag = 0;
+
+	while (group->cmd[i])
+	{
+		if (flag == 1)
+			printf(" ");
+		while (group->cmd[i][j])
+		{
+			printf("%c", group->cmd[i][j]);
+			j++;
+		}
+		i++;
+		j = 0;
+		flag = 1;
+	}
+	printf("\n"); 
+}
+
 void	builtin(t_group	*group)
 {
 	if (ft_strcmp(group->cmd[0], "exit") == 0)
@@ -42,6 +73,8 @@ void	builtin(t_group	*group)
 		minishell_env(group);
 	if (ft_strcmp(group->cmd[0], "pwd") == 0)
 		minishell_pwd(group);
+	if (ft_strcmp(group->cmd[0], "echo") == 0)
+		minishell_echo(group);
 	if (group->operator == PIPE)
 	{
 		cleanup(group);

@@ -6,7 +6,7 @@
 /*   By: jmuller <jmuller@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/02 11:13:16 by mwallage          #+#    #+#             */
-/*   Updated: 2023/11/01 17:53:35 by jmuller          ###   ########.fr       */
+/*   Updated: 2023/11/02 13:53:04 by jmuller          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ bool	is_duplicate(char a, char b)
 	return (false);
 }
 
-size_t	wordlen(char *str, char c)
+size_t	wordlen(const char *str, char c)
 {
 	size_t	len;
 

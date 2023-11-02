@@ -1,6 +1,9 @@
 # Prerequisites
 *.d
 
+# Executable
+minishell
+
 # Object files
 *.o
 *.ko

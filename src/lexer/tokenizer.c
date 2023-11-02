@@ -53,9 +53,8 @@ static int	count_words(const char *s)
 	{
 		if (*s == '\'' || *s == '\"')
 		{
-			s++;
-			s += wordlen(s, *(s - 1));
-			s++;
+			s += wordlen(s + 1, *s);
+			s += 2;
 			counter++;
 			lastchar = ' ';
 			continue ;
@@ -107,7 +106,8 @@ char	**tokenizer(char const *s)
 			return (free_tab(tab));
 		s += (*s == '\'' || *s == '\"');
 		fill_str(tab[i], s, wordlen);
-		s += wordlen + (*s == '\'' || *s == '\"');
+		s += wordlen;
+		s += (*s == '\'' || *s == '\"');
 	}
 	return (tab);
 }

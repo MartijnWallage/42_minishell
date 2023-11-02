@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "lexer.h"
 
 t_token	*init_token(char *value, int type)
 {
@@ -24,16 +24,6 @@ t_token	*init_token(char *value, int type)
 	return (token);
 }
 
-char	*double_quote(char *line)
-{
-
-}
-
-char	*single_quote(char *line)
-{
-	// special case: /"
-}
-
 char	**lexer(char *line)
 {
 	char	**tab;
@@ -42,9 +32,11 @@ char	**lexer(char *line)
 	 *	instead of an array of strings
 	 *	But it makes execution a little more complicated, 
 	 *	since execve() wants an array of strings 			*/
-	tab = token_split(line);
+	tab = tokenizer(line);
 	if (!tab)
 		handle_error(MALLOC_MSG, MALLOC_CODE);
+/* 	for (int i = 0; tab[i] != NULL; i++)
+		printf("%s--\n", tab[i]); */
 	// take care of quotes etc.
 	return (tab);
 }

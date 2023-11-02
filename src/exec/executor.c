@@ -62,7 +62,6 @@ static void	child(t_group *group)
 void	executor(t_group *group)
 {
 	t_group	*current;
-	pid_t	pid;
 
 	if (group->operator == 0)
 	{

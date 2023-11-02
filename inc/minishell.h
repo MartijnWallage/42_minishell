@@ -76,10 +76,7 @@ typedef struct s_group
 	/*	reader.c	*/
 char	*reader(void);
 /*	lexer			*/
-	/*	lexer.c		*/
 char	**lexer(char *line);
-	/*	split.c		*/
-char	**token_split(char const *s);
 /*	parser		*/
 	/*	parser.c	*/
 t_group	*parser(char **tokens, char **env);
@@ -97,8 +94,8 @@ void	builtin(t_group *group);
 void	handle_error(char *info, int exitcode);
 /*	utils			*/
 	/*	utils.c		*/
-size_t	tab_len(void **tab);
-void	free_tab(char **tab);
+int		tab_len(void **tab);
+void	*free_tab(char **tab);
 /*	clean			*/
 	/*	clean.c		*/
 void	free_list(t_group *list);

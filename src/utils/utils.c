@@ -12,9 +12,9 @@
 
 #include "minishell.h"
 
-size_t	tab_len(void **tab)
+int	tab_len(void **tab)
 {
-	size_t	size;
+	int	size;
 	
 	size = 0;
 	while (tab && tab[size])
@@ -22,7 +22,7 @@ size_t	tab_len(void **tab)
 	return (size);
 }
 
-void	free_tab(char **tab)
+void	*free_tab(char **tab)
 {
 	int	i;
 
@@ -33,4 +33,5 @@ void	free_tab(char **tab)
 		i++;
 	}
 	free(tab);
+	return (NULL);
 }

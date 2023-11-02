@@ -11,7 +11,7 @@
 # **************************************************************************** #
 
 CC			:= cc
-CFLAGS		:= -g #-Wall -Wextra -Werror
+CFLAGS		:= -g -Wall -Wextra -Werror
 SRCDIR		:= ./src
 OBJDIR		:= ./obj
 INCDIR		:= ./inc
@@ -24,7 +24,8 @@ LIBFLAGS	:= -L$(LIBFTDIR) -lft $(READLINE)
 SRC			:= main.c \
 				reader/reader.c \
 				lexer/lexer.c \
-				lexer/split.c \
+				lexer/tokenizer.c \
+				lexer/lexer_utils.c \
 				parser/parser.c \
 				exec/executor.c \
 				exec/exec.c \

@@ -30,7 +30,7 @@ static char	**get_right_side(char **tab, int begin)
 {
 	char	**ret;
 	int		i;
-	size_t	size;
+	int		size;
 
 	size = tab_len((void **)tab);
 	ret = malloc(sizeof(char *) * (size - begin + 1));

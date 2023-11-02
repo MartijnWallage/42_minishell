@@ -37,6 +37,13 @@ bool	is_logical_operator(const char a, const char b)
 	return (false);
 }
 
+bool	is_quotation_mark(const char c)
+{
+	if (c == '\'' || c == '\"')
+		return (true);
+	return (false);
+}
+
 int	wordlen(const char *str, const char c)
 {
 	size_t	len;

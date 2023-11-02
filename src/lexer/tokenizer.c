@@ -27,45 +27,45 @@ characters in the quoted sequence except for $ (dollar sign).
 
 static int	token_len(const char *s)
 {
-	int	size;
+	int		size;
+	char	opening_quote;
 
-	if (*s == '\'' || *s == '\"')
-		return (wordlen(s + 1, *s));
 	if (is_logical_operator(*s, *(s + 1)))
 		return (2);
     if (is_special_char(*s))
 		return (1);
 	size = 0;
-	while (s[size] && !is_whitespace(s[size]) 
-        && !is_special_char(s[size]))
-		size++;
+	while (s[size] && !is_whitespace(s[size]) && !is_special_char(s[size]))
+	{
+		if (is_quotation_mark(s[size]))
+		{
+			opening_quote = s[size];
+			size++;
+			while (s[size] && s[size] != opening_quote)
+				size++;
+			if (s[size] == opening_quote)
+				size++;
+		}
+		else
+			size++;
+	}
 	return (size);
 }
 
 static int	count_words(const char *s)
 {
-	char    lastchar;
 	int		counter;
 
-	lastchar = ' ';
 	counter = 0;
 	while (*s)
 	{
-		if (*s == '\'' || *s == '\"')
+		while (is_whitespace(*s))
+			s++;
+		if (*s)
 		{
-			s += token_len(s);
-			s += 2;
 			counter++;
-			lastchar = ' ';
-			continue ;
+			s += token_len(s);
 		}
-        if (is_special_char(*s) && !is_logical_operator(lastchar, *s))
-            counter++;
-        else if ((is_whitespace(lastchar) || is_special_char(lastchar)) 
-            && (!is_whitespace(*s) && !is_logical_operator(lastchar, *s)))
-            counter++;
-		lastchar = *s;
-		s++;
 	}
 	return (counter);
 }
@@ -104,10 +104,8 @@ char	**tokenizer(char const *s)
 		tab[i] = malloc(wordlen + 1);
 		if (tab[i] == NULL)
 			return (free_tab(tab));
-		s += (*s == '\'' || *s == '\"');
 		fill_str(tab[i], s, wordlen);
 		s += wordlen;
-		s += (*s == '\'' || *s == '\"');
 	}
 	return (tab);
 }

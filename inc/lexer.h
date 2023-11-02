@@ -7,6 +7,7 @@
 bool	is_whitespace(const char c);
 bool	is_special_char(const char c);
 bool	is_logical_operator(const char a, const char b);
+bool	is_quotation_mark(const char c);
 int		wordlen(const char *str, const char c);
 
 /*	tokenizer.c		*/

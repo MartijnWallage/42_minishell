@@ -56,13 +56,13 @@ static int	first_pipe(char **tokens)
 	return (-1);
 }
 
-t_group	*parser(char **cmd, char **env)
+t_group	*init_group(char **cmd, char **env)
 {
 	t_group	*list;
-	int		breakpoint;
 
 	list = malloc(sizeof(t_group));
-	// protect malloc
+	if (!list)
+		return (NULL);
 	list->cmd = cmd;
 	list->previous = NULL;
 	list->next = NULL;
@@ -70,6 +70,15 @@ t_group	*parser(char **cmd, char **env)
 	list->operator = 0;
 	list->infd = STDIN_FILENO;
 	list->outfd = STDOUT_FILENO;
+	return (list);
+}
+
+t_group	*parser(char **cmd, char **env)
+{
+	int		breakpoint;
+	t_group	*list;
+
+	list = init_group(cmd, env);
 	breakpoint = first_pipe(cmd);
 	if (breakpoint == -1)
 		return (list);

@@ -35,6 +35,11 @@ int	main(int argc, char **argv, char **envp)
 			continue ;
 		}
 		list = parser(tokens, envp);
+		if (!list)
+		{
+			free(tokens);
+			handle_error(MALLOC_MSG, MALLOC_CODE);
+		}
 		expander(list);
 		executor(list);
 		cleanup(list);

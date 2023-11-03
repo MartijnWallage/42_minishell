@@ -1,7 +1,21 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   expander.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/11/03 12:08:00 by mwallage          #+#    #+#             */
+/*   Updated: 2023/11/03 12:08:02 by mwallage         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 static void	remove_first_char(char *str)
 {
+	if (!str || !*str)
+		return ;
 	while (str && *str && *(str + 1))
 	{
 		*str = *(str + 1);
@@ -22,8 +36,7 @@ static void	remove_quotes(char *str)
 			remove_first_char(str);
 			while (*str && *str != opening_quote)
 				str++;
-			if (*str == opening_quote)
-				remove_first_char(str);
+			remove_first_char(str);
 		}
 		else
 			str++; 

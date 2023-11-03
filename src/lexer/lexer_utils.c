@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   lexer_utils.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/11/03 12:09:10 by mwallage          #+#    #+#             */
+/*   Updated: 2023/11/03 13:29:59 by mwallage         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "lexer.h"
 
 bool    is_whitespace(const char c)
@@ -30,9 +42,10 @@ bool    is_special_char(const char c)
     return (false);
 }
 
-bool	is_logical_operator(const char a, const char b)
+bool	is_special_charpair(const char a, const char b)
 {
-	if ((a == b) && (a == '&' || a == '|'))
+	if ((a == b)
+        && (a == '&' || a == '|' || a == '<' || a == '>'))
 		return (true);
 	return (false);
 }

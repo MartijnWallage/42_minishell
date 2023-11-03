@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmuller <jmuller@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 15:40:59 by mwallage          #+#    #+#             */
-/*   Updated: 2023/11/01 18:03:47 by jmuller          ###   ########.fr       */
+/*   Updated: 2023/11/03 12:10:39 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ typedef struct s_group
 	t_token			*token;
 	char			**cmd;		// redundant, but easier for execve()
 	char			**env;
-	int				operator;	// Operator between this and the next group
+	int				operator;	// Operator between this group and the next group
 								// PIPE, or AND (&&), or OR (||)
 	int				pipefd[2];
 	int				infd;

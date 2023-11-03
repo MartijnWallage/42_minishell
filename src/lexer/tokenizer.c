@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   split.c                                            :+:      :+:    :+:   */
+/*   tokenizer.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmuller <jmuller@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/02 11:13:16 by mwallage          #+#    #+#             */
-/*   Updated: 2023/11/02 13:53:04 by jmuller          ###   ########.fr       */
+/*   Updated: 2023/11/03 13:11:16 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ static int	token_len(const char *s)
 	int		size;
 	char	opening_quote;
 
-	if (is_logical_operator(*s, *(s + 1)))
+	if (is_special_charpair(*s, *(s + 1)))
 		return (2);
     if (is_special_char(*s))
 		return (1);

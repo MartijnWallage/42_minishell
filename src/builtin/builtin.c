@@ -6,7 +6,7 @@
 /*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/03 12:10:00 by mwallage          #+#    #+#             */
-/*   Updated: 2023/11/03 12:10:01 by mwallage         ###   ########.fr       */
+/*   Updated: 2023/11/03 14:23:41 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,8 +47,7 @@ void	builtin_pwd(t_group *group)
 }
 
 /*
-- Needs to handle variable expansion $variable, and $variable.txt
-- Single and double quotes work differently for escape chars, but we dont need to handle them
+- with option -n
 */
 
 void	builtin_echo(t_group *group)

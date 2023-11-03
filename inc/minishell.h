@@ -6,7 +6,7 @@
 /*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 15:40:59 by mwallage          #+#    #+#             */
-/*   Updated: 2023/11/03 12:10:39 by mwallage         ###   ########.fr       */
+/*   Updated: 2023/11/03 14:11:18 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ typedef struct s_group
 	char			**cmd;		// redundant, but easier for execve()
 	char			**env;
 	int				operator;	// Operator between this group and the next group
-								// PIPE, or AND (&&), or OR (||)
+								// none (0), PIPE, or AND (&&), or OR (||)
 	int				pipefd[2];
 	int				infd;
 	int				outfd;

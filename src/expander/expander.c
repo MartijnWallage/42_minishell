@@ -6,7 +6,7 @@
 /*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/03 12:08:00 by mwallage          #+#    #+#             */
-/*   Updated: 2023/11/03 12:08:02 by mwallage         ###   ########.fr       */
+/*   Updated: 2023/11/03 14:30:17 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,9 @@ void	expander(t_group *list)
 	t_group	*current;
 	int		i;
 
-	// expand variables, except when $ occurs within double quotes 
+	/* expand variables, except when $ occurs within double quotes 
+	Look for $ signs that are not within double quotes
+	Then find the variable in env and replace it by its value */
 	current = list;
 	while (current)
 	{

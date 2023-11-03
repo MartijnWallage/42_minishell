@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mwallage <mwallage@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/22 18:14:58 by mwallage          #+#    #+#             */
-/*   Updated: 2023/10/29 17:24:09 by mwallage         ###   ########.fr       */
+/*   Updated: 2023/11/03 14:01:03 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void	simple_command(t_group *group)
 	
 	if (is_builtin(group->cmd[0]))
 		builtin(group);
-	else if (group->previous || group->next)
+	else if (group->operator == PIPE)
 		exec(group->cmd, group->env);
 	else
 	{

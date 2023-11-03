@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmuller <jmuller@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 16:46:09 by mwallage          #+#    #+#             */
-/*   Updated: 2023/11/01 14:33:09 by jmuller          ###   ########.fr       */
+/*   Updated: 2023/11/03 14:56:43 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ int	main(int argc, char **argv, char **envp)
 		list = parser(tokens, envp);
 		if (!list)
 		{
-			free(tokens);
+			free(tokens);	// this isn't quite right. Need a consistent policy for freeing *tokens.
 			handle_error(MALLOC_MSG, MALLOC_CODE);
 		}
 		expander(list);

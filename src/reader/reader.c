@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   reader.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmuller <jmuller@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/22 18:15:25 by mwallage          #+#    #+#             */
-/*   Updated: 2023/11/02 16:52:32 by jmuller          ###   ########.fr       */
+/*   Updated: 2023/11/03 14:52:34 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ char	*reader(void)
 {
 	char	*str;
 	
-	str = readline(PROMPT);
+	str = readline(PROMPT);	// prompt should display username, login name : pwd
 	if (!str)
 		return (NULL);
 	add_history(str);

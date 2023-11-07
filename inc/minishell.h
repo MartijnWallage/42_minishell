@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jmuller <jmuller@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 15:40:59 by mwallage          #+#    #+#             */
-/*   Updated: 2023/11/03 14:11:18 by mwallage         ###   ########.fr       */
+/*   Updated: 2023/11/07 13:27:36 by jmuller          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,6 +91,7 @@ void	exec(char **cmd, char **env);
 /*	builtin			*/
 bool	is_builtin(char *cmd);
 void	builtin(t_group *group);
+void	builtin_export(t_group *group);
 /*	error			*/
 	/*	error.c		*/
 void	handle_error(char *info, int exitcode);

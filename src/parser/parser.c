@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mwallage <mwallage@student.42berlin.d      +#+  +:+       +#+        */
+/*   By: jmuller <jmuller@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/22 18:15:14 by mwallage          #+#    #+#             */
-/*   Updated: 2023/10/22 18:15:15 by mwallage         ###   ########.fr       */
+/*   Updated: 2023/11/08 15:46:11 by jmuller          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ static char	**get_right_side(char **tab, int begin)
 	int		i;
 	int		size;
 
-	size = tab_len((void **)tab);
+	size = tab_len(tab);
 	ret = malloc(sizeof(char *) * (size - begin + 1));
 	// protect malloc
 	ret[size - begin] = NULL;

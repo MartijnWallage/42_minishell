@@ -6,7 +6,7 @@
 /*   By: jmuller <jmuller@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 15:40:59 by mwallage          #+#    #+#             */
-/*   Updated: 2023/11/07 13:27:36 by jmuller          ###   ########.fr       */
+/*   Updated: 2023/11/08 18:18:00 by jmuller          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,11 +75,14 @@ typedef struct s_group
 /*	reader			*/
 	/*	reader.c	*/
 char	*reader(void);
+
 /*	lexer			*/
 char	**lexer(char *line);
+
 /*	parser		*/
 	/*	parser.c	*/
 t_group	*parser(char **tokens, char **env);
+
 /*	expander	*/
 void	expander(t_group *list);
 /*	exec			*/
@@ -92,13 +95,19 @@ void	exec(char **cmd, char **env);
 bool	is_builtin(char *cmd);
 void	builtin(t_group *group);
 void	builtin_export(t_group *group);
+void	builtin_unset(t_group *group);
 /*	error			*/
 	/*	error.c		*/
 void	handle_error(char *info, int exitcode);
 /*	utils			*/
 	/*	utils.c		*/
-int		tab_len(void **tab);
+int		tab_len(char **tab);
 void	*free_tab(char **tab);
+char	**copy_tab(char **tab);
+int		key_compare(char **env, char *line);
+char	*get_key(char *str);
+	/* !utils.c*/
+	
 /*	clean			*/
 	/*	clean.c		*/
 void	free_list(t_group *list);

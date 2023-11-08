@@ -6,7 +6,7 @@
 /*   By: jmuller <jmuller@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/03 12:10:00 by mwallage          #+#    #+#             */
-/*   Updated: 2023/11/07 13:33:49 by jmuller          ###   ########.fr       */
+/*   Updated: 2023/11/08 17:28:15 by jmuller          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,8 @@ void	builtin(t_group	*group)
 		builtin_echo(group);
 	if (ft_strcmp(group->cmd[0], "export") == 0)
 		builtin_export(group);
+	if (ft_strcmp(group->cmd[0], "unset") == 0)
+		builtin_unset(group);
 	if (group->operator == PIPE)
 	{
 		cleanup(group);

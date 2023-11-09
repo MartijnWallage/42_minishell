@@ -30,31 +30,47 @@ Questions:
   minishell is exited, they are still there. Is this a problem?
 */
 
+int	needle_check(char *str, char c)
+{
+	int	i;
+
+	i = 0;
+	while (str[i])
+	{
+		if (str[i] == c)
+			return (1);
+		i++;
+	}
+	return (0);
+}
+
 int	key_valuecheck(char *str)
 {
 	char **kv_pair;
 	int	i;
 
 	i = 1;
+	if (needle_check(str, '=') == 0)
+		return (1);
 	kv_pair = ft_split(str, '=');
 	if ((ft_isdigit(kv_pair[0][0])) || !((ft_isalpha(kv_pair[0][0]) || \
 		kv_pair[0][0] == '_')))
 		return (1);
+
 	while (kv_pair[0][i])
 	{
-		if (!(ft_isalpha(kv_pair[0][i]) || ft_isdigit(kv_pair[0][i]) || \
-		 kv_pair[0][i] == '_' || kv_pair[0][i] == ' '))
+		if (!(ft_isalnum(kv_pair[0][i]) || kv_pair[0][i] == '_'))
 			return (1);
 		i++;
 	}
 	i = 0;
 	while (kv_pair[1][i])
 	{
-		if (!((ft_isalpha(kv_pair[1][i])) || ft_isdigit(kv_pair[1][i]) || \
-		 kv_pair[1][i] == '_'))
+		if (!(ft_isascii(kv_pair[1][i])))
 			return (1);
 		i++;
 	}
+	printf("%s\n", str);
 	return (0);
 }
 

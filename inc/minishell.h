@@ -6,7 +6,7 @@
 /*   By: jmuller <jmuller@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 15:40:59 by mwallage          #+#    #+#             */
-/*   Updated: 2023/11/08 18:18:00 by jmuller          ###   ########.fr       */
+/*   Updated: 2023/11/09 08:45:45 by jmuller          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,6 +107,7 @@ char	**copy_tab(char **tab);
 int		key_compare(char **env, char *line);
 char	*get_key(char *str);
 	/* !utils.c*/
+int		needle_check(char *str, char c);
 	
 /*	clean			*/
 	/*	clean.c		*/

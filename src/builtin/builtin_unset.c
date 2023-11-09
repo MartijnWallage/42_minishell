@@ -15,7 +15,6 @@
 /*
 	Syntax
 	unset var1 var2 ...
-	Test1
 	
 */
 

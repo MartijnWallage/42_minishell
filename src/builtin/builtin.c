@@ -6,7 +6,7 @@
 /*   By: jmuller <jmuller@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/03 12:10:00 by mwallage          #+#    #+#             */
-/*   Updated: 2023/11/08 17:28:15 by jmuller          ###   ########.fr       */
+/*   Updated: 2023/11/09 09:37:41 by jmuller          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,15 +46,18 @@ void	builtin_pwd(t_group *group)
 	}
 }
 
-/*
-- with option -n
-*/
-
 void	builtin_echo(t_group *group)
 {
 	int	i;
+	int	flag;
 
 	i = 1;
+	flag = 0;
+	if (group->cmd[1] && ft_strcmp(group->cmd[1], "-n") == 0)
+	{
+		flag = 1;
+		i++;
+	}
 	while (group->cmd[i])
 	{
 		printf("%s", group->cmd[i]);
@@ -62,7 +65,8 @@ void	builtin_echo(t_group *group)
 		if (group->cmd[i])
 			printf(" ");
 	}
-	printf("\n"); 
+	if (flag == 0)
+		printf("\n"); 
 }
 
 void	builtin(t_group	*group)

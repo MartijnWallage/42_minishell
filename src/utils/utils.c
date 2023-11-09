@@ -6,7 +6,7 @@
 /*   By: jmuller <jmuller@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/22 18:15:30 by mwallage          #+#    #+#             */
-/*   Updated: 2023/11/08 17:41:33 by jmuller          ###   ########.fr       */
+/*   Updated: 2023/11/09 11:33:53 by jmuller          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,4 +74,12 @@ char	*get_key(char *str)
 	
 	kv_pair = ft_split(str, '=');
 	return (kv_pair[0]);
+}
+
+char	*get_value(char *str)
+{
+	char **kv_pair;
+	
+	kv_pair = ft_split(str, '=');
+	return (kv_pair[1]);
 }

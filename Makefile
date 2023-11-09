@@ -6,7 +6,7 @@
 #    By: jmuller <jmuller@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/10/05 15:16:08 by mwallage          #+#    #+#              #
-#    Updated: 2023/11/08 17:00:50 by jmuller          ###   ########.fr        #
+#    Updated: 2023/11/09 09:45:51 by jmuller          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -35,7 +35,8 @@ SRC			:= main.c \
 				clean/clean.c \
 				builtin/builtin.c \
 				builtin/builtin_export.c \
-				builtin/builtin_unset.c
+				builtin/builtin_unset.c \
+				builtin/builtin_cd.c
 SRCS		:= $(addprefix $(SRCDIR)/, $(SRC))
 OBJS		:= $(patsubst $(SRCDIR)/%.c, $(OBJDIR)/%.o, $(SRCS))
 NAME		:= minishell

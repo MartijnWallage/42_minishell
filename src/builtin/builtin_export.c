@@ -74,7 +74,7 @@ int	key_valuecheck(char *str)
 	return (0);
 }
 
-void	update_env(char **env, char *line)
+void	update_env1(char **env, char *line)
 {
 	int		i;
 	char	*key;
@@ -124,19 +124,9 @@ void	builtin_export(t_group *group)
 		if (key_valuecheck(group->cmd[j]))
 			break ;
 		if (key_compare(group->env, group->cmd[j]))
-			update_env(group->env, group->cmd[j]);
+			update_env1(group->env, group->cmd[j]);
 		else 
 			append_env(group, group->cmd[j]); //need explanation
 		j++;
 	}
-	
-	/* 
-	i = 0;
-	while (group->env[i])
-	{
-		printf("%s\n", group->env[i]);
-		i++;
-	}
-	*/
-
 }

@@ -6,7 +6,7 @@
 /*   By: jmuller <jmuller@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 15:40:59 by mwallage          #+#    #+#             */
-/*   Updated: 2023/11/09 08:45:45 by jmuller          ###   ########.fr       */
+/*   Updated: 2023/11/09 11:35:34 by jmuller          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,6 +96,7 @@ bool	is_builtin(char *cmd);
 void	builtin(t_group *group);
 void	builtin_export(t_group *group);
 void	builtin_unset(t_group *group);
+void	builtin_cd(t_group *group);
 /*	error			*/
 	/*	error.c		*/
 void	handle_error(char *info, int exitcode);
@@ -106,6 +107,7 @@ void	*free_tab(char **tab);
 char	**copy_tab(char **tab);
 int		key_compare(char **env, char *line);
 char	*get_key(char *str);
+char	*get_value(char *str);
 	/* !utils.c*/
 int		needle_check(char *str, char c);
 	

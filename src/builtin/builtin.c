@@ -6,7 +6,7 @@
 /*   By: jmuller <jmuller@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/03 12:10:00 by mwallage          #+#    #+#             */
-/*   Updated: 2023/11/09 09:37:41 by jmuller          ###   ########.fr       */
+/*   Updated: 2023/11/09 09:41:20 by jmuller          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,8 @@ void	builtin_echo(t_group *group)
 
 void	builtin(t_group	*group)
 {
+	if (ft_strcmp(group->cmd[0], "cd") == 0)
+		builtin_cd(group);
 	if (ft_strcmp(group->cmd[0], "exit") == 0)
 		builtin_exit(group);
 	if (ft_strcmp(group->cmd[0], "env") == 0)

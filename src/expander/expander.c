@@ -6,7 +6,7 @@
 /*   By: jmuller <jmuller@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/03 12:08:00 by mwallage          #+#    #+#             */
-/*   Updated: 2023/11/10 12:59:41 by jmuller          ###   ########.fr       */
+/*   Updated: 2023/11/10 14:31:53 by jmuller          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,7 @@ static void	remove_quotes(char *str)
 	To do:
 	- $?: should expand to the exit status of the most recently executed
 	foreground pipeline.
+	- expandable variables in strings?
 */
 
 static void	expand_variables(char **str, t_group *group)

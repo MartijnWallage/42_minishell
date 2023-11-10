@@ -70,7 +70,6 @@ int	key_valuecheck(char *str)
 			return (1);
 		i++;
 	}
-	printf("%s\n", str);
 	return (0);
 }
 

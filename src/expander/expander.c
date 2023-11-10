@@ -6,7 +6,7 @@
 /*   By: jmuller <jmuller@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/03 12:08:00 by mwallage          #+#    #+#             */
-/*   Updated: 2023/11/09 10:11:22 by jmuller          ###   ########.fr       */
+/*   Updated: 2023/11/10 12:59:41 by jmuller          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,39 @@ static void	remove_quotes(char *str)
 	}
 }
 
+/*
+	Features:
+	- expands variables, e.g. $PATH
+	- expands variables in variables
+	  - e.g. export var=$PATH
+
+	To do:
+	- $?: should expand to the exit status of the most recently executed
+	foreground pipeline.
+*/
+
+static void	expand_variables(char **str, t_group *group)
+{
+	int	i;
+	char *value;
+	
+	if (*str[0] == '$')
+	{
+		i = 0;
+		while (group->env[i])
+		{
+			if (ft_strncmp(group->env[i], *str + 1, ft_strlen(*str + 1)) == 0)
+			{
+				value = get_value(group->env[i]);
+				*str = value;
+				if (*str[0] == '$')
+					expand_variables(str, group);
+			}
+			i++;
+		}
+	}
+}
+
 void	expander(t_group *list)
 {
 	t_group	*current;
@@ -60,6 +93,7 @@ void	expander(t_group *list)
 		while (current->cmd[i])
 		{
 			remove_quotes(current->cmd[i]);
+			expand_variables(&current->cmd[i], current);
 			i++;
 		}
 		current = current->next;

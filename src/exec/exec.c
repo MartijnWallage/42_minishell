@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pipex.c                                            :+:      :+:    :+:   */
+/*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mwallage <mwallage@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 11:44:55 by mwallage          #+#    #+#             */
-/*   Updated: 2023/10/09 16:17:44 by mwallage         ###   ########.fr       */
+/*   Updated: 2023/11/14 15:28:06 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,9 +69,9 @@ void	exec(char **cmd, char **env)
 	{
 		if (ft_strcmp(path, cmd[0]))
 			free(path);
-		free_tab(cmd);
 		ft_putstr_fd("philoshell: command not found: ", 2);
 		ft_putendl_fd(cmd[0], 2);
+		free_tab(cmd);
 		exit(errno);
 	}
 }

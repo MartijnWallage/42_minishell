@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expander.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmuller <jmuller@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/03 12:08:00 by mwallage          #+#    #+#             */
-/*   Updated: 2023/11/10 14:31:53 by jmuller          ###   ########.fr       */
+/*   Updated: 2023/11/14 15:31:47 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,8 +82,8 @@ void	expander(t_group *list)
 	t_group	*current;
 	int		i;
 
-	/* expand variables, except when $ occurs within double quotes 
-	Look for $ signs that are not within double quotes
+	/* expand variables, except when $ occurs within single quotes 
+	Look for $ signs that are not within single quotes
 	Then find the variable in env and replace it by its value 
 	
 	e.g. You can print the current value of PWD by typing echo $PWD in the shell.*/

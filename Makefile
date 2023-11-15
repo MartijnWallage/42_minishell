@@ -6,12 +6,12 @@
 #    By: jmuller <jmuller@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/10/05 15:16:08 by mwallage          #+#    #+#              #
-#    Updated: 2023/11/09 09:45:51 by jmuller          ###   ########.fr        #
+#    Updated: 2023/11/15 12:30:05 by jmuller          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 CC			:= cc
-CFLAGS		:= -g -Wall -Wextra -Werror
+# CFLAGS		:= -g -Wall -Wextra -Werror
 SRCDIR		:= ./src
 OBJDIR		:= ./obj
 INCDIR		:= ./inc

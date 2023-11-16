@@ -14,13 +14,6 @@
 #include "minishell.h"
 
 /*
-ISSUE:
-- somehow that creates a problem:
-var1=1
-var2=2
-philoshell 🤔> echo "$var1 $var2"
-2 2
-
  Syntax:
  - export var_name=value var_name2=value;
 
@@ -28,6 +21,7 @@ philoshell 🤔> echo "$var1 $var2"
  - allows for multiple var assignments in one go
  - checks for validity of key/value-pairs
  - updates key/value pairs
+ - naked export command, gives "declare -x $env[i]"
 
 To do:
 - remove '""'
@@ -136,13 +130,37 @@ void	append_env(t_group *group, char *line)
 	group->env = env2;
 }
 
+int	naked_export(t_group *group, char *str)
+{
+	int	flag;
+	int	i;
+
+	flag = 0;
+	i = 0;
+	if (group->cmd[1] == NULL)
+	{
+		flag = 1;
+		while (group->env[i])
+		{
+			printf("declare -x ");
+			printf("%s\n", group->env[i]);
+			i++;
+		}
+	}
+	return (flag);
+}
+
+
 void	builtin_export(t_group *group)
 {
 	int j;
 
+	if (naked_export(group, group->cmd[0]))
+			return ;
 	j = 1;
 	while (group->cmd[j])
 	{
+		
 		if (key_valuecheck(group->cmd[j]))
 			break ;
 		if (key_compare(group->env, group->cmd[j]))

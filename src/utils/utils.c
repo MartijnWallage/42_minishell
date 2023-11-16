@@ -6,7 +6,7 @@
 /*   By: jmuller <jmuller@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/22 18:15:30 by mwallage          #+#    #+#             */
-/*   Updated: 2023/11/15 18:08:41 by jmuller          ###   ########.fr       */
+/*   Updated: 2023/11/16 15:09:09 by jmuller          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,6 +111,37 @@ char	*ft_strjoin(char const *s1, char const *s2)
 		*joined++ = *s1++;
 	while (*s2)
 		*joined++ = *s2++;
+	*joined = '\0';
+	return (result);
+}
+
+char	*ft_strjoin_safe(char const *s1, char const *s2)
+{
+	char	*joined;
+	char	*result;
+	size_t len1;
+	size_t len2;
+
+	len1 = 0;
+	len2 = 0;
+	if (s1 != NULL)
+		len1 = ft_strlen(s1);
+	if (s2 != NULL)
+		len2 = ft_strlen(s2);
+	joined = malloc(len1 + len2 + 1);
+	if (joined == NULL)
+		return (NULL);
+	result = joined;
+	if (s1 != NULL)
+	{
+		while (*s1)
+			*joined++ = *s1++;
+	}
+	if (s2 != NULL) 
+	{
+		while (*s2)
+			*joined++ = *s2++;
+	}
 	*joined = '\0';
 	return (result);
 }

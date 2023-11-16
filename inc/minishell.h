@@ -6,7 +6,7 @@
 /*   By: jmuller <jmuller@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 15:40:59 by mwallage          #+#    #+#             */
-/*   Updated: 2023/11/16 15:09:51 by jmuller          ###   ########.fr       */
+/*   Updated: 2023/11/16 15:59:47 by jmuller          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 # define FORMAT	"philoshell: format\n\t./minishell [no arguments]"
 # define PROMPT "philoshell 🤔> "
+# define PROMPT2 "\n partyshell 😝💃😝🕺👽> "
 # define INVALID_INPUT	"philoshell: input is invalid"
 # define PIPE			1
 # define AND			2
@@ -37,6 +38,7 @@
 # include <stdbool.h>
 # include <sys/wait.h>
 # include "../libft/inc/libft.h"
+# include <time.h> // delete
 
 typedef struct s_token
 {
@@ -74,7 +76,8 @@ typedef struct s_group
 
 /*	reader			*/
 	/*	reader.c	*/
-char	*reader(void);
+char	*reader(const char *env);
+const char *prompt(char **str);
 
 /*	lexer			*/
 char	**lexer(char *line);

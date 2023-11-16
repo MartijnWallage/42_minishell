@@ -21,6 +21,7 @@
  - allows for multiple var assignments in one go
  - checks for validity of key/value-pairs
  - updates key/value pairs
+ - naked export command, gives "declare -x $env[i]"
 
 To do:
 - remove '""'
@@ -37,13 +38,18 @@ int	needle_check(char *str, char c)
 	i = 0;
 	while (str[i])
 	{
-		if (str[i] == c)
+		if (str[i] == c && str[i + 1] != '\0')
 			return (1);
 		i++;
 	}
 	return (0);
 }
 
+/*
+	needs proper exit code:
+	Example: export var1= 1
+	bash: export: `1': not a valid identifier
+*/
 int	key_valuecheck(char *str)
 {
 	char **kv_pair;
@@ -55,21 +61,31 @@ int	key_valuecheck(char *str)
 	kv_pair = ft_split(str, '=');
 	if ((ft_isdigit(kv_pair[0][0])) || !((ft_isalpha(kv_pair[0][0]) || \
 		kv_pair[0][0] == '_')))
+	{	
+		free_tab(kv_pair);
 		return (1);
+	}
 
 	while (kv_pair[0][i])
 	{
 		if (!(ft_isalnum(kv_pair[0][i]) || kv_pair[0][i] == '_'))
+		{
+			free_tab(kv_pair);
 			return (1);
+		}
 		i++;
 	}
 	i = 0;
 	while (kv_pair[1][i])
 	{
-		if (!(ft_isascii(kv_pair[1][i])))
+		if (!(ft_isascii(kv_pair[1][i])) || kv_pair[1][0] == ' ')
+		{
+			free_tab(kv_pair);
 			return (1);
+		}
 		i++;
 	}
+	free_tab(kv_pair);
 	return (0);
 }
 
@@ -89,6 +105,7 @@ void	update_env1(char **env, char *line)
 		}
 		i++;
 	}
+	free(key);
 	return ;
 }
 
@@ -113,18 +130,42 @@ void	append_env(t_group *group, char *line)
 	group->env = env2;
 }
 
+int	naked_export(t_group *group, char *str)
+{
+	int	flag;
+	int	i;
+
+	flag = 0;
+	i = 0;
+	if (group->cmd[1] == NULL)
+	{
+		flag = 1;
+		while (group->env[i])
+		{
+			printf("declare -x ");
+			printf("%s\n", group->env[i]);
+			i++;
+		}
+	}
+	return (flag);
+}
+
+
 void	builtin_export(t_group *group)
 {
 	int j;
 
+	if (naked_export(group, group->cmd[0]))
+			return ;
 	j = 1;
 	while (group->cmd[j])
 	{
+		
 		if (key_valuecheck(group->cmd[j]))
 			break ;
 		if (key_compare(group->env, group->cmd[j]))
 			update_env1(group->env, group->cmd[j]);
-		else 
+		else
 			append_env(group, group->cmd[j]); //need explanation
 		j++;
 	}

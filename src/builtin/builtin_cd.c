@@ -6,7 +6,7 @@
 /*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/09 09:44:07 by jmuller           #+#    #+#             */
-/*   Updated: 2023/11/17 18:53:04 by mwallage         ###   ########.fr       */
+/*   Updated: 2023/11/17 18:58:33 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,9 +32,8 @@ char	*get_higher_dir(char *old_path)
 	len = ft_strlen(old_path);
 	while (old_path[len] != '/')
 		len--;
-	len--;
+	len++;
 	higher_dir = malloc(len + 1);
-	higher_dir[len] = 0;
 	ft_strlcpy(higher_dir, old_path, len);
 	return (higher_dir);
 }
@@ -65,8 +64,8 @@ char	*update_pwd(char **env, char *new_path)
 /* 				else if (ft_strcmp(new_path, "-") == 0)
 					full_path = get_previous_dir(env); */
 				else
-					full_path = ft_strdup(ft_strjoin(old_path, (ft_strjoin("/", new_path))));
-				env[i] = ft_strdup(ft_strjoin("PWD=", full_path));
+					full_path = ft_strjoin(old_path, (ft_strjoin("/", new_path)));
+				env[i] = ft_strjoin("PWD=", full_path);
 				free(full_path);
 			}
 			else

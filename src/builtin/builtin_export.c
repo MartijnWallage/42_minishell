@@ -130,7 +130,7 @@ void	append_env(t_group *group, char *line)
 	group->env = env2;
 }
 
-int	naked_export(t_group *group, char *str)
+int	naked_export(t_group *group)
 {
 	int	flag;
 	int	i;
@@ -155,7 +155,7 @@ void	builtin_export(t_group *group)
 {
 	int j;
 
-	if (naked_export(group, group->cmd[0]))
+	if (naked_export(group))
 			return ;
 	j = 1;
 	while (group->cmd[j])

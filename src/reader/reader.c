@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   reader.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmuller <jmuller@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mwallage <mwallage@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/22 18:15:25 by mwallage          #+#    #+#             */
-/*   Updated: 2023/11/16 15:55:42 by jmuller          ###   ########.fr       */
+/*   Updated: 2023/11/17 23:00:59 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,74 +22,52 @@ static int	is_valid_input(char *input)
 	return (1);
 }
 
-const char *prompt(char **str)
+char	*get_home_path(char *path, char *username)
 {
+	int		len;
+	char	*home_path;
 	int		i;
-	char	*res;
-	char	*temp;
-	char	*temp2;
-	
-	i = 0;
-	srand(time(NULL));  // Seed the random number generator
 
-	if (rand() % 2 == 0) 
-	{
-		while (str[i])
-		{
-			if (ft_strncmp(str[i], "LOGNAME", ft_strlen("LOGNAME")) == 0)
-			{
-				res = ft_strdup(get_value(str[i]));
-			}
-			i++;
-		}
-		i = 0;
-		temp = ft_strjoin_safe(res, "@");
-		free(res);
-		res = temp;
-		while (str[i])
-		{
-			if (ft_strncmp(str[i], "NAME", ft_strlen("NAME")) == 0)
-			{
-				temp = ft_strdup(get_value(str[i]));
-				temp2 = ft_strjoin_safe(res, temp);
-				free(res);
-				free(temp);
-				res = temp2;
-			}
-			i++;
-		}
-		temp = ft_strjoin_safe(res, ":");
-		free(res);
-		res = temp;
-		i = 0;
-		while (str[i])
-		{
-			if (ft_strncmp(str[i], "PWD", ft_strlen("PWD")) == 0)
-			{
-				temp = ft_strdup(get_value(str[i]));
-				temp2 = ft_strjoin_safe(res, temp);
-				free(res);
-				free(temp);
-				res = temp2;
-			}
-			i++;
-		}
-		temp = ft_strjoin_safe(res, "$ ");
-		free(res);
-		res = temp;
-	return (res);
-	}
-	else if (rand() % 5 == 0) 
-		return (PROMPT2);
-	else
-		return (PROMPT);
+	len = ft_strlen(path);
+	i = 0;
+	while (path[i] && !ft_match(&path[i], username, len))
+		i++;
+	if (path[i] == 0)
+		return (NULL);
+	home_path = ft_substr(path, i + ft_strlen(username), len);
+	return (home_path);
 }
 
-char	*reader(const char *env)
+/*	We should use a version of strjoin
+	that always frees the first given argument */
+char *get_prompt(char **env)
+{
+	char	*user;
+	char	*logname;
+	char	*current_path;
+	char	*prompt;
+
+ 	user = get_value(ft_grep(env, "USER="));
+	logname = get_value(ft_grep(env, "LOGNAME="));
+	current_path = get_value(ft_grep(env, "PWD="));
+	prompt = ft_strjoin(user, "@");
+	prompt = ft_strjoin(prompt, logname);
+	prompt = ft_strjoin(prompt, ":");
+	if (ft_strnstr(current_path, user, ft_strlen(current_path)))
+	{
+		prompt = ft_strjoin(prompt, "~");
+		current_path = get_home_path(current_path, user);
+	}
+	prompt = ft_strjoin(prompt, current_path);
+	prompt = ft_strjoin(prompt, " $ ");
+	return (prompt);
+}
+
+char	*reader(const char *prompt)
 {
 	char	*str;
 	
-	str = readline(env);	// prompt should display username, login name : pwd
+	str = readline(prompt);
 	if (!str)
 		return (NULL);
 	add_history(str);

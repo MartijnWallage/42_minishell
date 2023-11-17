@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmuller <jmuller@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mwallage <mwallage@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 15:40:59 by mwallage          #+#    #+#             */
-/*   Updated: 2023/11/16 15:59:47 by jmuller          ###   ########.fr       */
+/*   Updated: 2023/11/17 21:24:31 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 
 # define FORMAT	"philoshell: format\n\t./minishell [no arguments]"
 # define PROMPT "philoshell 🤔> "
-# define PROMPT2 "\n partyshell 😝💃😝🕺👽> "
 # define INVALID_INPUT	"philoshell: input is invalid"
 # define PIPE			1
 # define AND			2
@@ -76,8 +75,8 @@ typedef struct s_group
 
 /*	reader			*/
 	/*	reader.c	*/
-char	*reader(const char *env);
-const char *prompt(char **str);
+char	*reader(const char *prompt);
+char	*get_prompt(char **env);
 
 /*	lexer			*/
 char	**lexer(char *line);

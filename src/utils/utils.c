@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmuller <jmuller@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/22 18:15:30 by mwallage          #+#    #+#             */
-/*   Updated: 2023/11/16 15:09:09 by jmuller          ###   ########.fr       */
+/*   Updated: 2023/11/17 17:57:45 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,9 +74,9 @@ int	key_compare(char **env, char *line)
 
 char	*get_key(char *str)
 {
-	char **kv_pair;
-	char *copy;
-	
+	char	**kv_pair;
+	char	*copy;
+
 	kv_pair = ft_split(str, '=');
 	copy = ft_strdup(kv_pair[0]);
 	free_tab(kv_pair);
@@ -85,13 +85,13 @@ char	*get_key(char *str)
 
 char	*get_value(char *str)
 {
-	char **kv_pair;
-	char *copy;
+	char	**key_value_pair;
+	char	*right_side;
 	
-	kv_pair = ft_split(str, '=');
-	copy = ft_strdup(kv_pair[1]);
-	free_tab(kv_pair);
-	return (copy);
+	key_value_pair = ft_split(str, '=');
+	right_side = ft_strdup(key_value_pair[1]);
+	free_tab(key_value_pair);
+	return (right_side);
 }
 
 char	*ft_strjoin(char const *s1, char const *s2)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_cd.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmuller <jmuller@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/09 09:44:07 by jmuller           #+#    #+#             */
-/*   Updated: 2023/11/09 12:37:56 by jmuller          ###   ########.fr       */
+/*   Updated: 2023/11/17 18:05:25 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,39 +24,42 @@
 	- check for memory leaks
 */
 
-char	*update_env2(char **env, char *line, char *key)
+char	*update_env2(char **env, char *new_path, char *key)
 {
 	int		i;
-	char	*str;
+	int		len;
+	char	*old_path;
 	char	*full_path;
-	i = 0;
-	while (env[i])
+
+	len = ft_strlen(key);
+	i = -1;
+	while (env[++i])
 	{
-		if (ft_strncmp(env[i], key, ft_strlen(key)) == 0)
+		if (ft_strncmp(env[i], key, len) == 0)
 		{
-			str = ft_strdup(get_value(env[i]));
+			old_path = get_value(env[i]);
 			free(env[i]);
-			if (str[0] != line[0])
-			{	
-				full_path = ft_strdup(ft_strjoin(str, (ft_strjoin("/", line))));
-				//free(line);
+			if (new_path[0] != '/' && new_path[0] != '~')
+			{
+				full_path = ft_strdup(ft_strjoin(old_path, (ft_strjoin("/", new_path))));
+				free(new_path);
 				env[i] = ft_strdup(ft_strjoin(key, full_path));
+				free(full_path);
 			}
 			else
-				env[i] = ft_strdup(ft_strjoin(key, line));
-			break;
+				env[i] = ft_strdup(ft_strjoin(key, new_path));
+			return (old_path);
 		}
-		i++;
 	}
-	return (str);
+	return (NULL);
 }
 
-void	update_env3(char **env, char *line, char *key)
+void	update_old_pwd(char **env, char *line, char *key)
 {
 	int		i;
 
-	i = 0;
-	while (env[i])
+	i = -1;
+	while (env[++i])
 	{
 		if (ft_strncmp(env[i], key, ft_strlen(key)) == 0)
 		{
@@ -64,18 +67,17 @@ void	update_env3(char **env, char *line, char *key)
 			env[i] = (ft_strjoin(key, line));
 			free(line);
 		}
-		i++;
 	}
-	return ;
 }
 
 void	builtin_cd(t_group *group)
 {
-	char	*oldpwd;
+	char	*old_pwd;
 
 	if (chdir(group->cmd[1]) == 0)
 	{
-		oldpwd = update_env2(group->env, group->cmd[1], "PWD=");
-		update_env3(group->env, oldpwd, "OLDPWD=");
+		old_pwd = update_env2(group->env, group->cmd[1], "PWD=");
+		update_old_pwd(group->env, old_pwd, "OLDPWD=");
+		free(old_pwd);
 	}
 }

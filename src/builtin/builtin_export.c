@@ -153,20 +153,19 @@ int	naked_export(t_group *group)
 
 void	builtin_export(t_group *group)
 {
-	int j;
+	int i;
 
 	if (naked_export(group))
 			return ;
-	j = 1;
-	while (group->cmd[j])
+	i = 0;
+	while (group->cmd[++i])
 	{
 		
-		if (key_valuecheck(group->cmd[j]))
+		if (key_valuecheck(group->cmd[i]))
 			break ;
-		if (key_compare(group->env, group->cmd[j]))
-			update_env1(group->env, group->cmd[j]);
+		if (key_compare(group->env, group->cmd[i]))
+			update_env1(group->env, group->cmd[i]);
 		else
-			append_env(group, group->cmd[j]); //need explanation
-		j++;
+			append_env(group, group->cmd[i]); //need explanation
 	}
 }

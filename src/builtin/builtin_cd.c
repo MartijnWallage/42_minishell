@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_cd.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mwallage <mwallage@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/09 09:44:07 by jmuller           #+#    #+#             */
-/*   Updated: 2023/11/17 23:17:37 by mwallage         ###   ########.fr       */
+/*   Updated: 2023/11/18 19:01:17 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,6 @@ char	*get_higher_dir(char *old_path)
 	char	*higher_dir;
 
 	len = ft_strlen(old_path);
-	if (old_path[len - 1] == '/')
-		len--;
 	while (len-- && old_path[len] != '/')
 		;
 	if (len == 0)
@@ -52,47 +50,69 @@ char	*update_pwd(char **env, char *new_path)
 	char	*old_path;
 	char	*full_path;
 	int		i;
-
+	int		len;
+	
+	len = ft_strlen(new_path);
+	if (len > 1 && new_path[len - 1] == '/')
+		new_path[len - 1] = 0;
 	i = 0;
 	while (env[i] && ft_strncmp(env[i], "PWD=", 4))
 		i++;
 	old_path = get_value(env[i]);
-	if (new_path[0] == '/' || new_path[0] == '~')
+	if (new_path[0] == '/')
 	{
 		env[i] = ft_strjoin("PWD=", new_path);
 		return (old_path);
 	}
+	if (new_path[0] == '~')
+	{
+		printf("Hello!?\n");
+		full_path = get_value(ft_grep(env, "HOME="));
+		env[i] = ft_strjoin("PWD=", full_path);
+		return (old_path);
+	}
 	if (ft_strncmp(new_path, "..", 2) == 0)
 		full_path = get_higher_dir(old_path);
+	else if (old_path[ft_strlen(old_path) - 1] == '/')
+		full_path = ft_strjoin(old_path, new_path);
 	else
-		full_path = ft_strjoin(old_path, (ft_strjoin("/", new_path)));
+		full_path = ft_strjoin(old_path, ft_strjoin("/", new_path));
 	env[i] = ft_strjoin("PWD=", full_path);		
 	return (old_path);
 }
 
-void	update_oldpwd(char **env, char *old_path)
+void	update_oldpwd(t_group *group, char *old_path)
 {
 	int		i;
+	char	*oldpwd;
 
-	i = -1;
-	while (env[++i])
+	oldpwd = ft_strjoin("OLDPWD=", old_path);
+	i = 0;
+	while (group->env[i] && ft_strncmp(group->env[i], "OLDPWD=", 7))
+		i++ ;
+	if (group->env[i])
 	{
-		if (ft_strncmp(env[i], "OLDPWD=", 7) == 0)
-		{
-			free(env[i]);
-			env[i] = ft_strjoin("OLDPWD=", old_path);
-		}
+		free(group->env[i]);
+		group->env[i] = oldpwd;
 	}
+	else
+		append_env(group, oldpwd);
 }
 
 void	builtin_cd(t_group *group)
 {
 	char	*old_path;
+	char	*home;
 
+	if (group->cmd[1][0] == '~')	// this is the right approach. Also for cd .., cd -, cd /
+	{
+		home = get_value(ft_grep(group->env, "HOME="));
+		group->cmd[1] = ft_strjoin(home, group->cmd[1] + 1);
+	}
 	if (chdir(group->cmd[1]) == 0)
 	{
- 		old_path =  update_pwd(group->env, group->cmd[1]);
-		update_oldpwd(group->env, old_path);
+ 		old_path = update_pwd(group->env, group->cmd[1]);
+		update_oldpwd(group, old_path);
 		free(old_path);
 	}
 }

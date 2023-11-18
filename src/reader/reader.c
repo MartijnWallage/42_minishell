@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   reader.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mwallage <mwallage@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/22 18:15:25 by mwallage          #+#    #+#             */
-/*   Updated: 2023/11/17 23:00:59 by mwallage         ###   ########.fr       */
+/*   Updated: 2023/11/18 18:41:52 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,20 +22,13 @@ static int	is_valid_input(char *input)
 	return (1);
 }
 
-char	*get_home_path(char *path, char *username)
+char	*get_path_right_of_home(char *path, char *home)
 {
-	int		len;
-	char	*home_path;
-	int		i;
-
-	len = ft_strlen(path);
-	i = 0;
-	while (path[i] && !ft_match(&path[i], username, len))
-		i++;
-	if (path[i] == 0)
-		return (NULL);
-	home_path = ft_substr(path, i + ft_strlen(username), len);
-	return (home_path);
+	char	*path_right_of_home;
+	
+	path_right_of_home = ft_substr(path, ft_strlen(home), ft_strlen(path));
+	free(path);
+	return (path_right_of_home);
 }
 
 /*	We should use a version of strjoin
@@ -46,6 +39,7 @@ char *get_prompt(char **env)
 	char	*logname;
 	char	*current_path;
 	char	*prompt;
+	char	*home;
 
  	user = get_value(ft_grep(env, "USER="));
 	logname = get_value(ft_grep(env, "LOGNAME="));
@@ -53,13 +47,18 @@ char *get_prompt(char **env)
 	prompt = ft_strjoin(user, "@");
 	prompt = ft_strjoin(prompt, logname);
 	prompt = ft_strjoin(prompt, ":");
-	if (ft_strnstr(current_path, user, ft_strlen(current_path)))
+	home = get_value(ft_grep(env, "HOME="));
+	if (ft_strnstr(current_path, home, ft_strlen(current_path)))
 	{
 		prompt = ft_strjoin(prompt, "~");
-		current_path = get_home_path(current_path, user);
+		current_path = get_path_right_of_home(current_path, home);
 	}
 	prompt = ft_strjoin(prompt, current_path);
 	prompt = ft_strjoin(prompt, " $ ");
+	free(home);
+	free(user);
+	free(logname);
+	free(current_path);
 	return (prompt);
 }
 

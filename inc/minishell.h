@@ -6,15 +6,18 @@
 /*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 15:40:59 by mwallage          #+#    #+#             */
-/*   Updated: 2023/11/19 16:08:10 by mwallage         ###   ########.fr       */
+/*   Updated: 2023/11/19 18:26:19 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
-# define FORMAT	"philoshell: format\n\t./minishell [no arguments]"
-# define PROMPT "philoshell 🤔> "
+# ifndef HOSTNAME
+#  define HOSTNAME	"host"
+# endif
+
+# define FORMAT			"philoshell: format\n\t./minishell [no arguments]"
 # define INVALID_INPUT	"philoshell: input is invalid"
 # define PIPE			1
 # define AND			2
@@ -47,7 +50,6 @@
 # include <stdbool.h>
 # include <sys/wait.h>
 # include "../libft/inc/libft.h"
-# include <time.h> // delete
 
 typedef struct s_token
 {

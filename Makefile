@@ -6,7 +6,7 @@
 #    By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/10/05 15:16:08 by mwallage          #+#    #+#              #
-#    Updated: 2023/11/18 17:19:35 by mwallage         ###   ########.fr        #
+#    Updated: 2023/11/19 18:04:22 by mwallage         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,6 +21,7 @@ HEADERS		:= -I$(INCDIR) -I$(LIBFTDIR)/inc
 READLINE_DIR := $(shell brew --prefix readline)
 READLINE	:= -lreadline -lhistory -L $(READLINE_DIR)/lib
 LIBFLAGS	:= -L$(LIBFTDIR) -lft $(READLINE)
+HOST		:= $(shell hostname)
 SRC			:= main.c \
 				reader/reader.c \
 				lexer/lexer.c \
@@ -65,7 +66,7 @@ $(NAME): $(LIBFT) $(OBJDIR) $(OBJS)
 	$(CC) $(OBJS) $(CFLAGS) $(LIBFLAGS) -o $@
 
 $(OBJDIR)/%.o: $(SRCDIR)/%.c
-	$(CC) -c $< $(CFLAGS) $(HEADERS) -o $@
+	$(CC) -DHOSTNAME=\"$(HOST)\" -c $< $(CFLAGS) $(HEADERS) -o $@
 
 clean:
 	rm -rf $(OBJS);

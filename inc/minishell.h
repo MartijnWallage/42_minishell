@@ -6,7 +6,7 @@
 /*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 15:40:59 by mwallage          #+#    #+#             */
-/*   Updated: 2023/11/19 12:26:35 by mwallage         ###   ########.fr       */
+/*   Updated: 2023/11/19 16:08:10 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,16 @@
 # define FORK_ERR		"fork error"
 # define MALLOC_MSG		"malloc error"
 # define MALLOC_CODE	142
+
+# define BLK_BOLD	"\e[1;30m"
+# define RED_BOLD	"\e[1;31m"
+# define GRN_BOLD	"\e[1;32m"
+# define YLW_BOLD	"\e[1;33m"
+# define BLU_BOLD	"\e[1;34m"
+# define MGN_BOLD	"\e[1;35m"
+# define CYN_BOLD	"\e[1;36m"
+# define WHT_BOLD	"\e[1;37m"
+# define RES		"\e[0m"
 
 # include <errno.h>
 # include <string.h>

@@ -6,7 +6,7 @@
 /*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/09 09:44:07 by jmuller           #+#    #+#             */
-/*   Updated: 2023/11/19 12:47:24 by mwallage         ###   ########.fr       */
+/*   Updated: 2023/11/19 15:45:42 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,13 +62,6 @@ char	*update_pwd(char **env, char *new_path)
 	if (new_path[0] == '/')
 	{
 		env[i] = ft_strjoin("PWD=", new_path);
-		return (old_path);
-	}
-	if (new_path[0] == '~')
-	{
-		printf("Hello!?\n");
-		full_path = get_value(ft_grep(env, "HOME="));
-		env[i] = ft_strjoin("PWD=", full_path);
 		return (old_path);
 	}
 	if (ft_strncmp(new_path, "..", 2) == 0)

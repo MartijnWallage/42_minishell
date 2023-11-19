@@ -6,7 +6,7 @@
 /*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/09 09:44:07 by jmuller           #+#    #+#             */
-/*   Updated: 2023/11/19 10:48:10 by mwallage         ###   ########.fr       */
+/*   Updated: 2023/11/19 12:47:24 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,9 +104,9 @@ void	builtin_cd(t_group *group)
 	char	*old_path;
 	char	*home;
 
-	if (group->cmd[1][0] == '~')	// this is the right approach. Also for cd .., cd -, cd /
+	if (group->cmd[1][0] == '~')
 	{
-		home = getenv("HOME");
+		home = mini_getenv(group->env, "HOME");
 		group->cmd[1] = ft_strjoin(home, group->cmd[1] + 1);
 	}
 	if (chdir(group->cmd[1]) == 0)

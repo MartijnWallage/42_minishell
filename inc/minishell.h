@@ -6,7 +6,7 @@
 /*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 15:40:59 by mwallage          #+#    #+#             */
-/*   Updated: 2023/11/19 11:50:16 by mwallage         ###   ########.fr       */
+/*   Updated: 2023/11/19 12:26:35 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ typedef struct s_group
 
 /*	reader			*/
 	/*	reader.c	*/
-char	*reader(void);
+char	*reader(char **env);
 
 /*	lexer			*/
 char	**lexer(char *line);
@@ -107,6 +107,7 @@ void	handle_error(char *info, int exitcode);
 int		tab_len(char **tab);
 void	*free_tab(char **tab);
 char	**copy_tab(char **tab);
+char	*mini_getenv(char **env, char *key);
 int		key_compare(char **env, char *line);
 char	*get_key(char *str);
 char	*get_value(char *str);

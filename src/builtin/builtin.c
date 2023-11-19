@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmuller <jmuller@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/03 12:10:00 by mwallage          #+#    #+#             */
-/*   Updated: 2023/11/15 12:30:54 by jmuller          ###   ########.fr       */
+/*   Updated: 2023/11/19 12:45:29 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,42 +22,26 @@ void	builtin_env(t_group *group)
 {
 	int	i;
 
-	i = 0;
-	while (group->env[i])
-	{
+	i = -1;
+	while (group->env[++i])
 		printf("%s\n", group->env[i]);
-		i++;
-	}
 }
 
 void	builtin_pwd(t_group *group)
 {
-	int	i;
+	char	*pwd;
 
-	i = 0;
-	while (group->env[i])
-	{
-		if (ft_strncmp(group->env[i], "PWD", 3) == 0)
-		{
-			printf("%s\n", &(group->env[i][4]));
-			break ;
-		}
-		i++;
-	}
+	pwd = mini_getenv(group->env, "PWD");
+	printf("%s\n", pwd);
 }
 
 void	builtin_echo(t_group *group)
 {
 	int	i;
-	int	flag;
 
 	i = 1;
-	flag = 0;
-	if (group->cmd[1] && ft_strcmp(group->cmd[1], "-n") == 0)
-	{
-		flag = 1;
+	if (!ft_strcmp(group->cmd[i], "-n"))
 		i++;
-	}
 	while (group->cmd[i])
 	{
 		printf("%s", group->cmd[i]);
@@ -65,7 +49,7 @@ void	builtin_echo(t_group *group)
 		if (group->cmd[i])
 			printf(" ");
 	}
-	if (flag == 0)
+	if (ft_strcmp(group->cmd[1], "-n"))
 		printf("\n"); 
 }
 

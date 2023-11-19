@@ -6,7 +6,7 @@
 /*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 16:46:09 by mwallage          #+#    #+#             */
-/*   Updated: 2023/11/19 11:50:35 by mwallage         ###   ########.fr       */
+/*   Updated: 2023/11/19 12:27:28 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int	main(int argc, char **argv, char **envp)
 	envp_cpy = copy_tab(envp);
 	while (1)
 	{
-		line = reader();
+		line = reader(envp_cpy);
 		if (!line)
 			handle_error("no input", 1);
 		tokens = lexer(line);

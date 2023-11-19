@@ -6,7 +6,7 @@
 /*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/22 18:15:30 by mwallage          #+#    #+#             */
-/*   Updated: 2023/11/18 17:43:58 by mwallage         ###   ########.fr       */
+/*   Updated: 2023/11/19 12:37:51 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,19 @@ char	**copy_tab(char **tab)
 		ret[i] = ft_strdup(tab[i]);
 	return (ret);
 }
+
+char	*mini_getenv(char **env, char *key)
+{
+	int	keylen;
+
+	keylen = ft_strlen(key);
+	while (*env && ft_strncmp(*env, key, keylen))
+		env++;
+	if (*env == NULL)
+		return (NULL);
+	return (*env + keylen + 1);
+}
+
 
 int	key_compare(char **env, char *line)
 {

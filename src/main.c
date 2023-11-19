@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mwallage <mwallage@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 16:46:09 by mwallage          #+#    #+#             */
-/*   Updated: 2023/11/17 21:28:15 by mwallage         ###   ########.fr       */
+/*   Updated: 2023/11/19 11:50:35 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@ int	main(int argc, char **argv, char **envp)
 	char	*line;
 	char	**tokens;
 	char	**envp_cpy;
-	char	*prompt;
 	t_group	*list;
 
 	if (argc != 1 || argv[1])
@@ -25,9 +24,7 @@ int	main(int argc, char **argv, char **envp)
 	envp_cpy = copy_tab(envp);
 	while (1)
 	{
-		prompt = get_prompt(envp_cpy);
-		line = reader(prompt);
-		free(prompt);
+		line = reader();
 		if (!line)
 			handle_error("no input", 1);
 		tokens = lexer(line);

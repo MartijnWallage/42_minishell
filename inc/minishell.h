@@ -6,7 +6,7 @@
 /*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 15:40:59 by mwallage          #+#    #+#             */
-/*   Updated: 2023/11/18 17:50:39 by mwallage         ###   ########.fr       */
+/*   Updated: 2023/11/19 11:50:16 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,8 +75,7 @@ typedef struct s_group
 
 /*	reader			*/
 	/*	reader.c	*/
-char	*reader(const char *prompt);
-char	*get_prompt(char **env);
+char	*reader(void);
 
 /*	lexer			*/
 char	**lexer(char *line);

@@ -6,7 +6,7 @@
 /*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/22 18:15:25 by mwallage          #+#    #+#             */
-/*   Updated: 2023/11/18 18:41:52 by mwallage         ###   ########.fr       */
+/*   Updated: 2023/11/19 11:51:36 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,51 +22,44 @@ static int	is_valid_input(char *input)
 	return (1);
 }
 
-char	*get_path_right_of_home(char *path, char *home)
+static char *get_prompt(void)
 {
-	char	*path_right_of_home;
-	
-	path_right_of_home = ft_substr(path, ft_strlen(home), ft_strlen(path));
-	free(path);
-	return (path_right_of_home);
-}
-
-/*	We should use a version of strjoin
-	that always frees the first given argument */
-char *get_prompt(char **env)
-{
-	char	*user;
-	char	*logname;
 	char	*current_path;
 	char	*prompt;
+	char	*user;
+	char	*logname;
 	char	*home;
+	int		len;
+	char	buffer[1024];
 
- 	user = get_value(ft_grep(env, "USER="));
-	logname = get_value(ft_grep(env, "LOGNAME="));
-	current_path = get_value(ft_grep(env, "PWD="));
-	prompt = ft_strjoin(user, "@");
-	prompt = ft_strjoin(prompt, logname);
-	prompt = ft_strjoin(prompt, ":");
-	home = get_value(ft_grep(env, "HOME="));
+	user = getenv("USER");
+	logname = getenv("LOGNAME");
+	current_path = getcwd(buffer, 1024);
+	home = getenv("HOME");
 	if (ft_strnstr(current_path, home, ft_strlen(current_path)))
-	{
-		prompt = ft_strjoin(prompt, "~");
-		current_path = get_path_right_of_home(current_path, home);
-	}
-	prompt = ft_strjoin(prompt, current_path);
-	prompt = ft_strjoin(prompt, " $ ");
-	free(home);
-	free(user);
-	free(logname);
-	free(current_path);
+		current_path += ft_strlen(home);
+	prompt = malloc(ft_strlen(user) + ft_strlen(home) + ft_strlen(current_path) + 7);
+	if (prompt == NULL)
+		return (NULL);
+	len = ft_strlcpy(prompt, user, ft_strlen(user) + 1);
+	len = ft_strlcat(prompt, "@", len + 2);
+	len = ft_strlcat(prompt, logname, len + ft_strlen(logname) + 1);
+	len = ft_strlcat(prompt, ":", len + 2);
+	if (ft_strncmp(current_path - ft_strlen(home), home, ft_strlen(home)) == 0)
+		len = ft_strlcat(prompt, "~", len + 2);
+	len = ft_strlcat(prompt, current_path, len + ft_strlen(current_path) + 1);
+	ft_strlcat(prompt, " $ ", len + 4);
 	return (prompt);
 }
 
-char	*reader(const char *prompt)
+char	*reader(void)
 {
 	char	*str;
+	char	*prompt;
 	
+	prompt = get_prompt();	
 	str = readline(prompt);
+	free(prompt);
 	if (!str)
 		return (NULL);
 	add_history(str);

@@ -6,7 +6,7 @@
 /*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/09 09:44:07 by jmuller           #+#    #+#             */
-/*   Updated: 2023/11/19 18:54:03 by mwallage         ###   ########.fr       */
+/*   Updated: 2023/11/19 19:07:51 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,10 +67,10 @@ char	*update_pwd(char **env, char *new_path)
 	len = ft_strlen(new_path);
 	if (len > 1 && new_path[len - 1] == '/')
 		new_path[len - 1] = 0;
+	old_path = ft_strdup(mini_getenv(env, "PWD"));
 	i = 0;
 	while (env[i] && ft_strncmp(env[i], "PWD=", 4))
 		i++;
-	old_path = ft_strdup(mini_getenv(env, "PWD"));
 	if (new_path[0] == '/')
 	{
 		env[i] = ft_strjoin("PWD=", new_path);

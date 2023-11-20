@@ -6,7 +6,7 @@
 /*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/09 09:44:07 by jmuller           #+#    #+#             */
-/*   Updated: 2023/11/20 13:07:42 by mwallage         ###   ########.fr       */
+/*   Updated: 2023/11/20 23:08:41 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,33 +42,40 @@ void	update_pwd(char **env)
 	env[i] = ft_strjoin("PWD=", getcwd(buffer, 1024));
 }
 
-void	builtin_cd(t_group *group)
+static void	goto_home(t_group *group)
 {
-	char	*old_path;
 	char	*home;
 	char	*temp;
 
+	home = mini_getenv(group->env, "HOME");
+	if (home)
+	{
+		temp = group->cmd[1];
+		group->cmd[1] = ft_strjoin(home, group->cmd[1] + 1);
+		free(temp);
+	}
+}
+
+static void	goto_previous_dir(t_group *group)
+{
+	char	*old_path;
+
+	old_path = mini_getenv(group->env, "OLDPWD");
+	if (old_path)
+	{
+		free(group->cmd[1]);	
+		group->cmd[1] = ft_strdup(old_path);
+	}
+}
+
+void	builtin_cd(t_group *group)
+{
 	if (!group->cmd[1])
 		return ;
 	if (group->cmd[1][0] == '~')
-	{
-		home = mini_getenv(group->env, "HOME");
-		if (home)
-		{
-			temp = group->cmd[1];
-			group->cmd[1] = ft_strjoin(home, group->cmd[1] + 1);
-			free(temp);
-		}
-	}
+		goto_home(group);
 	else if (ft_strcmp(group->cmd[1], "-") == 0)
-	{
-		old_path = mini_getenv(group->env, "OLDPWD");
-		if (old_path)
-		{
-			free(group->cmd[1]);
-			group->cmd[1] = ft_strdup(old_path);
-		}
-	}
+		goto_previous_dir(group);
 	if (chdir(group->cmd[1]) == 0)
 	{
 		update_oldpwd(group);

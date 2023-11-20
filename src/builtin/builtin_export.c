@@ -24,7 +24,7 @@
  *	- naked export command, gives "declare -x $env[i]"
 
  *	To do:
- *	- remove '""'
+ *	- remove '""' (but is_valid_arg should allow for space within quotes)
  *	- proper exit codes
  */
 

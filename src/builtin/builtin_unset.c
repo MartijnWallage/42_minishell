@@ -6,7 +6,7 @@
 /*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/03 12:10:00 by mwallage          #+#    #+#             */
-/*   Updated: 2023/11/20 16:43:08 by mwallage         ###   ########.fr       */
+/*   Updated: 2023/11/20 16:51:12 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 	
 */
 
-void	remove_env(t_group *group, char *key)
+void	remove_var(t_group *group, char *key)
 {
 	int		i;
 	int		j;
@@ -49,12 +49,11 @@ void	builtin_unset(t_group *group)
 {
 	int	i;
 
-	i = 1;
-	while (group->cmd[i])
+	i = 0;
+	while (group->cmd[++i])
 	{
 		if (mini_getenv(group->env, group->cmd[i]) == NULL)
 			return ;
-		remove_env(group, group->cmd[i]);
-		i++;
+		remove_var(group, group->cmd[i]);
 	}
 }

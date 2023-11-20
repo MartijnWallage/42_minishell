@@ -6,7 +6,7 @@
 /*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 15:40:59 by mwallage          #+#    #+#             */
-/*   Updated: 2023/11/20 14:33:39 by mwallage         ###   ########.fr       */
+/*   Updated: 2023/11/20 16:51:39 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,7 +111,6 @@ void	builtin_export(t_group *group);
 void	append_var(t_group *group, char *line);
 void	builtin_unset(t_group *group);
 void	builtin_cd(t_group *group);
-void	builtin_env(char **env);
 /*	error			*/
 	/*	error.c		*/
 void	handle_error(char *info, int exitcode);

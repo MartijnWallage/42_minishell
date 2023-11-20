@@ -6,7 +6,7 @@
 /*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 15:40:59 by mwallage          #+#    #+#             */
-/*   Updated: 2023/11/20 16:51:39 by mwallage         ###   ########.fr       */
+/*   Updated: 2023/11/20 23:13:47 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,14 +27,8 @@
 # define MALLOC_MSG		"malloc error"
 # define MALLOC_CODE	142
 
-# define BLK_BOLD	"\e[1;30m"
-# define RED_BOLD	"\e[1;31m"
 # define GRN_BOLD	"\e[1;32m"
-# define YLW_BOLD	"\e[1;33m"
 # define BLU_BOLD	"\e[1;34m"
-# define MGN_BOLD	"\e[1;35m"
-# define CYN_BOLD	"\e[1;36m"
-# define WHT_BOLD	"\e[1;37m"
 # define RES		"\e[0m"
 
 # include <errno.h>
@@ -85,24 +79,17 @@ typedef struct s_group
 	struct s_group	*next;
 }					t_group;
 
-/*	reader			*/
-	/*	reader.c	*/
+/*	reader.c		*/
 char	*reader(char **env);
-
-/*	lexer			*/
+/*	lexer.c			*/
 char	**lexer(char *line);
-
-/*	parser		*/
-	/*	parser.c	*/
+/*	parser.c		*/
 t_group	*parser(char **tokens, char **env);
-
 /*	expander	*/
 void	expander(t_group *list);
 /*	exec			*/
-	/*	executor.c	*/
 void	simple_command(t_group *node);
 void	executor(t_group *group);
-	/*	exec.c		*/
 void	exec(char **cmd, char **env);
 /*	builtin			*/
 bool	is_builtin(char *cmd);
@@ -111,11 +98,9 @@ void	builtin_export(t_group *group);
 void	append_var(t_group *group, char *line);
 void	builtin_unset(t_group *group);
 void	builtin_cd(t_group *group);
-/*	error			*/
-	/*	error.c		*/
+/*	error.c			*/
 void	handle_error(char *info, int exitcode);
-/*	utils			*/
-	/*	utils.c		*/
+/*	utils.c			*/
 int		tab_len(char **tab);
 void	*free_tab(char **tab);
 char	**copy_tab(char **tab);
@@ -124,12 +109,7 @@ int		key_compare(char **env, char *line);
 char	*get_key(char *str);
 char	*get_value(char *str);
 char	*ft_strjoin_safe(char const *s1, char const *s2);
-
-	/* !utils.c*/
-int		needle_check(char *str, char c);
-	
-/*	clean			*/
-	/*	clean.c		*/
+/*	clean.c			*/
 void	free_list(t_group *list);
 void	cleanup(t_group *list);
 

@@ -24,7 +24,6 @@
  *	- naked export command, gives "declare -x $env[i]"
 
  *	To do:
- *	- remove '""' (but is_valid_arg should allow for space within quotes)
  *	- proper exit codes
  */
 
@@ -39,7 +38,7 @@ static int	is_valid_arg(char *str)
 		if (!(ft_isalnum(*str) && *str != '_'))
 			return (0);
 	while (*++str)
-		if (!ft_isascii(*str) || *str == ' ')
+		if (!ft_isascii(*str))
 			return (0);
 	return (1);
 }
@@ -100,11 +99,8 @@ void	builtin_export(t_group *group)
 
 	i = 1;
 	if (group->cmd[i] == NULL)
-	{
 		export_without_arg(group->env);
-		return ;
-	}
-	while (group->cmd[i])
+	else while (group->cmd[i])
 	{
 		if (is_valid_arg(group->cmd[i]))
 			update_env(group, group->cmd[i]);

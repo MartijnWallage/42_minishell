@@ -6,17 +6,11 @@
 /*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/03 12:10:00 by mwallage          #+#    #+#             */
-/*   Updated: 2023/11/20 16:51:12 by mwallage         ###   ########.fr       */
+/*   Updated: 2023/11/20 23:15:47 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-/*
-	Syntax
-	unset var1 var2 ...
-	
-*/
 
 void	remove_var(t_group *group, char *key)
 {

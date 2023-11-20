@@ -6,13 +6,13 @@
 /*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/09 09:44:07 by jmuller           #+#    #+#             */
-/*   Updated: 2023/11/20 23:08:41 by mwallage         ###   ########.fr       */
+/*   Updated: 2023/11/20 23:10:13 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	update_oldpwd(t_group *group)
+static void	update_oldpwd(t_group *group)
 {
 	int		i;
 	char	*oldpwd;
@@ -30,7 +30,7 @@ void	update_oldpwd(t_group *group)
 		append_var(group, oldpwd);
 }
 
-void	update_pwd(char **env)
+static void	update_pwd(char **env)
 {
 	int		i;
 	char	buffer[1024];

@@ -6,7 +6,7 @@
 /*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/09 09:44:07 by jmuller           #+#    #+#             */
-/*   Updated: 2023/11/20 12:19:57 by mwallage         ###   ########.fr       */
+/*   Updated: 2023/11/20 12:47:03 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,12 +48,17 @@ void	builtin_cd(t_group *group)
 	char	*home;
 	char	*temp;
 
+	if (!group->cmd[1])
+		return ;
 	if (group->cmd[1][0] == '~')
 	{
 		home = mini_getenv(group->env, "HOME");
-		temp = group->cmd[1];
-		group->cmd[1] = ft_strjoin(home, group->cmd[1] + 1);
-		free(temp);
+		if (home)
+		{
+			temp = group->cmd[1];
+			group->cmd[1] = ft_strjoin(home, group->cmd[1] + 1);
+			free(temp);
+		}
 	}
 	else if (ft_strcmp(group->cmd[1], "-") == 0)
 	{

@@ -6,7 +6,7 @@
 /*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/22 18:15:30 by mwallage          #+#    #+#             */
-/*   Updated: 2023/11/20 12:16:21 by mwallage         ###   ########.fr       */
+/*   Updated: 2023/11/20 12:45:23 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,6 @@ char	*mini_getenv(char **env, char *key)
 	return (NULL);
 }
 
-
 int	key_compare(char **env, char *line)
 {
 	char	*key;
@@ -115,27 +114,6 @@ char	*get_value(char *str)
 		return (NULL);
 	str++;
 	return (ft_strdup(str));
-}
-
-char	*ft_strjoin(char const *s1, char const *s2)
-{
-	char	*joined;
-	char	*result;
-
-	if (s1 == NULL)
-		return ((char *)s2);
-	if (s2 == NULL)
-		return ((char *)s1);
-	joined = malloc(ft_strlen(s1) + ft_strlen(s2) + 1);
-	if (joined == NULL)
-		return (NULL);
-	result = joined;
-	while (*s1)
-		*joined++ = *s1++;
-	while (*s2)
-		*joined++ = *s2++;
-	*joined = '\0';
-	return (result);
 }
 
 char	*ft_strjoin_safe(char const *s1, char const *s2)

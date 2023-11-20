@@ -130,37 +130,31 @@ void	append_env(t_group *group, char *line)
 	group->env = env2;
 }
 
-int	naked_export(t_group *group)
+void	naked_export(t_group *group)
 {
-	int	flag;
 	int	i;
 
-	flag = 0;
 	i = 0;
-	if (group->cmd[1] == NULL)
+	while (group->env[i])
 	{
-		flag = 1;
-		while (group->env[i])
-		{
-			printf("declare -x ");
-			printf("%s\n", group->env[i]);
-			i++;
-		}
+		printf("declare -x ");
+		printf("%s\n", group->env[i]);
+		i++;
 	}
-	return (flag);
 }
-
 
 void	builtin_export(t_group *group)
 {
 	int i;
 
-	if (naked_export(group))
-			return ;
-	i = 0;
+	if (!group->cmd[1])
+	{
+		naked_export(group);
+		return ;
+	}
+	i = -1;
 	while (group->cmd[++i])
 	{
-		
 		if (key_valuecheck(group->cmd[i]))
 			break ;
 		if (key_compare(group->env, group->cmd[i]))

@@ -6,7 +6,7 @@
 /*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/22 18:15:30 by mwallage          #+#    #+#             */
-/*   Updated: 2023/11/19 12:37:51 by mwallage         ###   ########.fr       */
+/*   Updated: 2023/11/20 12:16:21 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,14 +54,19 @@ char	**copy_tab(char **tab)
 
 char	*mini_getenv(char **env, char *key)
 {
-	int	keylen;
+	int	i;
+	int	j;
 
-	keylen = ft_strlen(key);
-	while (*env && ft_strncmp(*env, key, keylen))
-		env++;
-	if (*env == NULL)
-		return (NULL);
-	return (*env + keylen + 1);
+	i = -1;
+	while (env[++i])
+	{
+		j = 0;
+		while (env[i][j] && env[i][j] == key[j])
+			j++;
+		if (key[j] == 0 && env[i][j] == '=')
+			return (&env[i][j + 1]);
+	}
+	return (NULL);
 }
 
 

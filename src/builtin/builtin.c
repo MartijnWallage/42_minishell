@@ -6,7 +6,7 @@
 /*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/03 12:10:00 by mwallage          #+#    #+#             */
-/*   Updated: 2023/11/19 12:45:29 by mwallage         ###   ########.fr       */
+/*   Updated: 2023/11/20 14:34:03 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,23 +15,23 @@
 void	builtin_exit(t_group *group)
 {
 	cleanup(group);
-	exit(0);
+	exit(139);
 }
 
-void	builtin_env(t_group *group)
+void	builtin_env(char **env)
 {
 	int	i;
 
 	i = -1;
-	while (group->env[++i])
-		printf("%s\n", group->env[i]);
+	while (env[++i])
+		printf("%s\n", env[i]);
 }
 
-void	builtin_pwd(t_group *group)
+void	builtin_pwd(char **env)
 {
 	char	*pwd;
 
-	pwd = mini_getenv(group->env, "PWD");
+	pwd = mini_getenv(env, "PWD");
 	printf("%s\n", pwd);
 }
 
@@ -57,17 +57,17 @@ void	builtin(t_group	*group)
 {
 	if (ft_strcmp(group->cmd[0], "cd") == 0)
 		builtin_cd(group);
-	if (ft_strcmp(group->cmd[0], "exit") == 0)
+	else if (ft_strcmp(group->cmd[0], "exit") == 0)
 		builtin_exit(group);
-	if (ft_strcmp(group->cmd[0], "env") == 0)
-		builtin_env(group);
-	if (ft_strcmp(group->cmd[0], "pwd") == 0)
-		builtin_pwd(group);
-	if (ft_strcmp(group->cmd[0], "echo") == 0)
+	else if (ft_strcmp(group->cmd[0], "env") == 0)
+		builtin_env(group->env);
+	else if (ft_strcmp(group->cmd[0], "pwd") == 0)
+		builtin_pwd(group->env);
+	else if (ft_strcmp(group->cmd[0], "echo") == 0)
 		builtin_echo(group);
-	if (ft_strcmp(group->cmd[0], "export") == 0)
+	else if (ft_strcmp(group->cmd[0], "export") == 0)
 		builtin_export(group);
-	if (ft_strcmp(group->cmd[0], "unset") == 0)
+	else if (ft_strcmp(group->cmd[0], "unset") == 0)
 		builtin_unset(group);
 	if (group->operator == PIPE)
 	{

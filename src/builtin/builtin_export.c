@@ -139,23 +139,41 @@ void	export_without_arg(char **env)
 	}
 }
 
+void	update_def_in_env(t_group *group, char *def)
+{
+	int	i;
+	int	j;
+
+	i = -1;
+	while (group->env[++i])
+	{
+		j = -1;
+		while (def[++j] != '=' && group->env[i][j] == def[j])
+			;
+		if (def[j] == '=')
+		{
+			free(group->env[i]);
+			group->env[i] = ft_strdup(def);
+			return ;
+		}
+	}
+	append_var(group, def);
+}
+
 void	builtin_export(t_group *group)
 {
-	int i;
+	int	i;
 
-	if (!group->cmd[1])
+	i = 1;
+	if (group->cmd[i] == NULL)
 	{
 		export_without_arg(group->env);
 		return ;
 	}
-	i = 0;
-	while (group->cmd[++i])
+	while (group->cmd[i])
 	{
-		if (!is_valid_export_arg(group->cmd[i]))
-			break ;
-		if (key_compare(group->env, group->cmd[i]))
-			update_var(group->env, group->cmd[i]);
-		else
-			append_var(group, group->cmd[i]); //need explanation
+		if (is_valid_export_arg(group->cmd[i]))
+			update_def_in_env(group, group->cmd[i]);
+		i++;
 	}
 }

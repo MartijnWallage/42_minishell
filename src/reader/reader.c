@@ -6,7 +6,7 @@
 /*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/22 18:15:25 by mwallage          #+#    #+#             */
-/*   Updated: 2023/11/20 12:16:49 by mwallage         ###   ########.fr       */
+/*   Updated: 2023/11/20 16:44:56 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ static char *get_prompt(char **env)
 	path = mini_getenv(env, "PWD");
 	home = mini_getenv(env, "HOME");
 	prompt = malloc(ft_strlen(user) + ft_strlen(HOSTNAME)
-		+ ft_strlen(path) - ft_strlen(home) + 33);
+		+ ft_strlen(path) + 33);
 	if (prompt == NULL)
 		return (NULL);
 	len = ft_strlcpy(prompt, GRN_BOLD, 9);

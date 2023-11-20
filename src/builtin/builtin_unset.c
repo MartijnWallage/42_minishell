@@ -6,7 +6,7 @@
 /*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/03 12:10:00 by mwallage          #+#    #+#             */
-/*   Updated: 2023/11/14 14:51:50 by mwallage         ###   ########.fr       */
+/*   Updated: 2023/11/20 16:43:08 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,46 +18,43 @@
 	
 */
 
-void	remove_env(t_group *group, char *line)
+void	remove_env(t_group *group, char *key)
 {
 	int		i;
 	int		j;
-	int		row;
-	char	*key;
-	char	**env2;
+	int		tablen;
+	int		keylen;
+	char	**new_env;
 
-	i = 0;
-	j = 0;
-	row = tab_len(group->env);
-	env2 = malloc(sizeof(char *) * row);
+	keylen = ft_strlen(key);
+	tablen = tab_len(group->env);
+	new_env = malloc(sizeof(char *) * tablen);
 	// protect malloc
-	key = get_key(line);
-	while (j < row)
+	i = -1;
+	j = 0;
+	while (group->env[++i])
 	{
-		if (!(ft_strncmp(group->env[j], key, ft_strlen(key))))
-			j++;
-		else
+		if (ft_strncmp(group->env[i], key, keylen))
 		{
-			env2[i] = ft_strdup(group->env[j]);
-			i++;
+			new_env[j] = ft_strdup(group->env[i]);
 			j++;
 		}
 	}
-	env2[i] = NULL;
+	new_env[j] = NULL;
 	free_tab(group->env);
-	group->env = env2;
+	group->env = new_env;
 }
 
 void	builtin_unset(t_group *group)
 {
-	int	j;
+	int	i;
 
-	j = 1;
-	while (group->cmd[j])
-	{	
-		if (key_compare(group->env, group->cmd[j]) == 0)
+	i = 1;
+	while (group->cmd[i])
+	{
+		if (mini_getenv(group->env, group->cmd[i]) == NULL)
 			return ;
-		remove_env(group, group->cmd[j]);
-		j++;
+		remove_env(group, group->cmd[i]);
+		i++;
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/09 09:44:07 by jmuller           #+#    #+#             */
-/*   Updated: 2023/11/20 12:47:03 by mwallage         ###   ########.fr       */
+/*   Updated: 2023/11/20 13:07:42 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void	update_oldpwd(t_group *group)
 		group->env[i] = oldpwd;
 	}
 	else
-		append_env(group, oldpwd);
+		append_var(group, oldpwd);
 }
 
 void	update_pwd(char **env)

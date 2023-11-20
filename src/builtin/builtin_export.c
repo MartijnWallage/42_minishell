@@ -50,28 +50,27 @@ int	needle_check(char *str, char c)
 	Example: export var1= 1
 	bash: export: `1': not a valid identifier
 */
-int	key_valuecheck(char *str)
+int	is_valid_export_arg(char *str)
 {
 	char **kv_pair;
 	int	i;
 
 	i = 1;
 	if (needle_check(str, '=') == 0)
-		return (1);
+		return (0);
 	kv_pair = ft_split(str, '=');
 	if ((ft_isdigit(kv_pair[0][0])) || !((ft_isalpha(kv_pair[0][0]) || \
 		kv_pair[0][0] == '_')))
 	{	
 		free_tab(kv_pair);
-		return (1);
+		return (0);
 	}
-
 	while (kv_pair[0][i])
 	{
 		if (!(ft_isalnum(kv_pair[0][i]) || kv_pair[0][i] == '_'))
 		{
 			free_tab(kv_pair);
-			return (1);
+			return (0);
 		}
 		i++;
 	}
@@ -81,15 +80,15 @@ int	key_valuecheck(char *str)
 		if (!(ft_isascii(kv_pair[1][i])) || kv_pair[1][0] == ' ')
 		{
 			free_tab(kv_pair);
-			return (1);
+			return (0);
 		}
 		i++;
 	}
 	free_tab(kv_pair);
-	return (0);
+	return (1);
 }
 
-void	update_env1(char **env, char *line)
+void	update_var(char **env, char *line)
 {
 	int		i;
 	char	*key;
@@ -109,7 +108,7 @@ void	update_env1(char **env, char *line)
 	return ;
 }
 
-void	append_env(t_group *group, char *line)
+void	append_var(t_group *group, char *line)
 {
 	int		i;
 	int		row;
@@ -130,16 +129,13 @@ void	append_env(t_group *group, char *line)
 	group->env = env2;
 }
 
-void	naked_export(t_group *group)
+void	export_without_arg(char **env)
 {
-	int	i;
-
-	i = 0;
-	while (group->env[i])
+	while (*env)
 	{
 		printf("declare -x ");
-		printf("%s\n", group->env[i]);
-		i++;
+		printf("%s\n", *env);
+		env++;
 	}
 }
 
@@ -149,17 +145,17 @@ void	builtin_export(t_group *group)
 
 	if (!group->cmd[1])
 	{
-		naked_export(group);
+		export_without_arg(group->env);
 		return ;
 	}
-	i = -1;
+	i = 0;
 	while (group->cmd[++i])
 	{
-		if (key_valuecheck(group->cmd[i]))
+		if (!is_valid_export_arg(group->cmd[i]))
 			break ;
 		if (key_compare(group->env, group->cmd[i]))
-			update_env1(group->env, group->cmd[i]);
+			update_var(group->env, group->cmd[i]);
 		else
-			append_env(group, group->cmd[i]); //need explanation
+			append_var(group, group->cmd[i]); //need explanation
 	}
 }

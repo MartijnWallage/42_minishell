@@ -6,7 +6,7 @@
 /*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/03 12:08:00 by mwallage          #+#    #+#             */
-/*   Updated: 2023/11/14 15:31:47 by mwallage         ###   ########.fr       */
+/*   Updated: 2023/11/22 17:48:51 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,91 +59,67 @@ static int	remove_quotes(char *str)
 	To do:
 	- $?: should expand to the exit status of the most recently executed
 	foreground pipeline.
-
-	Errors:
-	- Segfault: "export VAR1= Hans" 
-	- Easy to solve with value_check fct. Need to know error code.
 */
 
-static void	expand_variables(char **str, t_group *group)
+static void	expand_var(t_group *group, int cmd_index, int dollar_sign)
 {
-	int		i;
+	char	*old_cmd;
+	int		keylen;
+	char	*new_cmd;	
 	char	*value;
-	
-	i = 0;
-	while (group->env[i])
-	{
-		if ((ft_strncmp(group->env[i], *str + 1, ft_strlen(*str + 1)) == 0) \
-			&& ft_strlen(*str + 1) != 0)
-		{
-			value = get_value(group->env[i]);
-			free(*str);
-			*str = value;
-			if (*str[0] == '$')
-				expand_variables(str, group);
-		}
-		i++;
-	}
+	char	*key;
+
+	old_cmd = group->cmd[cmd_index];
+	keylen = dollar_sign + 1;
+	while (old_cmd[keylen] && old_cmd[keylen] != '$'
+		&& old_cmd[keylen] != '\'' && old_cmd[keylen] != '\"')
+		keylen++;
+	keylen -= dollar_sign + 1;
+	key = ft_substr(old_cmd, dollar_sign + 1, keylen);
+	value = mini_getenv(group->env, key);
+	free(key);
+	old_cmd[dollar_sign] = 0;
+	new_cmd = ft_strjoin(old_cmd, value);
+	key = new_cmd;
+	new_cmd = ft_strjoin(new_cmd, old_cmd + dollar_sign + keylen + 1);
+ 	free(key);
+	free(old_cmd);
+	group->cmd[cmd_index] = new_cmd;
 }
 
-static void	expand_string(char **str, t_group *group)
+static void	find_and_expand_vars(t_group *group, int index)
 {
-	char	**temp;
-	char	*joined;
-	char	*helper;
 	int		i;
+	char	waiting_for_quote;
+	char	*cmd;
 	
-	joined = NULL;
-	i = 0;
-	temp = ft_split(*str, ' ');
-	while (temp[i])
+	cmd = group->cmd[index];
+	waiting_for_quote = 0;
+	i = -1;
+	while (cmd[++i])
 	{
-		if (temp[i][0] == '$')
-			expand_variables(&temp[i], group);
-		i++;
+		if (waiting_for_quote == cmd[i])
+			waiting_for_quote = 0;
+		else if (!waiting_for_quote && (cmd[i] == '\'' || cmd[i] == '\"'))
+			waiting_for_quote = cmd[i];
+		else if (waiting_for_quote != '\'' && cmd[i] == '$')
+			expand_var(group, index, i);
 	}
-	i = 0;
-	while (temp[i])
-	{
-		helper = ft_strjoin_safe(joined, temp[i]);
-		if (!(joined == NULL))
-			free(joined);
-		joined = helper;
-		if (temp[i + 1])
-		{
-			helper = ft_strjoin(joined, " ");
-			free(joined);
-			joined = helper;
-		}
-		i++;
-	}
-	free_tab(temp);
-	free(*str);
-	*str = joined;	
 }
-
 
 void	expander(t_group *list)
 {
 	t_group	*current;
 	int		i;
-
-	/* expand variables, except when $ occurs within single quotes 
-	Look for $ signs that are not within single quotes
-	Then find the variable in env and replace it by its value 
-	
-	e.g. You can print the current value of PWD by typing echo $PWD in the shell.*/
 	
 	current = list;
 	while (current)
 	{
-		i = 0;
-		while (current->cmd[i])
+		i = -1;
+		while (current->cmd[++i])
 		{
-			//printf("String[%d]: %s\n", i, current->cmd[i]);
-			if (remove_quotes(current->cmd[i]))
-				expand_string(&current->cmd[i], current);
-			i++;
+			find_and_expand_vars(current, i);
+			remove_quotes(current->cmd[i]);
 		}
 		current = current->next;
 	}

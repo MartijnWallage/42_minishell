@@ -6,7 +6,7 @@
 /*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/22 18:15:04 by mwallage          #+#    #+#             */
-/*   Updated: 2023/11/23 09:58:52 by mwallage         ###   ########.fr       */
+/*   Updated: 2023/11/23 10:22:38 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,5 @@ char	**lexer(char *line)
 	tab = tokenizer(line);
 	if (!tab)
 		handle_error(MALLOC_MSG, MALLOC_CODE);
-	// take care of quotes etc.
 	return (tab);
 }

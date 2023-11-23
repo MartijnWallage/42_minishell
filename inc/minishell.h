@@ -6,7 +6,7 @@
 /*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 15:40:59 by mwallage          #+#    #+#             */
-/*   Updated: 2023/11/23 09:58:43 by mwallage         ###   ########.fr       */
+/*   Updated: 2023/11/23 11:41:26 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,15 +73,16 @@ typedef struct s_group
 	int				operator;	// Operator between this group and the next group
 								// none (0), PIPE, or AND (&&), or OR (||)
 	int				pipefd[2];
-	int				infd;
-	int				outfd;
+	char			*delimiter;
+	int				infile;
+	int				outfile;
 	struct s_group	*previous;
 	struct s_group	*next;
 }					t_group;
 
 /*	reader.c		*/
 char	*reader(char **env);
-/*	lexer.c			*/
+/*	lexer			*/
 char	**lexer(char *line);
 char	**tokenizer(char const *s);
 bool	is_whitespace(const char c);
@@ -89,7 +90,8 @@ bool	is_special_char(const char c);
 bool	is_special_charpair(const char a, const char b);
 bool	is_quotation_mark(const char c);
 int		wordlen(const char *str, const char c);
-/*	parser.c		*/
+/*	parser		*/
+void	parse_redirect(t_group *group);
 t_group	*parser(char **tokens, char **env);
 /*	expander	*/
 bool	is_end_of_key(char c);

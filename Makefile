@@ -6,7 +6,7 @@
 #    By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/10/05 15:16:08 by mwallage          #+#    #+#              #
-#    Updated: 2023/11/23 10:09:40 by mwallage         ###   ########.fr        #
+#    Updated: 2023/11/23 11:12:09 by mwallage         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -28,6 +28,7 @@ SRC			:= main.c \
 				lexer/tokenizer.c \
 				lexer/lexer_utils.c \
 				parser/parser.c \
+				parser/parse_redirect.c \
 				expander/expander.c \
 				exec/executor.c \
 				exec/exec.c \

@@ -6,24 +6,18 @@
 /*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/02 11:13:16 by mwallage          #+#    #+#             */
-/*   Updated: 2023/11/23 09:58:59 by mwallage         ###   ########.fr       */
+/*   Updated: 2023/11/23 10:28:34 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 /*
-Reminder:
-Handle ’ (single quote) which should prevent the shell from interpreting the meta-
-characters in the quoted sequence.
-
-• Handle " (double quote) which should prevent the shell from interpreting the meta-
-characters in the quoted sequence except for $ (dollar sign).
-• Special Characters, we need to handle: ','', <, >, >>, <<, |, $, &?, ||, &&, (, ), 
-• Special Characters, we dont have to handle: \ , ;
-• Special Characters, that the subject doesnt say anything about: !, *, ?, #, [, ] 
-
-*/
+ *	Special Characters, we need to handle: ', ", <, >, >>, <<, 
+ *	|, $, &?, ||, &&, (, ).
+ *	Special Characters, we dont have to handle: \ , ;
+ *	Special Characters, that the subject doesnt say anything about: !, #, [, ] 
+ */
 
 static int	token_len(const char *s)
 {

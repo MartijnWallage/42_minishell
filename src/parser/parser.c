@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmuller <jmuller@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/22 18:15:14 by mwallage          #+#    #+#             */
-/*   Updated: 2023/11/08 15:46:11 by jmuller          ###   ########.fr       */
+/*   Updated: 2023/11/23 11:41:35 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,8 +68,9 @@ t_group	*init_group(char **cmd, char **env)
 	list->next = NULL;
 	list->env = env;
 	list->operator = 0;
-	list->infd = STDIN_FILENO;
-	list->outfd = STDOUT_FILENO;
+	list->delimiter = NULL;
+	list->infile = STDIN_FILENO;
+	list->outfile = STDOUT_FILENO;
 	return (list);
 }
 
@@ -79,6 +80,7 @@ t_group	*parser(char **cmd, char **env)
 	t_group	*list;
 
 	list = init_group(cmd, env);
+	parse_redirect(list);
 	breakpoint = first_pipe(cmd);
 	if (breakpoint == -1)
 		return (list);

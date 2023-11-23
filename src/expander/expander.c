@@ -6,13 +6,13 @@
 /*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/03 12:08:00 by mwallage          #+#    #+#             */
-/*   Updated: 2023/11/22 17:48:51 by mwallage         ###   ########.fr       */
+/*   Updated: 2023/11/23 10:09:13 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void	remove_first_char(char *str)
+void	remove_first_char(char *str)
 {
 	if (!str || !*str)
 		return ;
@@ -65,16 +65,14 @@ static void	expand_var(t_group *group, int cmd_index, int dollar_sign)
 {
 	char	*old_cmd;
 	int		keylen;
-	char	*new_cmd;	
+	char	*new_cmd;
 	char	*value;
 	char	*key;
 
 	old_cmd = group->cmd[cmd_index];
-	keylen = dollar_sign + 1;
-	while (old_cmd[keylen] && old_cmd[keylen] != '$'
-		&& old_cmd[keylen] != '\'' && old_cmd[keylen] != '\"')
+	keylen = 0;
+	while (ft_isalnum(old_cmd[keylen + dollar_sign + 1]))
 		keylen++;
-	keylen -= dollar_sign + 1;
 	key = ft_substr(old_cmd, dollar_sign + 1, keylen);
 	value = mini_getenv(group->env, key);
 	free(key);
@@ -82,7 +80,7 @@ static void	expand_var(t_group *group, int cmd_index, int dollar_sign)
 	new_cmd = ft_strjoin(old_cmd, value);
 	key = new_cmd;
 	new_cmd = ft_strjoin(new_cmd, old_cmd + dollar_sign + keylen + 1);
- 	free(key);
+	free(key);
 	free(old_cmd);
 	group->cmd[cmd_index] = new_cmd;
 }

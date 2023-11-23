@@ -6,11 +6,11 @@
 /*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/22 18:15:04 by mwallage          #+#    #+#             */
-/*   Updated: 2023/11/03 12:09:25 by mwallage         ###   ########.fr       */
+/*   Updated: 2023/11/23 09:58:52 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "lexer.h"
+#include "minishell.h"
 
 t_token	*init_token(char *value, int type)
 {

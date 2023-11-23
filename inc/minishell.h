@@ -6,7 +6,7 @@
 /*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 15:40:59 by mwallage          #+#    #+#             */
-/*   Updated: 2023/11/20 23:13:47 by mwallage         ###   ########.fr       */
+/*   Updated: 2023/11/23 09:58:43 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,9 +83,17 @@ typedef struct s_group
 char	*reader(char **env);
 /*	lexer.c			*/
 char	**lexer(char *line);
+char	**tokenizer(char const *s);
+bool	is_whitespace(const char c);
+bool	is_special_char(const char c);
+bool	is_special_charpair(const char a, const char b);
+bool	is_quotation_mark(const char c);
+int		wordlen(const char *str, const char c);
 /*	parser.c		*/
 t_group	*parser(char **tokens, char **env);
 /*	expander	*/
+bool	is_end_of_key(char c);
+void	remove_first_char(char *str);
 void	expander(t_group *list);
 /*	exec			*/
 void	simple_command(t_group *node);

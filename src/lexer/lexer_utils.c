@@ -6,11 +6,11 @@
 /*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/03 12:09:10 by mwallage          #+#    #+#             */
-/*   Updated: 2023/11/03 13:29:59 by mwallage         ###   ########.fr       */
+/*   Updated: 2023/11/23 09:59:05 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "lexer.h"
+#include "minishell.h"
 
 bool    is_whitespace(const char c)
 {

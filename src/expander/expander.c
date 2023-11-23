@@ -6,7 +6,7 @@
 /*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/03 12:08:00 by mwallage          #+#    #+#             */
-/*   Updated: 2023/11/23 10:09:13 by mwallage         ###   ########.fr       */
+/*   Updated: 2023/11/23 14:58:27 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ void	remove_first_char(char *str)
 	}
 	*str = *(str + 1);
 }
+
 
 static int	remove_quotes(char *str)
 {

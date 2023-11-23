@@ -6,7 +6,7 @@
 /*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/22 18:15:14 by mwallage          #+#    #+#             */
-/*   Updated: 2023/11/23 12:34:06 by mwallage         ###   ########.fr       */
+/*   Updated: 2023/11/23 15:00:27 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@ void	remove_word(char **tab, int index)
 	i = index;
 	while (tab[i + 1])
 	{
-/* 		printf("tab[%d]=%s becomes tab[%d]=%s\n", i, tab[i], i + 1, tab[i + 1]); */
 		tab[i] = tab[i + 1];
 		i++;
 	}

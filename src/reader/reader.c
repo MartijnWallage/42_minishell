@@ -6,27 +6,16 @@
 /*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/22 18:15:25 by mwallage          #+#    #+#             */
-/*   Updated: 2023/11/20 16:44:56 by mwallage         ###   ########.fr       */
+/*   Updated: 2023/11/23 10:18:01 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static char *get_prompt(char **env)
+static void	prompt_cat(char *prompt, char *user, char *path, char *home)
 {
-	char	*path;
-	char	*prompt;
-	char	*user;
-	char	*home;
 	int		len;
 
-	user = mini_getenv(env, "USER");
-	path = mini_getenv(env, "PWD");
-	home = mini_getenv(env, "HOME");
-	prompt = malloc(ft_strlen(user) + ft_strlen(HOSTNAME)
-		+ ft_strlen(path) + 33);
-	if (prompt == NULL)
-		return (NULL);
 	len = ft_strlcpy(prompt, GRN_BOLD, 9);
 	len = ft_strlcat(prompt, user, len + ft_strlen(user) + 1);
 	len = ft_strlcat(prompt, "@", len + 2);
@@ -42,6 +31,23 @@ static char *get_prompt(char **env)
 	len = ft_strlcat(prompt, path, len + ft_strlen(path) + 1);
 	len = ft_strlcat(prompt, " $ ", len + 4);
 	ft_strlcat(prompt, RES, len + 6);
+}
+
+static char *get_prompt(char **env)
+{
+	char	*path;
+	char	*prompt;
+	char	*user;
+	char	*home;
+
+	user = mini_getenv(env, "USER");
+	path = mini_getenv(env, "PWD");
+	home = mini_getenv(env, "HOME");
+	prompt = malloc(ft_strlen(user) + ft_strlen(HOSTNAME)
+		+ ft_strlen(path) + 33);
+	if (prompt == NULL)
+		return (NULL);
+	prompt_cat(prompt, user, path, home);
 	return (prompt);
 }
 

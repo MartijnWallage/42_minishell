@@ -6,7 +6,7 @@
 /*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 15:40:59 by mwallage          #+#    #+#             */
-/*   Updated: 2023/11/24 15:04:01 by mwallage         ###   ########.fr       */
+/*   Updated: 2023/11/24 16:36:36 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 # define MINISHELL_H
 
 # ifndef HOSTNAME
-#  define HOSTNAME	"host"
+#  define HOSTNAME		"host"
 # endif
 
 # define FORMAT			"philoshell: format\n\t./minishell [no arguments]"
@@ -27,9 +27,9 @@
 # define MALLOC_MSG		"malloc error"
 # define MALLOC_CODE	142
 
-# define GRN_BOLD	"\e[1;32m"
-# define BLU_BOLD	"\e[1;34m"
-# define RES		"\e[0m"
+# define GRN_BOLD		"\e[1;32m"
+# define BLU_BOLD		"\e[1;34m"
+# define RES			"\e[0m"
 
 # include <errno.h>
 # include <string.h>

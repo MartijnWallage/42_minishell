@@ -6,7 +6,7 @@
 /*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/03 12:08:00 by mwallage          #+#    #+#             */
-/*   Updated: 2023/11/24 16:27:01 by mwallage         ###   ########.fr       */
+/*   Updated: 2023/11/24 16:39:45 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,14 +80,9 @@ static void	expand_var(t_group *group, int cmd_index, int dollar_sign)
 	{
 		while (ft_isalnum(old_cmd[keylen + dollar_sign + 1]))
 			keylen++;
-		if (keylen)
-		{
-			key = ft_substr(old_cmd, dollar_sign + 1, keylen);
-			value = mini_getenv(group->env, key);
-			free(key);
-		}
-		else
-			return ;
+		key = ft_substr(old_cmd, dollar_sign + 1, keylen);
+		value = mini_getenv(group->env, key);
+		free(key);
 	}
 	old_cmd[dollar_sign] = 0;
 	new_cmd = ft_strjoin(old_cmd, value);
@@ -115,7 +110,7 @@ static void	find_and_expand_vars(t_group *group, int index)
 			waiting_for_quote = 0;
 		else if (!waiting_for_quote && (cmd[i] == '\'' || cmd[i] == '\"'))
 			waiting_for_quote = cmd[i];
-		else if (waiting_for_quote != '\'' && cmd[i] == '$')
+		else if (waiting_for_quote != '\'' && cmd[i] == '$' && cmd[i + 1])
 			expand_var(group, index, i);
 	}
 }

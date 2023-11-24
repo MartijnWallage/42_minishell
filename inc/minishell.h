@@ -6,7 +6,7 @@
 /*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 15:40:59 by mwallage          #+#    #+#             */
-/*   Updated: 2023/11/23 11:41:26 by mwallage         ###   ########.fr       */
+/*   Updated: 2023/11/24 15:04:01 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,9 +73,10 @@ typedef struct s_group
 	int				operator;	// Operator between this group and the next group
 								// none (0), PIPE, or AND (&&), or OR (||)
 	int				pipefd[2];
-	char			*delimiter;
+	char			*heredoc_delimiter;
 	int				infile;
 	int				outfile;
+	int				exitcode;
 	struct s_group	*previous;
 	struct s_group	*next;
 }					t_group;
@@ -92,7 +93,7 @@ bool	is_quotation_mark(const char c);
 int		wordlen(const char *str, const char c);
 /*	parser		*/
 void	parse_redirect(t_group *group);
-t_group	*parser(char **tokens, char **env);
+t_group	*parser(char **tokens, char **env, int exitcode);
 /*	expander	*/
 bool	is_end_of_key(char c);
 void	remove_first_char(char *str);
@@ -109,7 +110,7 @@ void	append_var(t_group *group, char *line);
 void	builtin_unset(t_group *group);
 void	builtin_cd(t_group *group);
 /*	error.c			*/
-void	handle_error(char *info, int exitcode);
+void	err_and_exit(char *info, int exitcode);
 /*	utils.c			*/
 int		tab_len(char **tab);
 void	*free_tab(char **tab);
@@ -119,6 +120,7 @@ int		key_compare(char **env, char *line);
 char	*get_key(char *str);
 char	*get_value(char *str);
 char	*ft_strjoin_safe(char const *s1, char const *s2);
+t_group	*group_last(t_group *group);
 /*	clean.c			*/
 void	free_list(t_group *list);
 void	cleanup(t_group *list);

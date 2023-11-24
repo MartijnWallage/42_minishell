@@ -6,7 +6,7 @@
 /*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/22 18:15:14 by mwallage          #+#    #+#             */
-/*   Updated: 2023/11/23 11:41:35 by mwallage         ###   ########.fr       */
+/*   Updated: 2023/11/24 15:01:34 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ static int	first_pipe(char **tokens)
 	return (-1);
 }
 
-t_group	*init_group(char **cmd, char **env)
+t_group	*init_group(char **cmd, char **env, int exitcode)
 {
 	t_group	*list;
 
@@ -68,25 +68,26 @@ t_group	*init_group(char **cmd, char **env)
 	list->next = NULL;
 	list->env = env;
 	list->operator = 0;
-	list->delimiter = NULL;
+	list->heredoc_delimiter = NULL;
 	list->infile = STDIN_FILENO;
 	list->outfile = STDOUT_FILENO;
+	list->exitcode = exitcode;
 	return (list);
 }
 
-t_group	*parser(char **cmd, char **env)
+t_group	*parser(char **cmd, char **env, int exitcode)
 {
 	int		breakpoint;
 	t_group	*list;
 
-	list = init_group(cmd, env);
+	list = init_group(cmd, env, exitcode);
 	parse_redirect(list);
 	breakpoint = first_pipe(cmd);
 	if (breakpoint == -1)
 		return (list);
 	list->cmd = get_left_side(cmd, breakpoint);
 	list->operator = PIPE;
-	list->next = parser(get_right_side(cmd, breakpoint + 1), env);
+	list->next = parser(get_right_side(cmd, breakpoint + 1), env, exitcode);
 	free_tab(cmd);
 	list->next->previous = list;
 	list->next->operator = PIPE;

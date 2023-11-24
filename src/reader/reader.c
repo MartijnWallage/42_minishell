@@ -6,7 +6,7 @@
 /*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/22 18:15:25 by mwallage          #+#    #+#             */
-/*   Updated: 2023/11/23 10:18:01 by mwallage         ###   ########.fr       */
+/*   Updated: 2023/11/23 16:24:14 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,12 +55,17 @@ char	*reader(char **env)
 {
 	char	*str;
 	char	*prompt;
+	char	*temp;
 	
 	prompt = get_prompt(env);
 	if (!prompt)
-		handle_error(MALLOC_MSG, MALLOC_CODE);	
+		err_and_exit(MALLOC_MSG, MALLOC_CODE);	
 	str = readline(prompt);
 	free(prompt);
 	add_history(str);
+	temp = str;
+	str = ft_strjoin(str, "\n");
+	// protect malloc
+	free(temp);
 	return (str);
 }

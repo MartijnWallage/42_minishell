@@ -6,7 +6,7 @@
 /*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/22 18:15:04 by mwallage          #+#    #+#             */
-/*   Updated: 2023/11/23 10:22:38 by mwallage         ###   ########.fr       */
+/*   Updated: 2023/11/23 16:24:14 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,6 @@ char	**lexer(char *line)
 	 *	since execve() wants an array of strings 			*/
 	tab = tokenizer(line);
 	if (!tab)
-		handle_error(MALLOC_MSG, MALLOC_CODE);
+		err_and_exit(MALLOC_MSG, MALLOC_CODE);
 	return (tab);
 }

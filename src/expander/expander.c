@@ -6,7 +6,7 @@
 /*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/03 12:08:00 by mwallage          #+#    #+#             */
-/*   Updated: 2023/11/23 14:58:27 by mwallage         ###   ########.fr       */
+/*   Updated: 2023/11/24 15:48:00 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,6 @@ void	remove_first_char(char *str)
 	}
 	*str = *(str + 1);
 }
-
 
 static int	remove_quotes(char *str)
 {
@@ -44,7 +43,7 @@ static int	remove_quotes(char *str)
 			remove_first_char(str);
 		}
 		else
-			str++; 
+			str++;
 	}
 	return (flag);
 }
@@ -72,13 +71,23 @@ static void	expand_var(t_group *group, int cmd_index, int dollar_sign)
 
 	old_cmd = group->cmd[cmd_index];
 	keylen = 0;
-	while (ft_isalnum(old_cmd[keylen + dollar_sign + 1]))
-		keylen++;
-	key = ft_substr(old_cmd, dollar_sign + 1, keylen);
-	value = mini_getenv(group->env, key);
-	free(key);
+	if (old_cmd[dollar_sign + 1] == '?')
+	{
+		keylen = 1;
+		value = ft_itoa(group->exitcode);
+	}
+	else
+	{
+		while (ft_isalnum(old_cmd[keylen + dollar_sign + 1]))
+			keylen++;
+		key = ft_substr(old_cmd, dollar_sign + 1, keylen);
+		value = mini_getenv(group->env, key);
+		free(key);
+	}
 	old_cmd[dollar_sign] = 0;
 	new_cmd = ft_strjoin(old_cmd, value);
+	if (old_cmd[dollar_sign + 1] == '?')
+		free(value);
 	key = new_cmd;
 	new_cmd = ft_strjoin(new_cmd, old_cmd + dollar_sign + keylen + 1);
 	free(key);

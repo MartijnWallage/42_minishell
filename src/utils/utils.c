@@ -6,7 +6,7 @@
 /*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/22 18:15:30 by mwallage          #+#    #+#             */
-/*   Updated: 2023/11/20 23:02:44 by mwallage         ###   ########.fr       */
+/*   Updated: 2023/11/24 15:05:18 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,16 @@ char	*mini_getenv(char **env, char *key)
 			return (&env[i][j + 1]);
 	}
 	return (NULL);
+}
+
+t_group	*group_last(t_group *group)
+{
+	t_group	*current;
+	
+	current = group;
+	while (current && current->next)
+		current = current->next;
+	return (current);
 }
 
 int	key_compare(char **env, char *line)

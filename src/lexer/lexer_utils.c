@@ -6,7 +6,7 @@
 /*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/03 12:09:10 by mwallage          #+#    #+#             */
-/*   Updated: 2023/11/23 09:59:05 by mwallage         ###   ########.fr       */
+/*   Updated: 2023/11/23 16:02:15 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,11 +16,11 @@ bool    is_whitespace(const char c)
 {
     if (c == ' ')
         return (true);
-    if (c == '\t')
+    else if (c == '\t')
         return (true);
-    if (c == '\v')
+    else if (c == '\v')
         return (true);
-    if (c == '\n')
+    else if (c == '\n')
         return (true);
     return (false);
 }
@@ -29,15 +29,15 @@ bool    is_special_char(const char c)
 {
     if (c == '|')
         return (true);
-    if (c == '<')
+    else if (c == '<')
         return (true);
-    if (c == '>')
+    else if (c == '>')
         return (true);
-    if (c == '(')
+    else if (c == '(')
         return (true);
-    if (c == ')')
+    else if (c == ')')
         return (true);
-    if (c == '&')
+    else if (c == '&')
         return (true);
     return (false);
 }

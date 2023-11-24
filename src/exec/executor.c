@@ -6,7 +6,7 @@
 /*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/22 18:14:58 by mwallage          #+#    #+#             */
-/*   Updated: 2023/11/23 11:05:47 by mwallage         ###   ########.fr       */
+/*   Updated: 2023/11/24 15:58:30 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,10 @@
 void	simple_command(t_group *group)
 {
 	pid_t	pid;
+	int		status;
 	
+	if (!group->cmd[0])
+		return ;
 	if (is_builtin(group->cmd[0]))
 		builtin(group);
 	else if (group->operator == PIPE)
@@ -25,19 +28,21 @@ void	simple_command(t_group *group)
 		pid = fork();
 		if (pid == 0)
 			exec(group->cmd, group->env);
-		waitpid(pid, NULL, 0);
+		waitpid(pid, &status, 0);
+		group->exitcode = WEXITSTATUS(status);
 	}
 }
 
 static void	child(t_group *group)
 {
 	pid_t	pid;
+	int		status;
 
 	if (group->next && pipe(group->pipefd) == -1)
-		handle_error("pipe error", 1);
+		err_and_exit("pipe error", 1);
 	pid = fork();
 	if (pid == -1)
-		handle_error("pid error", 1);
+		err_and_exit("pid error", 1);
 	if (pid == 0)
 	{
 		if (group->previous)
@@ -56,7 +61,10 @@ static void	child(t_group *group)
 	if (group->next)
 		close(group->pipefd[1]);
 	else
-		waitpid(pid, NULL, 0);
+	{
+		waitpid(pid, &status, 0);
+		group->exitcode = WEXITSTATUS(status);
+	}
 }
 
 void	executor(t_group *group)

@@ -6,7 +6,7 @@
 /*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/03 12:08:00 by mwallage          #+#    #+#             */
-/*   Updated: 2023/11/24 15:48:00 by mwallage         ###   ########.fr       */
+/*   Updated: 2023/11/24 16:27:01 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,9 +80,14 @@ static void	expand_var(t_group *group, int cmd_index, int dollar_sign)
 	{
 		while (ft_isalnum(old_cmd[keylen + dollar_sign + 1]))
 			keylen++;
-		key = ft_substr(old_cmd, dollar_sign + 1, keylen);
-		value = mini_getenv(group->env, key);
-		free(key);
+		if (keylen)
+		{
+			key = ft_substr(old_cmd, dollar_sign + 1, keylen);
+			value = mini_getenv(group->env, key);
+			free(key);
+		}
+		else
+			return ;
 	}
 	old_cmd[dollar_sign] = 0;
 	new_cmd = ft_strjoin(old_cmd, value);

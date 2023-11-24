@@ -6,7 +6,7 @@
 /*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/22 18:14:58 by mwallage          #+#    #+#             */
-/*   Updated: 2023/11/24 15:58:30 by mwallage         ###   ########.fr       */
+/*   Updated: 2023/11/24 16:09:08 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,8 @@ void	simple_command(t_group *group)
 		if (pid == 0)
 			exec(group->cmd, group->env);
 		waitpid(pid, &status, 0);
-		group->exitcode = WEXITSTATUS(status);
+		if (WIFEXITED(status))
+			group->exitcode = WEXITSTATUS(status);
 	}
 }
 
@@ -63,7 +64,8 @@ static void	child(t_group *group)
 	else
 	{
 		waitpid(pid, &status, 0);
-		group->exitcode = WEXITSTATUS(status);
+		if (WIFEXITED(status))
+			group->exitcode = WEXITSTATUS(status);
 	}
 }
 

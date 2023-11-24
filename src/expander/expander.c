@@ -6,7 +6,7 @@
 /*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/03 12:08:00 by mwallage          #+#    #+#             */
-/*   Updated: 2023/11/24 16:39:45 by mwallage         ###   ########.fr       */
+/*   Updated: 2023/11/24 17:09:03 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,57 +61,57 @@ static int	remove_quotes(char *str)
 	foreground pipeline.
 */
 
-static void	expand_var(t_group *group, int cmd_index, int dollar_sign)
+static void	expand_var(t_group *group, int word_index, int dollar_sign)
 {
-	char	*old_cmd;
+	char	*old_word;
 	int		keylen;
-	char	*new_cmd;
+	char	*new_word;
 	char	*value;
 	char	*key;
 
-	old_cmd = group->cmd[cmd_index];
+	old_word = group->cmd[word_index];
 	keylen = 0;
-	if (old_cmd[dollar_sign + 1] == '?')
+	if (old_word[dollar_sign + 1] == '?')
 	{
 		keylen = 1;
 		value = ft_itoa(group->exitcode);
 	}
 	else
 	{
-		while (ft_isalnum(old_cmd[keylen + dollar_sign + 1]))
+		while (ft_isalnum(old_word[keylen + dollar_sign + 1]))
 			keylen++;
-		key = ft_substr(old_cmd, dollar_sign + 1, keylen);
+		key = ft_substr(old_word, dollar_sign + 1, keylen);
 		value = mini_getenv(group->env, key);
 		free(key);
 	}
-	old_cmd[dollar_sign] = 0;
-	new_cmd = ft_strjoin(old_cmd, value);
-	if (old_cmd[dollar_sign + 1] == '?')
+	old_word[dollar_sign] = 0;
+	new_word = ft_strjoin_safe(old_word, value);
+	if (old_word[dollar_sign + 1] == '?')
 		free(value);
-	key = new_cmd;
-	new_cmd = ft_strjoin(new_cmd, old_cmd + dollar_sign + keylen + 1);
+	key = new_word;
+	new_word = ft_strjoin(new_word, old_word + dollar_sign + keylen + 1);
 	free(key);
-	free(old_cmd);
-	group->cmd[cmd_index] = new_cmd;
+	free(old_word);
+	group->cmd[word_index] = new_word;
 }
 
-static void	find_and_expand_vars(t_group *group, int index)
+static void	find_and_expand_vars(t_group *group, int word_index)
 {
 	int		i;
 	char	waiting_for_quote;
-	char	*cmd;
+	char	*word;
 	
-	cmd = group->cmd[index];
+	word = group->cmd[word_index];
 	waiting_for_quote = 0;
 	i = -1;
-	while (cmd[++i])
+	while (word[++i])
 	{
-		if (waiting_for_quote == cmd[i])
+		if (waiting_for_quote == word[i])
 			waiting_for_quote = 0;
-		else if (!waiting_for_quote && (cmd[i] == '\'' || cmd[i] == '\"'))
-			waiting_for_quote = cmd[i];
-		else if (waiting_for_quote != '\'' && cmd[i] == '$' && cmd[i + 1])
-			expand_var(group, index, i);
+		else if (!waiting_for_quote && (word[i] == '\'' || word[i] == '\"'))
+			waiting_for_quote = word[i];
+		else if (waiting_for_quote != '\'' && word[i] == '$' && word[i + 1])
+			expand_var(group, word_index, i);
 	}
 }
 

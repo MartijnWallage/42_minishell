@@ -6,7 +6,7 @@
 /*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 15:40:59 by mwallage          #+#    #+#             */
-/*   Updated: 2023/11/24 16:36:36 by mwallage         ###   ########.fr       */
+/*   Updated: 2023/11/24 17:06:52 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,6 +111,7 @@ void	builtin_unset(t_group *group);
 void	builtin_cd(t_group *group);
 /*	error.c			*/
 void	err_and_exit(char *info, int exitcode);
+void	err_no_exit(char *info);
 /*	utils.c			*/
 int		tab_len(char **tab);
 void	*free_tab(char **tab);

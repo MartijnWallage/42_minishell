@@ -30,7 +30,10 @@ int	main(int argc, char **argv, char **envp)
 		tokens = lexer(line);
 		free(line);
 		if (!tokens)
-			err_and_exit(MALLOC_MSG, MALLOC_CODE);
+		{
+			error_msg(MALLOC_MSG);
+			exit(MALLOC_CODE);
+		}
 		if (!*tokens)
 		{
 			free(tokens);
@@ -40,7 +43,8 @@ int	main(int argc, char **argv, char **envp)
 		if (!list)
 		{
 			free(tokens);	// this isn't quite right. Need a consistent policy for freeing *tokens.
-			err_and_exit(MALLOC_MSG, MALLOC_CODE);
+			error_msg(MALLOC_MSG);
+			exit(MALLOC_CODE);
 		}
 		expander(list);
 		executor(list);

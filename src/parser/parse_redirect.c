@@ -31,7 +31,7 @@ void	here_doc(t_group *group, int index)
 	{
 		remove_word(group->cmd, index - 1);
 		group->exitcode = 2;
-		err_no_exit("syntax error near unexpected token 'newline'");
+		error_msg("syntax error near unexpected token 'newline'");
 		return ;
 	}
 	group->heredoc_delimiter = group->cmd[index];
@@ -48,7 +48,7 @@ void	redirect_in(t_group *group, int index)
 	{
 		remove_word(group->cmd, index - 1);
 		group->exitcode = 2;
-		err_no_exit("syntax error near unexpected token 'newline'");
+		error_msg("syntax error near unexpected token 'newline'");
 		return ;
 	}
 	if (group->infile != STDIN_FILENO)
@@ -66,7 +66,7 @@ void	redirect_out(t_group *group, int index, bool append)
 	{
 		remove_word(group->cmd, index - 1);
 		group->exitcode = 2;
-		err_no_exit("syntax error near unexpected token 'newline'");
+		error_msg("syntax error near unexpected token 'newline'");
 		return ;
 	}
 	if (group->outfile != STDOUT_FILENO)

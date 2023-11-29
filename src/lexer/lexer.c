@@ -34,6 +34,9 @@ char	**lexer(char *line)
 	 *	since execve() wants an array of strings 			*/
 	tab = tokenizer(line);
 	if (!tab)
-		err_and_exit(MALLOC_MSG, MALLOC_CODE);
+	{
+		error_msg(MALLOC_MSG);
+		exit(MALLOC_CODE);
+	}
 	return (tab);
 }

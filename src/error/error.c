@@ -12,26 +12,7 @@
 
 #include "minishell.h"
 
-void	err_and_exit(char *info, int exitcode)
-{
-	char	*errno_readable;
-	int		len;
-
-	errno_readable = strerror(errno);
-	len = ft_strlen(errno_readable);
-	write(STDERR_FILENO, "philoshell: ", 12);
-	if (errno)
-	{
-		write(STDERR_FILENO, errno_readable, len);
-		write(STDERR_FILENO, ": ", 2);
-	}
-	len = ft_strlen(info);
-	write(STDERR_FILENO, info, len);
-	write(STDERR_FILENO, "\n", 1);
-	exit(exitcode);
-}
-
-void	err_no_exit(char *info)
+void	error_msg(char *info)
 {
 	char	*errno_readable;
 	int		len;
@@ -48,3 +29,4 @@ void	err_no_exit(char *info)
 	write(STDERR_FILENO, info, len);
 	write(STDERR_FILENO, "\n", 1);
 }
+

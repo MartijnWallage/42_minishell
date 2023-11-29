@@ -42,10 +42,16 @@ static void	child(t_group *group)
 	int		status;
 
 	if (group->next && pipe(group->pipefd) == -1)
-		err_and_exit("pipe error", 1);
+	{
+		error_msg("pipe error");
+		exit(1);
+	}
 	pid = fork();
 	if (pid == -1)
-		err_and_exit("pid error", 1);
+	{
+		error_msg("pid error");
+		exit(1);
+	}
 	if (pid == 0)
 	{
 		if (group->previous)

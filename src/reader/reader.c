@@ -59,7 +59,10 @@ char	*reader(char **env)
 	
 	prompt = get_prompt(env);
 	if (!prompt)
-		err_and_exit(MALLOC_MSG, MALLOC_CODE);	
+	{
+		error_msg(MALLOC_MSG);
+		exit(MALLOC_CODE);	
+	}
 	str = readline(prompt);
 	free(prompt);
 	add_history(str);

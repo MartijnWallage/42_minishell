@@ -110,8 +110,7 @@ void	append_var(t_group *group, char *line);
 void	builtin_unset(t_group *group);
 void	builtin_cd(t_group *group);
 /*	error.c			*/
-void	err_and_exit(char *info, int exitcode);
-void	err_no_exit(char *info);
+void	error_msg(char *info);
 /*	utils.c			*/
 int		tab_len(char **tab);
 void	*free_tab(char **tab);

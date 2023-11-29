@@ -16,7 +16,27 @@ void	simple_command(t_group *group)
 {
 	pid_t	pid;
 	int		status;
-	
+
+	if (group->infile != STDIN_FILENO)
+	{
+		if (group->infile == -1)
+		{
+			error_msg(group->infile_name);
+			return ;
+		}
+		dup2(group->infile, STDIN_FILENO);
+		close(group->infile);
+	}
+	if (group->outfile != STDOUT_FILENO)
+	{
+		if (group->outfile == -1)
+		{
+			error_msg(group->outfile_name);
+			return;
+		}
+		dup2(group->outfile, STDOUT_FILENO);
+		close(group->infile);
+	}
 	if (!group->cmd[0])
 		return ;
 	if (is_builtin(group->cmd[0]))
@@ -32,7 +52,7 @@ void	simple_command(t_group *group)
 		if (WIFEXITED(status))
 			group->exitcode = WEXITSTATUS(status);
 		else
-			printf("Some error message\n");
+			error_msg("program quit unexpectedly");
 	}
 }
 
@@ -54,12 +74,12 @@ static void	child(t_group *group)
 	}
 	if (pid == 0)
 	{
-		if (group->previous)
+		if (group->previous && group->infile == STDIN_FILENO)
 		{
 			dup2(group->previous->pipefd[0], STDIN_FILENO);
 			close(group->previous->pipefd[0]);
 		}
-		if (group->next)
+		if (group->next && group->outfile == STDOUT_FILENO)
 		{
 			close(group->pipefd[0]);
 			dup2(group->pipefd[1], STDOUT_FILENO);
@@ -75,7 +95,7 @@ static void	child(t_group *group)
 		if (WIFEXITED(status))
 			group->exitcode = WEXITSTATUS(status);
 		else
-			printf("Some error message\n");
+			error_msg("program quit unexpectedly");
 	}
 }
 

@@ -31,11 +31,11 @@ void	here_doc(t_group *group, int index)
 	{
 		remove_word(group->cmd, index - 1);
 		group->exitcode = 2;
-		error_msg("syntax error near unexpected token 'newline'");
+		error_msg("syntax error near unexpected token 'newline'");   // obviously shouldn't be hard-coded
 		return ;
 	}
 	group->heredoc_delimiter = group->cmd[index];
-	if (group->infile != STDIN_FILENO)
+	if (group->infile != STDIN_FILENO && group->infile != -1)
 		close(group->infile);
 	group->infile = STDIN_FILENO;
 	remove_word(group->cmd, index);
@@ -48,14 +48,13 @@ void	redirect_in(t_group *group, int index)
 	{
 		remove_word(group->cmd, index - 1);
 		group->exitcode = 2;
-		error_msg("syntax error near unexpected token 'newline'");
+		error_msg("syntax error near unexpected token 'newline'");		// obviously shouldn't be hard-coded
 		return ;
 	}
-	if (group->infile != STDIN_FILENO)
+	group->infile_name = group->cmd[index];
+	if (group->infile != STDIN_FILENO && group->infile != -1)
 		close(group->infile);
 	group->infile = open(group->cmd[index], O_RDONLY, 0777);
-	if (group->infile == -1)
-		group->infile = STDIN_FILENO;
 	remove_word(group->cmd, index);
 	remove_word(group->cmd, index - 1);
 }
@@ -66,17 +65,16 @@ void	redirect_out(t_group *group, int index, bool append)
 	{
 		remove_word(group->cmd, index - 1);
 		group->exitcode = 2;
-		error_msg("syntax error near unexpected token 'newline'");
+		error_msg("syntax error near unexpected token 'newline'");  // obviously shouldn't be hard-coded
 		return ;
 	}
-	if (group->outfile != STDOUT_FILENO)
+	group->outfile_name = group->cmd[index];
+	if (group->outfile != STDOUT_FILENO && group->outfile != -1)
 		close(group->outfile);
 	if (append)
 		group->outfile = open(group->cmd[index], O_WRONLY | O_CREAT | O_APPEND, 0777);
 	else
 		group->outfile = open(group->cmd[index], O_WRONLY | O_CREAT | O_TRUNC, 0777);
-	if (group->outfile == -1)
-		group->outfile = STDOUT_FILENO;
 	remove_word(group->cmd, index);
 	remove_word(group->cmd, index - 1);
 }

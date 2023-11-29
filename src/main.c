@@ -29,11 +29,7 @@ int	main(int argc, char **argv, char **envp)
 		line = reader(envp_cpy);
 		tokens = lexer(line);
 		free(line);
-		if (!tokens)
-		{
-			error_msg(MALLOC_MSG);
-			exit(MALLOC_CODE);
-		}
+		protect_malloc(tokens);
 		if (!*tokens)
 		{
 			free(tokens);
@@ -41,11 +37,8 @@ int	main(int argc, char **argv, char **envp)
 		}
 		list = parser(tokens, envp_cpy, exitcode);
 		if (!list)
-		{
-			free(tokens);	// this isn't quite right. Need a consistent policy for freeing *tokens.
-			error_msg(MALLOC_MSG);
-			exit(MALLOC_CODE);
-		}
+			free(tokens);
+		protect_malloc(list);
 		expander(list);
 		executor(list);
 		envp_cpy = list->env;

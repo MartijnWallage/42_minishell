@@ -75,7 +75,9 @@ typedef struct s_group
 	int				pipefd[2];
 	char			*heredoc_delimiter;
 	int				infile;
+	char			*infile_name;
 	int				outfile;
+	char			*outfile_name;
 	int				exitcode;
 	struct s_group	*previous;
 	struct s_group	*next;
@@ -111,6 +113,7 @@ void	builtin_unset(t_group *group);
 void	builtin_cd(t_group *group);
 /*	error.c			*/
 void	error_msg(char *info);
+void	protect_malloc(void *ptr);
 /*	utils.c			*/
 int		tab_len(char **tab);
 void	*free_tab(char **tab);

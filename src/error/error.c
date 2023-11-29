@@ -30,3 +30,11 @@ void	error_msg(char *info)
 	write(STDERR_FILENO, "\n", 1);
 }
 
+void	protect_malloc(void *ptr)
+{
+	if (ptr == NULL)
+	{
+		error_msg(MALLOC_MSG);
+		exit(MALLOC_CODE);
+	}
+}

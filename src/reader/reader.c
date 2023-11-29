@@ -58,17 +58,13 @@ char	*reader(char **env)
 	char	*temp;
 	
 	prompt = get_prompt(env);
-	if (!prompt)
-	{
-		error_msg(MALLOC_MSG);
-		exit(MALLOC_CODE);	
-	}
+	protect_malloc(prompt);
 	str = readline(prompt);
 	free(prompt);
 	add_history(str);
 	temp = str;
 	str = ft_strjoin(str, "\n");
-	// protect malloc
+	protect_malloc(str);
 	free(temp);
 	return (str);
 }

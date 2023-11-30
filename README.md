@@ -2,7 +2,7 @@
 
 WORK IN PROGRESS
 
-Authors: Martijn Wallage, Julian Muller
+Authors: Martijn Wallage (mwallage), Julian Muller (jmuller)
 
 ## Project Description
 
@@ -23,7 +23,7 @@ Our minishell (sometimes called "philoshell", since both authors are philosopher
 	- if we do the bonus part, we'll also have to handle wildcards.
 - EXECUTOR
 	- Pipes and forks.
-	- Redirects.
+	- Redirects in four ways, corresponding to the Bash tokens `<`, `<<`, `>`, `>>`.
 	- Executes each simple command, either as an inbuilt function, a system command (alias) or a path to an executable.
 - SIGNALS
 	- `ctrl-c`: interrupt child process and continue to next iteration of while loop. Sets exit code to 130.
@@ -32,5 +32,5 @@ Our minishell (sometimes called "philoshell", since both authors are philosopher
 
 ## Current State
 
-- All the basic functionality is there, except for SIGNALS and the bonus.
-- We need better error handling.
+- All the basic functionality is there, except for SIGNALS, here_doc (`<<`), and the bonus.
+- We need better error handling and exit codes.

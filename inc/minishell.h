@@ -73,7 +73,7 @@ typedef struct s_group
 	int				operator;	// Operator between this group and the next group
 								// none (0), PIPE, or AND (&&), or OR (||)
 	int				pipefd[2];
-	char			*heredoc_delimiter;
+	char			*heredoc;
 	int				original_stdin;
 	int				original_stdout;
 	int				infile;
@@ -106,6 +106,8 @@ void	expander(t_group *list);
 void	simple_command(t_group *node);
 void	executor(t_group *group);
 void	exec(char **cmd, char **env);
+int		handle_heredoc(t_group *group);
+int		check_redirect(t_group *group);
 /*	builtin			*/
 bool	is_builtin(char *cmd);
 void	builtin(t_group *group);

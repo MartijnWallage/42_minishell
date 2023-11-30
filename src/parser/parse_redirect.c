@@ -27,14 +27,14 @@ void	remove_word(char **tab, int index)
 
 void	here_doc(t_group *group, int index)
 {
-	if (group->cmd[index] == NULL)
+	if (group->cmd[index] == NULL || is_special_char(group->cmd[index][0]))
 	{
 		remove_word(group->cmd, index - 1);
 		group->exitcode = 2;
-		error_msg("syntax error near unexpected token 'newline'");   // obviously shouldn't be hard-coded
+		error_msg("syntax error near unexpected token");   // obviously shouldn't be hard-coded
 		return ;
 	}
-	group->heredoc_delimiter = group->cmd[index];
+	group->heredoc = group->cmd[index];
 	if (group->infile != STDIN_FILENO && group->infile != -1)
 		close(group->infile);
 	group->infile = STDIN_FILENO;
@@ -48,7 +48,7 @@ void	redirect_in(t_group *group, int index)
 	{
 		remove_word(group->cmd, index - 1);
 		group->exitcode = 2;
-		error_msg("syntax error near unexpected token 'newline'");		// obviously shouldn't be hard-coded
+		error_msg("syntax error near unexpected token");		// obviously shouldn't be hard-coded
 		return ;
 	}
 	group->infile_name = group->cmd[index];
@@ -65,7 +65,7 @@ void	redirect_out(t_group *group, int index, bool append)
 	{
 		remove_word(group->cmd, index - 1);
 		group->exitcode = 2;
-		error_msg("syntax error near unexpected token 'newline'");  // obviously shouldn't be hard-coded
+		error_msg("syntax error near unexpected token");  // obviously shouldn't be hard-coded
 		return ;
 	}
 	group->outfile_name = group->cmd[index];

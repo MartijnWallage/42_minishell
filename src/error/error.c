@@ -25,6 +25,8 @@ void	error_msg(char *info)
 		write(STDERR_FILENO, errno_readable, len);
 		write(STDERR_FILENO, ": ", 2);
 	}
+	if (info == NULL)
+		return ;
 	len = ft_strlen(info);
 	write(STDERR_FILENO, info, len);
 	write(STDERR_FILENO, "\n", 1);

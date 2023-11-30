@@ -12,32 +12,56 @@
 
 #include "minishell.h"
 
+static bool redirect(t_group *group)
+{
+	if (!group->cmd[0])
+		return (false);
+	if (group->infile == -1)
+	{
+		error_msg(group->infile_name);
+		return (false);
+	}
+	if (group->outfile == -1)
+	{
+		error_msg(group->outfile_name);
+		return (false);
+	}
+	if (group->infile != STDIN_FILENO)
+	{
+		group->original_stdin = dup(STDIN_FILENO);
+		if (dup2(group->infile, STDIN_FILENO) == -1)
+		{
+			error_msg(group->infile_name);
+			return (false);
+		}
+		if (close(group->infile) == -1)
+		{
+			error_msg(group->infile_name);
+			return (false);
+		}
+	}
+	if (group->outfile != STDOUT_FILENO)
+	{	
+		group->original_stdout = dup(STDOUT_FILENO);
+		if (dup2(group->outfile, STDOUT_FILENO) == -1)
+		{
+			error_msg(group->outfile_name);
+			return (false);
+		}
+		if (close(group->outfile) == -1)
+		{
+			error_msg(group->outfile_name);
+			return (false);
+		}
+	}
+	return (true);
+}
 void	simple_command(t_group *group)
 {
 	pid_t	pid;
 	int		status;
 
-	if (group->infile != STDIN_FILENO)
-	{
-		if (group->infile == -1)
-		{
-			error_msg(group->infile_name);
-			return ;
-		}
-		dup2(group->infile, STDIN_FILENO);
-		close(group->infile);
-	}
-	if (group->outfile != STDOUT_FILENO)
-	{
-		if (group->outfile == -1)
-		{
-			error_msg(group->outfile_name);
-			return;
-		}
-		dup2(group->outfile, STDOUT_FILENO);
-		close(group->infile);
-	}
-	if (!group->cmd[0])
+	if (!redirect(group))
 		return ;
 	if (is_builtin(group->cmd[0]))
 		builtin(group);
@@ -54,6 +78,11 @@ void	simple_command(t_group *group)
 		else
 			error_msg("program quit unexpectedly");
 	}
+	if (group->infile != STDIN_FILENO && dup2(group->original_stdin, STDIN_FILENO) == -1)
+		error_msg("could not restore redirection");
+	if (group->outfile != STDOUT_FILENO && dup2(group->original_stdout, STDOUT_FILENO) == -1)
+		error_msg("could not restore redirection");
+
 }
 
 static void	child(t_group *group)

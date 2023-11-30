@@ -71,6 +71,10 @@ t_group	*init_group(char **cmd, char **env, int exitcode)
 	list->heredoc_delimiter = NULL;
 	list->infile = STDIN_FILENO;
 	list->outfile = STDOUT_FILENO;
+	list->infile_name = NULL;
+	list->outfile_name = NULL;
+	list->original_stdin = STDIN_FILENO;
+	list->original_stdout = STDOUT_FILENO;
 	list->exitcode = exitcode;
 	return (list);
 }

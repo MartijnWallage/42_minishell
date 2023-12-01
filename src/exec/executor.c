@@ -67,6 +67,7 @@ static void	child(t_group *group)
 	{
 		if (group->previous && group->infile == STDIN_FILENO)
 		{
+			close(group->previous->pipefd[1]);
 			dup2(group->previous->pipefd[0], STDIN_FILENO);
 			close(group->previous->pipefd[0]);
 		}
@@ -78,16 +79,13 @@ static void	child(t_group *group)
 		}
 		simple_command(group);
 	}
+	waitpid(pid, &status, 0);
+	if (WIFEXITED(status))
+		group->exitcode = WEXITSTATUS(status);
+	else
+		error_msg("program quit unexpectedly");
 	if (group->next)
 		close(group->pipefd[1]);
-	else
-	{
-		waitpid(pid, &status, 0);
-		if (WIFEXITED(status))
-			group->exitcode = WEXITSTATUS(status);
-		else
-			error_msg("program quit unexpectedly");
-	}
 }
 
 void	executor(t_group *group)

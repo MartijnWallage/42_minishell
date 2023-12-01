@@ -45,7 +45,7 @@ void	builtin_echo(t_group *group)
 	int	i;
 
 	i = 1;
-	if (!ft_strcmp(group->cmd[i], "-n"))
+	if (group->cmd[i] && !ft_strcmp(group->cmd[i], "-n"))
 		i++;
 	while (group->cmd[i])
 	{
@@ -54,8 +54,8 @@ void	builtin_echo(t_group *group)
 		if (group->cmd[i])
 			printf(" ");
 	}
-	if (ft_strcmp(group->cmd[1], "-n"))
-		printf("\n"); 
+	if (!group->cmd[1] || ft_strncmp(group->cmd[1], "-n", 3))
+		printf("\n");
 }
 
 void	builtin(t_group	*group)

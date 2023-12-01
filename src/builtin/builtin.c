@@ -14,8 +14,13 @@
 
 void	builtin_exit(t_group *group)
 {
+	int	exitcode;
+
+	exitcode = 0;
+	if (group->cmd[1])
+		exitcode = ft_atoi(group->cmd[1]);
 	cleanup(group);
-	exit(139);
+	exit(exitcode);
 }
 
 void	builtin_env(char **env)

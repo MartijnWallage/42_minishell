@@ -38,4 +38,5 @@ Our minishell (called "philoshell", since both authors are philosophers) consist
 ## Current State
 
 - All the basic functionality is there, except for SIGNALS and the bonus.
+- Related to the signals, there should be a mechanism for preventing orphan processes.
 - We need better error handling and exit codes.

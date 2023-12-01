@@ -6,7 +6,7 @@
 /*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/22 18:14:58 by mwallage          #+#    #+#             */
-/*   Updated: 2023/11/24 17:29:18 by mwallage         ###   ########.fr       */
+/*   Updated: 2023/12/01 18:25:50 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,6 @@ static void restore_redirection(t_group *group)
 
 void	simple_command(t_group *group)
 {
-	pid_t	pid;
 	int		status;
 
 	if (!check_redirect(group))
@@ -35,10 +34,10 @@ void	simple_command(t_group *group)
 		exec(group->cmd, group->env);
 	else
 	{
-		pid = fork();
-		if (pid == 0)
+		group->pid = fork();
+		if (group->pid == 0)
 			exec(group->cmd, group->env);
-		waitpid(pid, &status, 0);
+		waitpid(group->pid, &status, 0);
 		if (WIFEXITED(status))
 			group->exitcode = WEXITSTATUS(status);
 		else
@@ -49,25 +48,21 @@ void	simple_command(t_group *group)
 
 static void	child(t_group *group)
 {
-	pid_t	pid;
-	int		status;
-
 	if (group->next && pipe(group->pipefd) == -1)
 	{
 		error_msg("pipe error");
 		exit(1);
 	}
-	pid = fork();
-	if (pid == -1)
+	group->pid = fork();
+	if (group->pid == -1)
 	{
 		error_msg("pid error");
 		exit(1);
 	}
-	if (pid == 0)
+	if (group->pid == 0)
 	{
 		if (group->previous && group->infile == STDIN_FILENO)
 		{
-			close(group->previous->pipefd[1]);
 			dup2(group->previous->pipefd[0], STDIN_FILENO);
 			close(group->previous->pipefd[0]);
 		}
@@ -79,11 +74,6 @@ static void	child(t_group *group)
 		}
 		simple_command(group);
 	}
-	waitpid(pid, &status, 0);
-	if (WIFEXITED(status))
-		group->exitcode = WEXITSTATUS(status);
-	else
-		error_msg("program quit unexpectedly");
 	if (group->next)
 		close(group->pipefd[1]);
 }
@@ -91,6 +81,8 @@ static void	child(t_group *group)
 void	executor(t_group *group)
 {
 	t_group	*current;
+	t_group	*last;
+	int		status;
 
 	if (group->operator == 0)
 	{
@@ -100,7 +92,13 @@ void	executor(t_group *group)
 	current = group;
 	while (current)
 	{
+		last = current;
 		child(current);
 		current = current->next;
 	}
+	waitpid(last->pid, &status, 0);
+	if (WIFEXITED(status))
+		last->exitcode = WEXITSTATUS(status);
+	else
+		error_msg(last->cmd[0]);
 }

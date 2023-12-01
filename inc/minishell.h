@@ -6,7 +6,7 @@
 /*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 15:40:59 by mwallage          #+#    #+#             */
-/*   Updated: 2023/11/24 17:06:52 by mwallage         ###   ########.fr       */
+/*   Updated: 2023/12/01 17:24:58 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,7 @@ typedef struct s_group
 								// none (0), PIPE, or AND (&&), or OR (||)
 	int				pipefd[2];
 	char			*heredoc;
+	pid_t			pid;
 	int				original_stdin;
 	int				original_stdout;
 	int				infile;

@@ -6,7 +6,7 @@
 /*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/22 18:14:58 by mwallage          #+#    #+#             */
-/*   Updated: 2023/12/01 18:25:50 by mwallage         ###   ########.fr       */
+/*   Updated: 2023/12/02 09:33:56 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,8 @@ static void	child(t_group *group)
 		}
 		simple_command(group);
 	}
+	if (group->previous)
+		close(group->previous->pipefd[0]);
 	if (group->next)
 		close(group->pipefd[1]);
 }
@@ -92,11 +94,16 @@ void	executor(t_group *group)
 	current = group;
 	while (current)
 	{
-		last = current;
 		child(current);
 		current = current->next;
 	}
-	waitpid(last->pid, &status, 0);
+	current = group;
+	while (current)
+	{
+		waitpid(current->pid, &status, 0);
+		last = current;
+		current = current->next;
+	}
 	if (WIFEXITED(status))
 		last->exitcode = WEXITSTATUS(status);
 	else

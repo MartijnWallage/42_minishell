@@ -6,7 +6,7 @@
 /*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/03 12:08:00 by mwallage          #+#    #+#             */
-/*   Updated: 2023/12/03 20:06:43 by mwallage         ###   ########.fr       */
+/*   Updated: 2023/12/03 22:54:12 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,6 +94,7 @@ static char	*get_value(t_group *group, char *word)
 int	expand_var(t_group *group, int word_index, int dollar_sign)
 {
 	int		keylen;
+	int		ret;
 	char	*word;
 	char	*value;
 	char	*temp;
@@ -103,6 +104,7 @@ int	expand_var(t_group *group, int word_index, int dollar_sign)
 	value = get_value(group, &word[dollar_sign + 1]);
 	word[dollar_sign] = 0;
 	group->cmd[word_index] = ft_strjoin(word, value);
+	ret = ft_strlen(value);
 	free(value);
 	protect_malloc(group, group->cmd[word_index]);
 	if (word[dollar_sign + keylen + 1])
@@ -114,7 +116,7 @@ int	expand_var(t_group *group, int word_index, int dollar_sign)
 		free(temp);
 		protect_malloc(group, group->cmd[word_index]);		
 	}
-	return (keylen);
+	return (ret);
 }
 
 static void	find_and_expand_vars(t_group *group, int word_index)

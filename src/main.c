@@ -28,7 +28,6 @@ int	main(int argc, char **argv, char **envp)
 	{
 		line = reader(envp_cpy);
 		tokens = lexer(line);
-		free(line);
 		protect_malloc(tokens);
 		if (!*tokens)
 		{

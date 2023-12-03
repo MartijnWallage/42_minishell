@@ -22,20 +22,6 @@ int	tab_len(char **tab)
 	return (size);
 }
 
-void	*free_tab(char **tab)
-{
-	int	i;
-
-	i = 0;
-	while (tab[i])
-	{
-		free(tab[i]);
-		i++;
-	}
-	free(tab);
-	return (NULL);
-}
-
 char	**copy_tab(char **tab)
 {
 	int		size;
@@ -44,7 +30,8 @@ char	**copy_tab(char **tab)
 
 	size = tab_len(tab);
 	ret = malloc(size * (sizeof(char *) + 1));
-	// protect malloc
+	if (!ret)
+		return (NULL);
 	ret[size] = NULL;
 	i = -1;
 	while (++i < size)
@@ -57,6 +44,10 @@ char	*mini_getenv(char **env, char *key)
 	int	i;
 	int	j;
 
+	if (!env)
+		return (NULL);
+	if (!key)
+		return (env[0]);
 	i = -1;
 	while (env[++i])
 	{

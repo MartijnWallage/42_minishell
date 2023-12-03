@@ -45,30 +45,9 @@
 # include <sys/wait.h>
 # include "../libft/inc/libft.h"
 
-typedef struct s_token
-{
-	char	*value;
-	enum
-	{
-		TOKEN_WORD,
-		TOKEN_PIPE,
-		TOKEN_REDIRECT,
-		TOKEN_HEREDOC,
-		TOKEN_DOLLAR,
-		TOKEN_VAR,
-		TOKEN_AND,
-		TOKEN_OR,
-		TOKEN_SINGLE_QUOTE,
-		TOKEN_DOUBLE_QUOTE,
-		TOKEN_LPARENTH,
-		TOKEN_RPARENTH,
-	}	type;
-}		t_token;
-
 typedef struct s_group
 {
-	t_token			*token;
-	char			**cmd;		// redundant, but easier for execve()
+	char			**cmd;
 	char			**env;
 	int				operator;	// Operator between this group and the next group
 								// none (0), PIPE, or AND (&&), or OR (||)
@@ -89,7 +68,6 @@ typedef struct s_group
 /*	reader.c		*/
 char	*reader(char **env);
 /*	lexer			*/
-char	**lexer(char *line);
 char	**tokenizer(char const *s);
 bool	is_whitespace(const char c);
 bool	is_special_char(const char c);
@@ -121,7 +99,6 @@ void	error_msg(char *info);
 void	protect_malloc(void *ptr);
 /*	utils.c			*/
 int		tab_len(char **tab);
-void	*free_tab(char **tab);
 char	**copy_tab(char **tab);
 char	*mini_getenv(char **env, char *key);
 int		key_compare(char **env, char *line);
@@ -130,7 +107,7 @@ char	*get_value(char *str);
 char	*ft_strjoin_safe(char const *s1, char const *s2);
 t_group	*group_last(t_group *group);
 /*	clean.c			*/
-void	free_list(t_group *list);
 void	cleanup(t_group *list);
+void	*free_tab(char **tab);
 
 #endif

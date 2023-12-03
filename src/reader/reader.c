@@ -55,7 +55,7 @@ char	*reader(char **env)
 {
 	char	*str;
 	char	*prompt;
-	
+
 	prompt = get_prompt(env);
 	protect_malloc(prompt);
 	str = readline(prompt);

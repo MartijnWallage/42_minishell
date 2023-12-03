@@ -23,11 +23,12 @@ int	main(int argc, char **argv, char **envp)
 	if (argc != 1 || argv[1])
 		return (1);
 	envp_cpy = copy_tab(envp);
+	protect_malloc(envp_cpy);
 	exitcode = 0;
 	while (1)
 	{
 		line = reader(envp_cpy);
-		tokens = lexer(line);
+		tokens = tokenizer(line);
 		protect_malloc(tokens);
 		if (!*tokens)
 		{
@@ -36,13 +37,25 @@ int	main(int argc, char **argv, char **envp)
 		}
 		list = parser(tokens, envp_cpy, exitcode);
 		if (!list)
+		{
 			free(tokens);
-		protect_malloc(list);
+			free(envp_cpy);
+			error_msg(MALLOC_MSG);
+			exit(MALLOC_CODE);
+		}
+/* 		t_group *current = list;
+		while (current)
+		{
+			for (int i = 0; i < tab_len(current->cmd); i++)
+				printf("%s\n", current->cmd[i]);
+			current = current->next;
+		} */
 		expander(list);
 		executor(list);
 		envp_cpy = list->env;
 		exitcode = group_last(list)->exitcode;
 		cleanup(list);
 	}
+	free(envp_cpy);
 	return (0);
 }

@@ -24,7 +24,6 @@ LIBFLAGS	:= -L$(LIBFTDIR) -lft $(READLINE)
 HOST		:= $(shell hostname)
 SRC			:= main.c \
 				reader/reader.c \
-				lexer/lexer.c \
 				lexer/tokenizer.c \
 				lexer/lexer_utils.c \
 				parser/parser.c \

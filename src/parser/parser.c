@@ -18,11 +18,19 @@ static char	**get_left_side(char **tab, int end)
 	int		i;
 
 	ret = malloc(sizeof(char *) * (end + 1));
-	// protect malloc
+	if (!ret)
+		return (NULL);
 	ret[end] = NULL;
 	i = -1;
 	while (++i < end)
+	{
 		ret[i] = ft_strdup(tab[i]);
+		if (!ret[i])
+		{
+			free_tab(ret);
+			return (NULL);
+		}
+	}
 	return (ret);
 }
 
@@ -34,11 +42,19 @@ static char	**get_right_side(char **tab, int begin)
 
 	size = tab_len(tab);
 	ret = malloc(sizeof(char *) * (size - begin + 1));
-	// protect malloc
+	if (!ret)
+		return (NULL);
 	ret[size - begin] = NULL;
 	i = -1;
 	while (++i < (size - begin))
+	{
 		ret[i] = ft_strdup(tab[i + begin]);
+		if (!ret[i])
+		{
+			free_tab(ret);
+			return (NULL);
+		}
+	}
 	return (ret);
 }
 
@@ -82,16 +98,26 @@ t_group	*init_group(char **cmd, char **env, int exitcode)
 t_group	*parser(char **cmd, char **env, int exitcode)
 {
 	int		breakpoint;
+	char	**right_side;
 	t_group	*list;
 
 	list = init_group(cmd, env, exitcode);
+	if (!list)
+		return (NULL);
 	parse_redirect(list);
 	breakpoint = first_pipe(cmd);
 	if (breakpoint == -1)
 		return (list);
 	list->cmd = get_left_side(cmd, breakpoint);
+	if (!list->cmd)
+		return (NULL);	//	something should be freed here
 	list->operator = PIPE;
-	list->next = parser(get_right_side(cmd, breakpoint + 1), env, exitcode);
+	right_side = get_right_side(cmd, breakpoint + 1);
+	if (!right_side)
+		return (NULL); // something should be freed here
+	list->next = parser(right_side, env, exitcode);
+	if (!list->next)
+		return (NULL);
 	free_tab(cmd);
 	list->next->previous = list;
 	list->next->operator = PIPE;

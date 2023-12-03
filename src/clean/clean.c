@@ -24,3 +24,19 @@ void	cleanup(t_group *list)
 	cleanup(temp);
 //	rl_clear_history();		// Somehow this makes the history not work. What to do?
 }
+
+void	*free_tab(char **tab)
+{
+	int	i;
+
+	if (!tab)
+		return (NULL);
+	i = 0;
+	while (tab[i])
+	{
+		free(tab[i]);
+		i++;
+	}
+	free(tab);
+	return (NULL);
+}

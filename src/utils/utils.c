@@ -6,7 +6,7 @@
 /*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/22 18:15:30 by mwallage          #+#    #+#             */
-/*   Updated: 2023/11/24 15:05:18 by mwallage         ###   ########.fr       */
+/*   Updated: 2023/12/03 19:52:07 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,7 +105,7 @@ char	*get_key(char *str)
 	return (ft_substr(str, 0, i));
 }
 
-char	*get_value(char *str)
+/* char	*get_value(char *str)
 {	
 	if (!str)
 		return (NULL);
@@ -115,7 +115,7 @@ char	*get_value(char *str)
 		return (NULL);
 	str++;
 	return (ft_strdup(str));
-}
+} */
 
 char	*ft_strjoin_safe(char const *s1, char const *s2)
 {

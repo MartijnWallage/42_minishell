@@ -6,7 +6,7 @@
 /*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/03 12:08:00 by mwallage          #+#    #+#             */
-/*   Updated: 2023/12/03 18:57:48 by mwallage         ###   ########.fr       */
+/*   Updated: 2023/12/03 20:06:43 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ static int	get_keylen(char *word)
 	return (keylen);
 }
 
-static char	*expand_var(t_group *group, char *word)
+static char	*get_value(t_group *group, char *word)
 {
 	int		keylen;
 	char	*value;
@@ -91,13 +91,37 @@ static char	*expand_var(t_group *group, char *word)
 	return (value);
 }
 
+int	expand_var(t_group *group, int word_index, int dollar_sign)
+{
+	int		keylen;
+	char	*word;
+	char	*value;
+	char	*temp;
+
+	word = group->cmd[word_index];
+	keylen = get_keylen(&word[dollar_sign + 1]);
+	value = get_value(group, &word[dollar_sign + 1]);
+	word[dollar_sign] = 0;
+	group->cmd[word_index] = ft_strjoin(word, value);
+	free(value);
+	protect_malloc(group, group->cmd[word_index]);
+	if (word[dollar_sign + keylen + 1])
+	{
+		temp = group->cmd[word_index];
+		group->cmd[word_index] =
+			ft_strjoin(group->cmd[word_index], &word[dollar_sign + keylen + 1]);
+		free(word);
+		free(temp);
+		protect_malloc(group, group->cmd[word_index]);		
+	}
+	return (keylen);
+}
+
 static void	find_and_expand_vars(t_group *group, int word_index)
 {
 	int		i;
 	char	waiting_for_quote;
 	char	*word;
-	char	*value;
-	char	*temp;
 	
 	word = group->cmd[word_index];
 	waiting_for_quote = 0;
@@ -109,19 +133,7 @@ static void	find_and_expand_vars(t_group *group, int word_index)
 		else if (!waiting_for_quote && (word[i] == '\'' || word[i] == '\"'))
 			waiting_for_quote = word[i];
 		else if (waiting_for_quote != '\'' && word[i] == '$' && isalnum(word[i + 1]))
-		{
-			value = expand_var(group, &word[i + 1]);
-			word[i] = 0;
-			group->cmd[word_index] = ft_strjoin(word, value);
-			protect_malloc(group, group->cmd[word_index]);
-			temp = group->cmd[word_index];
-			group->cmd[word_index] = ft_strjoin(group->cmd[word_index], word + ft_strlen(value));
-			protect_malloc(group, group->cmd[word_index]);
-			i += ft_strlen(value);
-			free(temp);
-			free(word);
-			free(value);
-		}
+			i += expand_var(group, word_index, i);
 	}
 }
 

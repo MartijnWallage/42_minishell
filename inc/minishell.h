@@ -6,7 +6,7 @@
 /*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 15:40:59 by mwallage          #+#    #+#             */
-/*   Updated: 2023/12/03 19:21:32 by mwallage         ###   ########.fr       */
+/*   Updated: 2023/12/03 19:52:13 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,7 +105,7 @@ char	**copy_tab(char **tab);
 char	*mini_getenv(char **env, char *key);
 int		key_compare(char **env, char *line);
 char	*get_key(char *str);
-char	*get_value(char *str);
+//char	*get_value(char *str);
 char	*ft_strjoin_safe(char const *s1, char const *s2);
 t_group	*group_last(t_group *group);
 /*	clean.c			*/

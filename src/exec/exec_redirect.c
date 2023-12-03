@@ -6,7 +6,7 @@
 /*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/30 15:20:23 by mwallage          #+#    #+#             */
-/*   Updated: 2023/12/03 19:10:59 by mwallage         ###   ########.fr       */
+/*   Updated: 2023/12/03 23:58:09 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,13 +24,13 @@ static void	write_heredoc(t_group *group)
 		{
 			close(group->heredoc_pipefd[1]);
 			error_msg("incomplete here_doc");
-			exit(1);
+			cleanup_and_exit(group, 1);
 		}
 		if (ft_strncmp(line, group->heredoc, ft_strlen(group->heredoc)) == 0)
 		{
 			free(line);
 			close(group->heredoc_pipefd[1]);
-			exit(0);
+			cleanup_and_exit(group, 1);
 		}
 		ft_putstr_fd(line, group->heredoc_pipefd[1]);
 		free(line);

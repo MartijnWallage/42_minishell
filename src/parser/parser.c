@@ -6,7 +6,7 @@
 /*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/22 18:15:14 by mwallage          #+#    #+#             */
-/*   Updated: 2023/12/03 18:51:30 by mwallage         ###   ########.fr       */
+/*   Updated: 2023/12/03 23:36:37 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ t_group	*init_group(char **cmd, char **env, int exitcode)
 	list->cmd = cmd;
 	list->previous = NULL;
 	list->next = NULL;
-	list->env = env;
+	list->env = copy_tab(env);
 	list->operator = 0;
 	list->heredoc = NULL;
 	list->infile = STDIN_FILENO;

@@ -6,7 +6,7 @@
 /*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/22 18:14:58 by mwallage          #+#    #+#             */
-/*   Updated: 2023/12/03 19:21:02 by mwallage         ###   ########.fr       */
+/*   Updated: 2023/12/03 23:59:05 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ static void	child(t_group *group)
 		if (group->cmd && group->cmd[0])
 			simple_command(group);
 		else
-			exit(0);
+			cleanup_and_exit(group, 0);
 	}
 	if (group->previous)
 		close(group->previous->pipefd[0]);

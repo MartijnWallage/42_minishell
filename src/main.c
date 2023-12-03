@@ -6,7 +6,7 @@
 /*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 16:46:09 by mwallage          #+#    #+#             */
-/*   Updated: 2023/12/03 19:27:51 by mwallage         ###   ########.fr       */
+/*   Updated: 2023/12/03 23:37:14 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ int	main(int argc, char **argv, char **envp)
 		list = parser(tokens, env_cpy, exitcode);
 		expander(list);
 		executor(list);
-		env_cpy = list->env;
+		env_cpy = copy_tab(list->env);
 		exitcode = group_last(list)->exitcode;
 		cleanup(list);
 	}

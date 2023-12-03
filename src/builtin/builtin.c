@@ -6,7 +6,7 @@
 /*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/03 12:10:00 by mwallage          #+#    #+#             */
-/*   Updated: 2023/11/24 15:07:29 by mwallage         ###   ########.fr       */
+/*   Updated: 2023/12/03 23:56:14 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,7 @@ void	builtin_exit(t_group *group)
 	exitcode = 0;
 	if (group->cmd[1])
 		exitcode = ft_atoi(group->cmd[1]);
-	free_tab(group->env);
-	cleanup(group);
-	exit(exitcode);
+	cleanup_and_exit(group, exitcode);
 }
 
 void	builtin_env(char **env)
@@ -76,10 +74,7 @@ void	builtin(t_group	*group)
 	else if (ft_strcmp(group->cmd[0], "unset") == 0)
 		builtin_unset(group);
 	if (group->operator == PIPE)
-	{
-		cleanup(group);
-		exit(0);
-	}
+		cleanup_and_exit(group, 0);
 }
 
 bool	is_builtin(char *cmd)

@@ -6,7 +6,7 @@
 /*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/22 18:14:40 by mwallage          #+#    #+#             */
-/*   Updated: 2023/12/03 18:13:32 by mwallage         ###   ########.fr       */
+/*   Updated: 2023/12/03 23:57:36 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,13 +31,34 @@ void	*free_tab(char **tab)
 void	cleanup(t_group *list)
 {
 	t_group	*temp;
+	t_group	*head;
 
 	if (!list)
 		return ;
-	temp = list->next;
-	free_tab(list->cmd);
-	free(list);
+	head = list;
+	while (head && head->previous)
+		head = head->previous;
+	free_tab(head->env);
+	free_tab(head->cmd);
+	temp = head->next;
+	free(head);
+	if (temp)
+		temp->previous = NULL;
 	cleanup(temp);
-//	rl_clear_history();		// Somehow this makes the history not work. What to do?
 }
 
+void	cleanup_and_exit(t_group *list, int exitcode)
+{
+	rl_clear_history();
+	cleanup(list);
+	exit(exitcode);
+}
+
+void	protect_malloc(t_group *group, void *ptr)
+{
+	if (ptr == NULL)
+	{
+		error_msg(MALLOC_MSG);
+		cleanup_and_exit(group, MALLOC_CODE);
+	}
+}

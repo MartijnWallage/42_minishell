@@ -6,7 +6,7 @@
 /*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 15:40:59 by mwallage          #+#    #+#             */
-/*   Updated: 2023/12/03 19:52:13 by mwallage         ###   ########.fr       */
+/*   Updated: 2023/12/03 23:55:04 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,6 @@ void	builtin_cd(t_group *group);
 /*	error.c			*/
 int		error_msg(const char *info);
 void	*syntax_error(const char token);
-void	protect_malloc(t_group *group, void *ptr);
 /*	utils.c			*/
 int		tab_len(char **tab);
 char	**copy_tab(char **tab);
@@ -109,7 +108,9 @@ char	*get_key(char *str);
 char	*ft_strjoin_safe(char const *s1, char const *s2);
 t_group	*group_last(t_group *group);
 /*	clean.c			*/
-void	cleanup(t_group *list);
 void	*free_tab(char **tab);
+void	cleanup(t_group *list);
+void	cleanup_and_exit(t_group *list, int exitcode);
+void	protect_malloc(t_group *group, void *ptr);
 
 #endif

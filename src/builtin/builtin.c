@@ -19,6 +19,7 @@ void	builtin_exit(t_group *group)
 	exitcode = 0;
 	if (group->cmd[1])
 		exitcode = ft_atoi(group->cmd[1]);
+	free_tab(group->env);
 	cleanup(group);
 	exit(exitcode);
 }

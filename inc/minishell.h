@@ -81,7 +81,7 @@ t_group	*parser(char **tokens, char **env, int exitcode);
 /*	expander	*/
 bool	is_end_of_key(char c);
 void	remove_first_char(char *str);
-void	expander(t_group *list);
+int		expander(t_group *list);
 /*	exec			*/
 void	simple_command(t_group *node);
 void	executor(t_group *group);

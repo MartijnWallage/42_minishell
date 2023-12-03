@@ -52,14 +52,14 @@ static void	child(t_group *group)
 {
 	if (group->next && pipe(group->pipefd) == -1)
 	{
-		error_msg("pipe error");
-		exit(1);
+		error_msg("");
+		return ;
 	}
 	group->pid = fork();
 	if (group->pid == -1)
 	{
-		error_msg("pid error");
-		exit(1);
+		error_msg("");
+		return ;
 	}
 	if (group->pid == 0)
 	{

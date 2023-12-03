@@ -29,7 +29,12 @@ int	main(int argc, char **argv, char **envp)
 	{
 		line = reader(envp_cpy);
 		tokens = tokenizer(line);
-		protect_malloc(tokens);
+		if (!tokens)
+		{
+			free(envp_cpy);
+			error_msg(MALLOC_MSG);
+			exit(MALLOC_CODE);
+		}
 		if (!*tokens)
 		{
 			free(tokens);
@@ -43,14 +48,13 @@ int	main(int argc, char **argv, char **envp)
 			error_msg(MALLOC_MSG);
 			exit(MALLOC_CODE);
 		}
-/* 		t_group *current = list;
-		while (current)
+		if (!expander(list))
 		{
-			for (int i = 0; i < tab_len(current->cmd); i++)
-				printf("%s\n", current->cmd[i]);
-			current = current->next;
-		} */
-		expander(list);
+			cleanup(list);
+			free(envp_cpy);
+			error_msg(MALLOC_MSG);
+			exit(MALLOC_CODE);
+		}
 		executor(list);
 		envp_cpy = list->env;
 		exitcode = group_last(list)->exitcode;

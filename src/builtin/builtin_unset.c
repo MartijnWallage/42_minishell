@@ -6,7 +6,7 @@
 /*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/03 12:10:00 by mwallage          #+#    #+#             */
-/*   Updated: 2023/11/20 23:15:47 by mwallage         ###   ########.fr       */
+/*   Updated: 2023/12/03 19:29:24 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ void	remove_var(t_group *group, char *key)
 	keylen = ft_strlen(key);
 	tablen = tab_len(group->env);
 	new_env = malloc(sizeof(char *) * tablen);
-	// protect malloc
+	protect_malloc(group, new_env);
 	i = -1;
 	j = 0;
 	while (group->env[++i])
@@ -31,6 +31,7 @@ void	remove_var(t_group *group, char *key)
 		if (ft_strncmp(group->env[i], key, keylen))
 		{
 			new_env[j] = ft_strdup(group->env[i]);
+			protect_malloc(group, new_env[j]);
 			j++;
 		}
 	}

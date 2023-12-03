@@ -6,7 +6,7 @@
 /*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/09 09:44:07 by jmuller           #+#    #+#             */
-/*   Updated: 2023/11/20 23:10:13 by mwallage         ###   ########.fr       */
+/*   Updated: 2023/12/03 19:34:24 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ static void	update_oldpwd(t_group *group)
 	char	*oldpwd;
 
 	oldpwd = ft_strjoin("OLDPWD=", mini_getenv(group->env, "PWD"));
+	protect_malloc(group, oldpwd);
 	i = 0;
 	while (group->env[i] && ft_strncmp(group->env[i], "OLDPWD=", 7))
 		i++ ;
@@ -30,16 +31,17 @@ static void	update_oldpwd(t_group *group)
 		append_var(group, oldpwd);
 }
 
-static void	update_pwd(char **env)
+static void	update_pwd(t_group *group)
 {
 	int		i;
 	char	buffer[1024];
 		
 	i = 0;
-	while (env[i] && ft_strncmp(env[i], "PWD=", 4))
+	while (group->env[i] && ft_strncmp(group->env[i], "PWD=", 4))
 		i++;
-	free(env[i]);
-	env[i] = ft_strjoin("PWD=", getcwd(buffer, 1024));
+	free(group->env[i]);
+	group->env[i] = ft_strjoin("PWD=", getcwd(buffer, 1024));
+	protect_malloc(group, group->env[i]);
 }
 
 static void	goto_home(t_group *group)
@@ -53,6 +55,7 @@ static void	goto_home(t_group *group)
 		temp = group->cmd[1];
 		group->cmd[1] = ft_strjoin(home, group->cmd[1] + 1);
 		free(temp);
+		protect_malloc(group, group->cmd[1]);
 	}
 }
 
@@ -65,6 +68,7 @@ static void	goto_previous_dir(t_group *group)
 	{
 		free(group->cmd[1]);	
 		group->cmd[1] = ft_strdup(old_path);
+		protect_malloc(group, group->cmd[1]);
 	}
 }
 
@@ -79,6 +83,6 @@ void	builtin_cd(t_group *group)
 	if (chdir(group->cmd[1]) == 0)
 	{
 		update_oldpwd(group);
-		update_pwd(group->env);
+		update_pwd(group);
 	}
 }

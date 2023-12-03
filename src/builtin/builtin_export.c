@@ -51,11 +51,15 @@ void	append_var(t_group *group, char *var)
 
 	tablen = tab_len(group->env);
 	new_env = malloc(sizeof(char *) * (tablen + 2));
-	// protect malloc
+	protect_malloc(group, new_env);
 	i = -1;
 	while (++i < tablen)
+	{
 		new_env[i] = ft_strdup(group->env[i]);
+		protect_malloc(group, new_env[i]);
+	}
 	new_env[i] = ft_strdup(var);
+	protect_malloc(group, new_env[i]);
 	new_env[i + 1] = NULL;
 	free_tab(group->env);
 	group->env = new_env;
@@ -77,6 +81,7 @@ static void	update_env(t_group *group, char *var)
 		{
 			free(group->env[i]);
 			group->env[i] = ft_strdup(var);
+			protect_malloc(group, group->env[i]);
 			return ;
 		}
 	}

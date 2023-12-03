@@ -6,7 +6,7 @@
 /*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 16:46:09 by mwallage          #+#    #+#             */
-/*   Updated: 2023/12/03 18:57:32 by mwallage         ###   ########.fr       */
+/*   Updated: 2023/12/03 19:27:51 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,5 @@ int	main(int argc, char **argv, char **envp)
 		exitcode = group_last(list)->exitcode;
 		cleanup(list);
 	}
-	free(env_cpy);
 	return (0);
 }

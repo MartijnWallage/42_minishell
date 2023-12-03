@@ -89,8 +89,8 @@ t_group	*init_group(char **cmd, char **env, int exitcode)
 	list->outfile = STDOUT_FILENO;
 	list->infile_name = NULL;
 	list->outfile_name = NULL;
-	list->original_stdin = STDIN_FILENO;
-	list->original_stdout = STDOUT_FILENO;
+	list->original_stdin = dup(STDIN_FILENO);
+	list->original_stdout = dup(STDOUT_FILENO);
 	list->exitcode = exitcode;
 	return (list);
 }

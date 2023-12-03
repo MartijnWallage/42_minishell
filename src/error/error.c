@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-void	error_msg(const char *info)
+int	error_msg(const char *info)
 {
 	char	*errno_readable;
 	int		len;
@@ -26,10 +26,11 @@ void	error_msg(const char *info)
 		write(STDERR_FILENO, ": ", 2);
 	}
 	if (info == NULL)
-		return ;
+		return (0);
 	len = ft_strlen(info);
 	write(STDERR_FILENO, info, len);
 	write(STDERR_FILENO, "\n", 1);
+	return (0);
 }
 
 void	*syntax_error(const char token)

@@ -53,6 +53,7 @@ typedef struct s_group
 								// none (0), PIPE, or AND (&&), or OR (||)
 	int				pipefd[2];
 	char			*heredoc;
+	int				heredoc_pipefd[2];
 	pid_t			pid;
 	int				original_stdin;
 	int				original_stdout;
@@ -95,7 +96,7 @@ void	append_var(t_group *group, char *line);
 void	builtin_unset(t_group *group);
 void	builtin_cd(t_group *group);
 /*	error.c			*/
-void	error_msg(const char *info);
+int		error_msg(const char *info);
 void	*syntax_error(const char token);
 void	protect_malloc(void *ptr);
 /*	utils.c			*/

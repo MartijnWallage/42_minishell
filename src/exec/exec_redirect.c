@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_redirect.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mwallage <mwallage@student.42berlin.d      +#+  +:+       +#+        */
+/*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/30 15:20:23 by mwallage          #+#    #+#             */
-/*   Updated: 2023/11/30 15:20:25 by mwallage         ###   ########.fr       */
+/*   Updated: 2023/12/03 19:10:59 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,11 +60,9 @@ int redirect(t_group *group)
 	if (!group->cmd || !group->cmd[0])
 		return (0);
 	if (group->infile == -1)
-		error_msg(group->infile_name);
+		return (error_msg(group->infile_name));
 	if (group->outfile == -1)
-		error_msg(group->outfile_name);
-	if (group->infile == -1 || group->outfile == -1)
-		return (0);
+		return (error_msg(group->outfile_name));
 	if (group->heredoc && !handle_heredoc(group))
 		return (0);
 	if (group->infile != STDIN_FILENO)

@@ -6,7 +6,7 @@
 /*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/22 18:14:52 by mwallage          #+#    #+#             */
-/*   Updated: 2023/11/23 16:24:41 by mwallage         ###   ########.fr       */
+/*   Updated: 2023/12/03 18:21:14 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,8 +45,18 @@ void	*syntax_error(const char token)
 	return (NULL);
 }
 
-void	protect_malloc(void *ptr)
+void	protect_malloc(t_group *group, void *ptr)
 {
+	t_group	*current;
+
+	if (group && ptr == NULL)
+	{
+		current = group;
+		while (current && current->previous)
+			current = current->previous;
+		free(current->env);
+		cleanup(current);
+	}
 	if (ptr == NULL)
 	{
 		error_msg(MALLOC_MSG);

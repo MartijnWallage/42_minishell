@@ -6,7 +6,7 @@
 /*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/22 18:14:58 by mwallage          #+#    #+#             */
-/*   Updated: 2023/12/02 09:33:56 by mwallage         ###   ########.fr       */
+/*   Updated: 2023/12/03 19:09:14 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,12 @@ void	simple_command(t_group *group)
 	if (!group->cmd || !group->cmd[0])
 		return ;
 	if (!redirect(group))
-		return ;
+	{
+		if (group->operator == PIPE)
+			exit (1);
+		else
+			return ;
+	}
 	if (is_builtin(group->cmd[0]))
 		builtin(group);
 	else if (group->operator == PIPE)

@@ -6,7 +6,7 @@
 /*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/22 18:15:14 by mwallage          #+#    #+#             */
-/*   Updated: 2023/11/24 15:01:34 by mwallage         ###   ########.fr       */
+/*   Updated: 2023/12/03 18:51:30 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,30 +103,23 @@ t_group	*parser(char **cmd, char **env, int exitcode)
 
 	list = init_group(cmd, env, exitcode);
 	if (!list)
-		return (NULL);
+	{
+		free_tab(cmd);
+		free_tab(env);
+		error_msg(MALLOC_MSG);
+		exit(MALLOC_CODE);
+	}
 	parse_redirect(list);
 	breakpoint = first_pipe(cmd);
 	if (breakpoint == -1)
 		return (list);
 	list->cmd = get_left_side(cmd, breakpoint);
-	if (!list->cmd)
-	{
-		cleanup(list);
-		return (NULL);
-	}
+	protect_malloc(list, list->cmd);
 	list->operator = PIPE;
 	right_side = get_right_side(cmd, breakpoint + 1);
-	if (!right_side)
-	{
-		cleanup(list);
-		return (NULL);
-	}
+	protect_malloc(list, right_side);
 	list->next = parser(right_side, env, exitcode);
-	if (!list->next)
-	{
-		cleanup(list);
-		return (NULL);
-	}
+	protect_malloc(list, list->next);
 	free_tab(cmd);
 	list->next->previous = list;
 	list->next->operator = PIPE;

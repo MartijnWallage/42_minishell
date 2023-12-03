@@ -6,7 +6,7 @@
 /*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/03 12:08:00 by mwallage          #+#    #+#             */
-/*   Updated: 2023/11/24 17:11:36 by mwallage         ###   ########.fr       */
+/*   Updated: 2023/12/03 18:57:48 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,63 +61,45 @@ static int	remove_quotes(char *str)
 	foreground pipeline.
 */
 
-static int	expand_var(t_group *group, int word_index, int dollar_sign)
+static int	get_keylen(char *word)
 {
-	char	*old_word;
+	int	keylen;
+
+	keylen = 0;
+	while (ft_isalnum(word[keylen]))
+		keylen++;
+	return (keylen);
+}
+
+static char	*expand_var(t_group *group, char *word)
+{
 	int		keylen;
-	char	*new_word;
 	char	*value;
 	char	*key;
 
-	old_word = group->cmd[word_index];
-	keylen = 0;
-	if (old_word[dollar_sign + 1] == '?')
+	if (word[0] == '?')
 	{
-		keylen = 1;
 		value = ft_itoa(group->exitcode);
-		if (!value)
-			return (0);
+		protect_malloc(group, value);
+		return (value);
 	}
-	else
-	{
-		while (ft_isalnum(old_word[keylen + dollar_sign + 1]))
-			keylen++;
-		key = ft_substr(old_word, dollar_sign + 1, keylen);
-		if (key == NULL)
-			return (0);
-		value = mini_getenv(group->env, key);
-		if (!value)
-			value = ft_strdup("");
-		else
-			value = ft_strdup(value);
-		free(key);
-		if (!value)
-			return (0);
-	}
-	old_word[dollar_sign] = 0;
-	new_word = ft_strjoin(old_word, value);
-	free(value);
-	if (!new_word)
-		return (0);
-	key = new_word;
-	new_word = ft_strjoin(new_word, old_word + dollar_sign + keylen + 1);
-	free(key);
-//	free(old_word);			//	valgrind objects to this, but it seems necessary
-	if (!new_word)
-		return (0);
-	group->cmd[word_index] = new_word;
-	return (1);
+	keylen = get_keylen(word);
+	key = ft_substr(word, 0, keylen);
+	protect_malloc(group, key);
+	value = ft_strdup(mini_getenv(group->env, key));
+	protect_malloc(group, value);
+	return (value);
 }
 
-static int	find_and_expand_vars(t_group *group, int word_index)
+static void	find_and_expand_vars(t_group *group, int word_index)
 {
 	int		i;
 	char	waiting_for_quote;
 	char	*word;
+	char	*value;
+	char	*temp;
 	
 	word = group->cmd[word_index];
-	if (!word)
-		return (1);
 	waiting_for_quote = 0;
 	i = -1;
 	while (word[++i])
@@ -126,14 +108,24 @@ static int	find_and_expand_vars(t_group *group, int word_index)
 			waiting_for_quote = 0;
 		else if (!waiting_for_quote && (word[i] == '\'' || word[i] == '\"'))
 			waiting_for_quote = word[i];
-		else if (waiting_for_quote != '\'' && word[i] == '$' && isalnum(word[i + 1])
-			&& !expand_var(group, word_index, i))
-				return (0);
+		else if (waiting_for_quote != '\'' && word[i] == '$' && isalnum(word[i + 1]))
+		{
+			value = expand_var(group, &word[i + 1]);
+			word[i] = 0;
+			group->cmd[word_index] = ft_strjoin(word, value);
+			protect_malloc(group, group->cmd[word_index]);
+			temp = group->cmd[word_index];
+			group->cmd[word_index] = ft_strjoin(group->cmd[word_index], word + ft_strlen(value));
+			protect_malloc(group, group->cmd[word_index]);
+			i += ft_strlen(value);
+			free(temp);
+			free(word);
+			free(value);
+		}
 	}
-	return (1);
 }
 
-int	expander(t_group *list)
+void	expander(t_group *list)
 {
 	t_group	*current;
 	int		i;
@@ -144,11 +136,9 @@ int	expander(t_group *list)
 		i = -1;
 		while (current->cmd[++i])
 		{
-			if (!find_and_expand_vars(current, i))
-				return (0);
+			find_and_expand_vars(current, i);
 			remove_quotes(current->cmd[i]);
 		}
 		current = current->next;
 	}
-	return (1);
 }

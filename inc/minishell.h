@@ -6,7 +6,7 @@
 /*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 15:40:59 by mwallage          #+#    #+#             */
-/*   Updated: 2023/12/01 17:24:58 by mwallage         ###   ########.fr       */
+/*   Updated: 2023/12/03 18:58:01 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ t_group	*parser(char **tokens, char **env, int exitcode);
 /*	expander	*/
 bool	is_end_of_key(char c);
 void	remove_first_char(char *str);
-int		expander(t_group *list);
+void	expander(t_group *list);
 /*	exec			*/
 void	simple_command(t_group *node);
 void	executor(t_group *group);
@@ -98,7 +98,7 @@ void	builtin_cd(t_group *group);
 /*	error.c			*/
 int		error_msg(const char *info);
 void	*syntax_error(const char token);
-void	protect_malloc(void *ptr);
+void	protect_malloc(t_group *group, void *ptr);
 /*	utils.c			*/
 int		tab_len(char **tab);
 char	**copy_tab(char **tab);

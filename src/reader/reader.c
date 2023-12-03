@@ -6,7 +6,7 @@
 /*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/22 18:15:25 by mwallage          #+#    #+#             */
-/*   Updated: 2023/11/23 16:24:14 by mwallage         ###   ########.fr       */
+/*   Updated: 2023/12/03 18:46:16 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ char	*reader(char **env)
 	char	*prompt;
 
 	prompt = get_prompt(env);
-	protect_malloc(prompt);
+	protect_malloc(NULL, prompt);
 	str = readline(prompt);
 	free(prompt);
 	add_history(str);

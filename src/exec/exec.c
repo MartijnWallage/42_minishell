@@ -6,7 +6,7 @@
 /*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 11:44:55 by mwallage          #+#    #+#             */
-/*   Updated: 2023/11/14 15:28:06 by mwallage         ###   ########.fr       */
+/*   Updated: 2023/12/03 19:23:53 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,18 +18,20 @@ static char	*try_paths(char *cmd, char **paths)
 	char	*whole_cmd;
 	char	*temp;
 
-	i = 0;
-	while (paths[i])
+	i = -1;
+	while (paths[++i])
 	{
 		whole_cmd = ft_strjoin(paths[i], "/");
+		if (!whole_cmd)
+			return (NULL);
 		temp = whole_cmd;
 		whole_cmd = ft_strjoin(whole_cmd, cmd);
-		if (temp != whole_cmd)
-			free(temp);
+		free(temp);
+		if (!whole_cmd)
+			return (NULL);
 		if (access(whole_cmd, F_OK | X_OK) == 0)
 			return (whole_cmd);
 		free(whole_cmd);
-		i++;
 	}
 	return (cmd);
 }
@@ -49,29 +51,35 @@ static char	*get_path(char *cmd, char **env)
 		if (!env[i])
 			return (cmd);
 		line = ft_split(env[i++], '=');
+		if (!line)
+			return (NULL);
 		if (ft_strncmp(line[0], "PATH", 4) == 0)
 			break ;
 		free_tab(line);
 	}
 	paths = ft_split(line[1], ':');
 	free_tab(line);
+	if (!paths)
+		return (NULL);
 	whole_cmd = try_paths(cmd, paths);
 	free_tab(paths);
 	return (whole_cmd);
 }
 
-void	exec(char **cmd, char **env)
+void	exec(t_group *group)
 {
 	char	*path;
 
-	path = get_path(cmd[0], env);
-	if (execve(path, cmd, env) == -1)
+	path = get_path(group->cmd[0], group->env);
+	protect_malloc(group, path);
+	if (execve(path, group->cmd, group->env) == -1)
 	{
-		if (ft_strcmp(path, cmd[0]))
+		if (ft_strncmp(path, group->cmd[0], ft_strlen(group->cmd[0])))
 			free(path);
 		ft_putstr_fd("philoshell: command not found: ", 2);
-		ft_putendl_fd(cmd[0], 2);
-		free_tab(cmd);
+		ft_putendl_fd(group->cmd[0], 2);
+		free_tab(group->env);
+		cleanup(group);
 		exit(errno);
 	}
 }

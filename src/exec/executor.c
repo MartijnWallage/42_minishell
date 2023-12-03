@@ -6,7 +6,7 @@
 /*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/22 18:14:58 by mwallage          #+#    #+#             */
-/*   Updated: 2023/12/03 19:09:14 by mwallage         ###   ########.fr       */
+/*   Updated: 2023/12/03 19:21:02 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,12 +38,12 @@ void	simple_command(t_group *group)
 	if (is_builtin(group->cmd[0]))
 		builtin(group);
 	else if (group->operator == PIPE)
-		exec(group->cmd, group->env);
+		exec(group);
 	else
 	{
 		group->pid = fork();
 		if (group->pid == 0)
-			exec(group->cmd, group->env);
+			exec(group);
 		waitpid(group->pid, &status, 0);
 		if (WIFEXITED(status))
 			group->exitcode = WEXITSTATUS(status);

@@ -6,7 +6,7 @@
 /*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 15:40:59 by mwallage          #+#    #+#             */
-/*   Updated: 2023/12/03 18:58:01 by mwallage         ###   ########.fr       */
+/*   Updated: 2023/12/03 19:21:32 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,9 +83,9 @@ bool	is_end_of_key(char c);
 void	remove_first_char(char *str);
 void	expander(t_group *list);
 /*	exec			*/
-void	simple_command(t_group *node);
+void	simple_command(t_group *group);
 void	executor(t_group *group);
-void	exec(char **cmd, char **env);
+void	exec(t_group *group);
 int		handle_heredoc(t_group *group);
 int		redirect(t_group *group);
 /*	builtin			*/

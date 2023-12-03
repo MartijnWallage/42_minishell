@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-void	error_msg(char *info)
+void	error_msg(const char *info)
 {
 	char	*errno_readable;
 	int		len;
@@ -30,6 +30,18 @@ void	error_msg(char *info)
 	len = ft_strlen(info);
 	write(STDERR_FILENO, info, len);
 	write(STDERR_FILENO, "\n", 1);
+}
+
+void	*syntax_error(const char token)
+{
+	write(STDERR_FILENO, "philoshell: ", 12);
+	write(STDERR_FILENO, "syntax error near unexpected token '", 36);
+	if (token == '\n')
+		write(STDERR_FILENO, "newline", 7);
+	else
+		write(STDERR_FILENO, &token, 1);
+	write(STDERR_FILENO, "'\n", 2);
+	return (NULL);
 }
 
 void	protect_malloc(void *ptr)

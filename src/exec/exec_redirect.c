@@ -62,7 +62,7 @@ int	handle_heredoc(t_group *group)
 	return (1);
 }
 
-int check_redirect(t_group *group)
+int redirect(t_group *group)
 {
 	if (!group->cmd[0])
 		return (0);

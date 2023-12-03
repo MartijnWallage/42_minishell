@@ -110,14 +110,23 @@ t_group	*parser(char **cmd, char **env, int exitcode)
 		return (list);
 	list->cmd = get_left_side(cmd, breakpoint);
 	if (!list->cmd)
-		return (NULL);	//	something should be freed here
+	{
+		cleanup(list);
+		return (NULL);
+	}
 	list->operator = PIPE;
 	right_side = get_right_side(cmd, breakpoint + 1);
 	if (!right_side)
-		return (NULL); // something should be freed here
+	{
+		cleanup(list);
+		return (NULL);
+	}
 	list->next = parser(right_side, env, exitcode);
 	if (!list->next)
+	{
+		cleanup(list);
 		return (NULL);
+	}
 	free_tab(cmd);
 	list->next->previous = list;
 	list->next->operator = PIPE;

@@ -31,7 +31,10 @@ void	here_doc(t_group *group, int index)
 	{
 		remove_word(group->cmd, index - 1);
 		group->exitcode = 2;
-		error_msg("syntax error near unexpected token");   // obviously shouldn't be hard-coded
+		if (group->cmd[index])
+			syntax_error(group->cmd[index][0]);
+		else
+			syntax_error('\n');
 		return ;
 	}
 	group->heredoc = group->cmd[index];
@@ -44,11 +47,14 @@ void	here_doc(t_group *group, int index)
 
 void	redirect_in(t_group *group, int index)
 {
-	if (group->cmd[index] == NULL)
+	if (group->cmd[index] == NULL || is_special_char(group->cmd[index][0]))
 	{
 		remove_word(group->cmd, index - 1);
 		group->exitcode = 2;
-		error_msg("syntax error near unexpected token");		// obviously shouldn't be hard-coded
+		if (group->cmd[index])
+			syntax_error(group->cmd[index][0]);
+		else
+			syntax_error('\n');
 		return ;
 	}
 	group->infile_name = group->cmd[index];
@@ -61,11 +67,14 @@ void	redirect_in(t_group *group, int index)
 
 void	redirect_out(t_group *group, int index, bool append)
 {
-	if (group->cmd[index] == NULL)
+	if (group->cmd[index] == NULL || is_special_char(group->cmd[index][0]))
 	{
 		remove_word(group->cmd, index - 1);
 		group->exitcode = 2;
-		error_msg("syntax error near unexpected token");  // obviously shouldn't be hard-coded
+		if (group->cmd[index])
+			syntax_error(group->cmd[index][0]);
+		else
+			syntax_error('\n');
 		return ;
 	}
 	group->outfile_name = group->cmd[index];

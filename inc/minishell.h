@@ -86,7 +86,7 @@ void	simple_command(t_group *node);
 void	executor(t_group *group);
 void	exec(char **cmd, char **env);
 int		handle_heredoc(t_group *group);
-int		check_redirect(t_group *group);
+int		redirect(t_group *group);
 /*	builtin			*/
 bool	is_builtin(char *cmd);
 void	builtin(t_group *group);
@@ -95,7 +95,8 @@ void	append_var(t_group *group, char *line);
 void	builtin_unset(t_group *group);
 void	builtin_cd(t_group *group);
 /*	error.c			*/
-void	error_msg(char *info);
+void	error_msg(const char *info);
+void	*syntax_error(const char token);
 void	protect_malloc(void *ptr);
 /*	utils.c			*/
 int		tab_len(char **tab);

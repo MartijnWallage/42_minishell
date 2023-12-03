@@ -26,7 +26,9 @@ void	simple_command(t_group *group)
 {
 	int		status;
 
-	if (!check_redirect(group))
+	if (!group->cmd || !group->cmd[0])
+		return ;
+	if (!redirect(group))
 		return ;
 	if (is_builtin(group->cmd[0]))
 		builtin(group);
@@ -72,7 +74,10 @@ static void	child(t_group *group)
 			dup2(group->pipefd[1], STDOUT_FILENO);
 			close(group->pipefd[1]);
 		}
-		simple_command(group);
+		if (group->cmd && group->cmd[0])
+			simple_command(group);
+		else
+			exit(0);
 	}
 	if (group->previous)
 		close(group->previous->pipefd[0]);

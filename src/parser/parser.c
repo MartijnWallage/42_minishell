@@ -83,6 +83,7 @@ t_group	*init_group(char **cmd, char **env, int exitcode)
 	list->previous = NULL;
 	list->next = NULL;
 	list->env = copy_tab(env);
+	protect_malloc(list, list->env);
 	list->operator = 0;
 	list->heredoc = NULL;
 	list->infile = STDIN_FILENO;
@@ -118,7 +119,7 @@ t_group	*parser(char **cmd, char **env, int exitcode)
 	list->operator = PIPE;
 	right_side = get_right_side(cmd, breakpoint + 1);
 	protect_malloc(list, right_side);
-	list->next = parser(right_side, env, exitcode);
+	list->next = parser(right_side, list->env, exitcode);
 	protect_malloc(list, list->next);
 	free_tab(cmd);
 	list->next->previous = list;

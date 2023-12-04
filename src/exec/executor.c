@@ -31,7 +31,7 @@ void	simple_command(t_group *group)
 	if (!redirect(group))
 	{
 		if (group->operator == PIPE)
-			exit (1);
+			cleanup_and_exit(group, 1);
 		else
 			return ;
 	}

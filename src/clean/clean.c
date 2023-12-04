@@ -38,13 +38,17 @@ void	cleanup(t_group *list)
 	head = list;
 	while (head && head->previous)
 		head = head->previous;
-	free_tab(head->env);
-	free_tab(head->cmd);
+	if (head->env)
+		free_tab(head->env);
+	if (head->cmd)
+		free_tab(head->cmd);
 	temp = head->next;
 	free(head);
 	if (temp)
+	{
 		temp->previous = NULL;
-	cleanup(temp);
+		cleanup(temp);
+	}
 }
 
 void	cleanup_and_exit(t_group *list, int exitcode)

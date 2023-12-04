@@ -88,8 +88,13 @@ static char	*get_value(t_group *group, char *word)
 	keylen = get_keylen(word);
 	key = ft_substr(word, 0, keylen);
 	protect_malloc(group, key);
-	value = ft_strdup(mini_getenv(group->env, key));
-	protect_malloc(group, value);
+	value = mini_getenv(group->env, key);
+	free(key);
+	if (value)
+	{
+		value = ft_strdup(value);
+		protect_malloc(group, value);
+	}
 	return (value);
 }
 
@@ -107,15 +112,18 @@ char	*expand_var(t_group *group, int word_index, int *dollar_sign)
 	word[*dollar_sign] = 0;
 	group->cmd[word_index] = ft_strjoin(word, value);
 	valuelen = ft_strlen(value);
-	free(value);
+	if (value)
+		free(value);
 	protect_malloc(group, group->cmd[word_index]);
 	if (word[*dollar_sign + keylen + 1])
 	{
 		temp = group->cmd[word_index];
 		group->cmd[word_index] =
 			ft_strjoin(group->cmd[word_index], &word[*dollar_sign + keylen + 1]);
-		free(word);
-		free(temp);
+		if (word != temp)
+			free(word);
+		if (temp != group->cmd[word_index])
+			free(temp);
 		protect_malloc(group, group->cmd[word_index]);		
 	}
 	*dollar_sign += valuelen - 1;

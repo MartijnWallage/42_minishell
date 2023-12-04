@@ -43,9 +43,12 @@ int	main(int argc, char **argv, char **envp)
 			continue ;
 		}
 		list = parser(tokens, env_cpy, exitcode);
+		if (env_cpy != envp)
+			free_tab(env_cpy);
 		expander(list);
 		executor(list);
-		env_cpy = copy_tab(list->env);
+		env_cpy = copy_tab(group_last(list)->env);
+		protect_malloc(list, env_cpy);
 		exitcode = group_last(list)->exitcode;
 		cleanup(list);
 	}

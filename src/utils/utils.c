@@ -35,7 +35,14 @@ char	**copy_tab(char **tab)
 	ret[size] = NULL;
 	i = -1;
 	while (++i < size)
+	{
 		ret[i] = ft_strdup(tab[i]);
+		if (!ret[i])
+		{
+			free_tab(tab);
+			return (NULL);
+		}
+	}
 	return (ret);
 }
 

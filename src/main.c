@@ -22,8 +22,7 @@ int	main(int argc, char **argv, char **envp)
 
 	if (argc != 1 || argv[1])
 		return (1);
-	env_cpy = copy_tab(envp);
-	protect_malloc(NULL, env_cpy);
+	env_cpy = envp;
 	exitcode = 0;
 	while (1)
 	{
@@ -33,7 +32,8 @@ int	main(int argc, char **argv, char **envp)
 		if (!tokens)
 		{
 			rl_clear_history();
-			free_tab(env_cpy);
+			if (env_cpy != envp)
+				free_tab(env_cpy);
 			error_msg(MALLOC_MSG);
 			return (MALLOC_CODE);
 		}

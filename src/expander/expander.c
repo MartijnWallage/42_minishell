@@ -65,6 +65,8 @@ static int	get_keylen(char *word)
 {
 	int	keylen;
 
+	if (word[0] == '?')
+		return (1);
 	keylen = 0;
 	while (ft_isalnum(word[keylen]))
 		keylen++;
@@ -91,32 +93,33 @@ static char	*get_value(t_group *group, char *word)
 	return (value);
 }
 
-int	expand_var(t_group *group, int word_index, int dollar_sign)
+char	*expand_var(t_group *group, int word_index, int *dollar_sign)
 {
 	int		keylen;
-	int		ret;
+	int		valuelen;
 	char	*word;
 	char	*value;
 	char	*temp;
 
 	word = group->cmd[word_index];
-	keylen = get_keylen(&word[dollar_sign + 1]);
-	value = get_value(group, &word[dollar_sign + 1]);
-	word[dollar_sign] = 0;
+	keylen = get_keylen(&word[*dollar_sign + 1]);
+	value = get_value(group, &word[*dollar_sign + 1]);
+	word[*dollar_sign] = 0;
 	group->cmd[word_index] = ft_strjoin(word, value);
-	ret = ft_strlen(value);
+	valuelen = ft_strlen(value);
 	free(value);
 	protect_malloc(group, group->cmd[word_index]);
-	if (word[dollar_sign + keylen + 1])
+	if (word[*dollar_sign + keylen + 1])
 	{
 		temp = group->cmd[word_index];
 		group->cmd[word_index] =
-			ft_strjoin(group->cmd[word_index], &word[dollar_sign + keylen + 1]);
+			ft_strjoin(group->cmd[word_index], &word[*dollar_sign + keylen + 1]);
 		free(word);
 		free(temp);
 		protect_malloc(group, group->cmd[word_index]);		
 	}
-	return (ret);
+	*dollar_sign += valuelen - 1;
+	return (group->cmd[word_index]);
 }
 
 static void	find_and_expand_vars(t_group *group, int word_index)
@@ -130,12 +133,13 @@ static void	find_and_expand_vars(t_group *group, int word_index)
 	i = -1;
 	while (word[++i])
 	{
-		if (waiting_for_quote == word[i])
+		if (waiting_for_quote ==  word[i])
 			waiting_for_quote = 0;
 		else if (!waiting_for_quote && (word[i] == '\'' || word[i] == '\"'))
 			waiting_for_quote = word[i];
-		else if (waiting_for_quote != '\'' && word[i] == '$' && isalnum(word[i + 1]))
-			i += expand_var(group, word_index, i);
+		else if (waiting_for_quote != '\'' && word[i] == '$'
+			&& (isalnum(word[i + 1]) || word[i + 1] == '?'))
+			word = expand_var(group, word_index, &i);
 	}
 }
 

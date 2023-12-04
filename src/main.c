@@ -29,8 +29,14 @@ int	main(int argc, char **argv, char **envp)
 	{
 		line = reader(env_cpy);
 		tokens = tokenizer(line);
+		free(line);
 		if (!tokens)
-			return (free(env_cpy), error_msg(MALLOC_MSG), MALLOC_CODE);
+		{
+			rl_clear_history();
+			free_tab(env_cpy);
+			error_msg(MALLOC_MSG);
+			return (MALLOC_CODE);
+		}
 		if (!*tokens)
 		{
 			free(tokens);

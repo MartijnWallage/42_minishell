@@ -118,10 +118,10 @@ t_group	*parser(char **cmd, char **env, int exitcode)
 	protect_malloc(list, list->cmd);
 	list->operator = PIPE;
 	right_side = get_right_side(cmd, breakpoint + 1);
+	free_tab(cmd);
 	protect_malloc(list, right_side);
 	list->next = parser(right_side, list->env, exitcode);
 	protect_malloc(list, list->next);
-	free_tab(cmd);
 	list->next->previous = list;
 	list->next->operator = PIPE;
 	return (list);

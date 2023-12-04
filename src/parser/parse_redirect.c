@@ -22,6 +22,7 @@ void	remove_word(char **tab, int index)
 		tab[i] = tab[i + 1];
 		i++;
 	}
+	free(tab[i + 1]);
 	tab[i] = NULL;
 }
 

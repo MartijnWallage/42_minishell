@@ -53,7 +53,6 @@ typedef struct s_group
 								// none (0), PIPE, or AND (&&), or OR (||)
 	int				pipefd[2];
 	char			*heredoc;
-	int				heredoc_pipefd[2];
 	pid_t			pid;
 	int				original_stdin;
 	int				original_stdout;

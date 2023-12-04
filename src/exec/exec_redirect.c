@@ -12,27 +12,27 @@
 
 #include "minishell.h"
 
-static void	write_heredoc(t_group *group)
+static void	write_heredoc(t_group *group, int pipefd[2])
 {
 	char	*line;
 
-	close(group->heredoc_pipefd[0]);
+	close(pipefd[0]);
 	while (1)
 	{
 		line = get_next_line(group->original_stdin);
 		if (line == NULL)
 		{
-			close(group->heredoc_pipefd[1]);
+			close(pipefd[1]);
 			error_msg("incomplete here_doc");
 			cleanup_and_exit(group, 1);
 		}
 		if (ft_strncmp(line, group->heredoc, ft_strlen(group->heredoc)) == 0)
 		{
 			free(line);
-			close(group->heredoc_pipefd[1]);
+			close(pipefd[1]);
 			cleanup_and_exit(group, 1);
 		}
-		ft_putstr_fd(line, group->heredoc_pipefd[1]);
+		ft_putstr_fd(line, pipefd[1]);
 		free(line);
 	}
 }
@@ -40,18 +40,19 @@ static void	write_heredoc(t_group *group)
 int	handle_heredoc(t_group *group)
 {
 	pid_t	pid;
+	int		pipefd[2];
 
-	if (pipe(group->heredoc_pipefd) == -1)
+	if (pipe(pipefd) == -1)
 		return (error_msg("heredoc pipe"));
 	pid = fork();
 	if (pid == -1)
 		return (error_msg("heredoc fork"));
 	if (pid == 0)
-		write_heredoc(group);
+		write_heredoc(group, pipefd);
 	waitpid(pid, NULL, 0);
-	close(group->heredoc_pipefd[1]);
-	dup2(group->heredoc_pipefd[0], STDIN_FILENO);
-	close(group->heredoc_pipefd[0]);
+	close(pipefd[1]);
+	dup2(pipefd[0], STDIN_FILENO);
+	close(pipefd[0]);
 	return (1);
 }
 

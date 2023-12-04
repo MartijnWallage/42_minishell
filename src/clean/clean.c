@@ -18,12 +18,10 @@ void	*free_tab(char **tab)
 
 	if (!tab)
 		return (NULL);
-	i = 0;
-	while (tab[i])
-	{
+	i = -1;
+	while (tab[++i])
 		free(tab[i]);
-		i++;
-	}
+	free(tab[i]);
 	free(tab);
 	return (NULL);
 }

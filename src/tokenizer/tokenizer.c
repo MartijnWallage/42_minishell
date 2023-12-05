@@ -6,7 +6,7 @@
 /*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/02 11:13:16 by mwallage          #+#    #+#             */
-/*   Updated: 2023/12/05 14:23:59 by mwallage         ###   ########.fr       */
+/*   Updated: 2023/12/05 17:08:06 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,5 @@ char	**tokenizer(char const *s)
 		fill_str(tab[i], s, wordlen);
 		s += wordlen;
 	}
-	for (int i = 0; i < words; i++)
-		printf("%s****\n", tab[i]);
 	return (tab);
 }

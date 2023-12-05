@@ -6,7 +6,7 @@
 /*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/03 12:10:00 by mwallage          #+#    #+#             */
-/*   Updated: 2023/12/05 14:12:40 by mwallage         ###   ########.fr       */
+/*   Updated: 2023/12/05 17:08:18 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ int	builtin_exit(t_group *group)
 	exitcode = 0;
 	if (group->cmd[1])
 		exitcode = ft_atoi(group->cmd[1]);
+	printf("exit\n");
 	cleanup_and_exit(group, exitcode);
 	return (1);
 }

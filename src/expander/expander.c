@@ -6,99 +6,13 @@
 /*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/03 12:08:00 by mwallage          #+#    #+#             */
-/*   Updated: 2023/12/03 22:54:12 by mwallage         ###   ########.fr       */
+/*   Updated: 2023/12/05 10:09:57 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "expander.h"
 
-void	remove_first_char(char *str)
-{
-	if (!str || !*str)
-		return ;
-	while (str && *str && *(str + 1))
-	{
-		*str = *(str + 1);
-		str++;
-	}
-	*str = *(str + 1);
-}
-
-static int	remove_quotes(char *str)
-{
-	char	opening_quote;
-	int		flag;
-
-	flag = 1;
-	while (str && *str)
-	{
-		if (*str == '\'' || *str == '\"')
-		{
-			if (*str == '\'')
-				flag = 0;
-			opening_quote = *str;
-			remove_first_char(str);
-			while (*str && *str != opening_quote)
-				str++;
-			remove_first_char(str);
-		}
-		else
-			str++;
-	}
-	return (flag);
-}
-
-/*
-	Features:
-	- expands variables, e.g. $PATH
-	- expands variable ins strings echo "$var1 text $var2 text"
-	- expands variables in variables
-	  - e.g. export VAR=$PATH
-	  
-
-	To do:
-	- $?: should expand to the exit status of the most recently executed
-	foreground pipeline.
-*/
-
-static int	get_keylen(char *word)
-{
-	int	keylen;
-
-	if (word[0] == '?')
-		return (1);
-	keylen = 0;
-	while (ft_isalnum(word[keylen]))
-		keylen++;
-	return (keylen);
-}
-
-static char	*get_value(t_group *group, char *word)
-{
-	int		keylen;
-	char	*value;
-	char	*key;
-
-	if (word[0] == '?')
-	{
-		value = ft_itoa(group->exitcode);
-		protect_malloc(group, value);
-		return (value);
-	}
-	keylen = get_keylen(word);
-	key = ft_substr(word, 0, keylen);
-	protect_malloc(group, key);
-	value = mini_getenv(group->env, key);
-	free(key);
-	if (value)
-	{
-		value = ft_strdup(value);
-		protect_malloc(group, value);
-	}
-	return (value);
-}
-
-char	*expand_var(t_group *group, int word_index, int *dollar_sign)
+static char	*expand_var(t_group *group, int word_index, int *dollar_sign)
 {
 	int		keylen;
 	int		valuelen;

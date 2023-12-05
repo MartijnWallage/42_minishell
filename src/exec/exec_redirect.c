@@ -6,11 +6,11 @@
 /*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/30 15:20:23 by mwallage          #+#    #+#             */
-/*   Updated: 2023/12/03 23:58:09 by mwallage         ###   ########.fr       */
+/*   Updated: 2023/12/05 10:30:04 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "executor.h"
 
 static void	write_heredoc(t_group *group, int pipefd[2])
 {
@@ -37,7 +37,7 @@ static void	write_heredoc(t_group *group, int pipefd[2])
 	}
 }
 
-int	handle_heredoc(t_group *group)
+static int	handle_heredoc(t_group *group)
 {
 	pid_t	pid;
 	int		pipefd[2];

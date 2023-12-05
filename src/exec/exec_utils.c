@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exec.c                                             :+:      :+:    :+:   */
+/*   exec_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 11:44:55 by mwallage          #+#    #+#             */
-/*   Updated: 2023/12/03 23:58:28 by mwallage         ###   ########.fr       */
+/*   Updated: 2023/12/05 10:30:17 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "executor.h"
 
-static char	*try_paths(char *cmd, char **paths)
+char	*try_paths(char *cmd, char **paths)
 {
 	int		i;
 	char	*whole_cmd;
@@ -36,7 +36,7 @@ static char	*try_paths(char *cmd, char **paths)
 	return (cmd);
 }
 
-static char	*get_path(char *cmd, char **env)
+char	*get_path(char *cmd, char **env)
 {
 	char	**line;
 	char	**paths;
@@ -66,19 +66,12 @@ static char	*get_path(char *cmd, char **env)
 	return (whole_cmd);
 }
 
-void	exec(t_group *group)
+void restore_redirection(t_group *group)
 {
-	char	*path;
-
-	path = get_path(group->cmd[0], group->env);
-	protect_malloc(group, path);
-	rl_clear_history();
-	if (execve(path, group->cmd, group->env) == -1)
-	{
-		if (ft_strncmp(path, group->cmd[0], ft_strlen(group->cmd[0])))
-			free(path);
-		ft_putstr_fd("philoshell: command not found: ", 2);
-		ft_putendl_fd(group->cmd[0], 2);
-		cleanup_and_exit(group, errno);
-	}
+	if (group->heredoc && dup2(group->original_stdin, STDIN_FILENO) == -1)
+		error_msg("could not restore redirection");
+	if (group->infile != STDIN_FILENO && dup2(group->original_stdin, STDIN_FILENO) == -1)
+		error_msg("could not restore redirection");
+	if (group->outfile != STDOUT_FILENO && dup2(group->original_stdout, STDOUT_FILENO) == -1)
+		error_msg("could not restore redirection");
 }

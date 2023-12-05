@@ -6,20 +6,27 @@
 /*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/22 18:14:58 by mwallage          #+#    #+#             */
-/*   Updated: 2023/12/03 23:59:05 by mwallage         ###   ########.fr       */
+/*   Updated: 2023/12/05 10:55:34 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "executor.h"
 
-static void restore_redirection(t_group *group)
+void	exec(t_group *group)
 {
-	if (group->heredoc && dup2(group->original_stdin, STDIN_FILENO) == -1)
-		error_msg("could not restore redirection");
-	if (group->infile != STDIN_FILENO && dup2(group->original_stdin, STDIN_FILENO) == -1)
-		error_msg("could not restore redirection");
-	if (group->outfile != STDOUT_FILENO && dup2(group->original_stdout, STDOUT_FILENO) == -1)
-		error_msg("could not restore redirection");
+	char	*path;
+
+	path = get_path(group->cmd[0], group->env);
+	protect_malloc(group, path);
+	rl_clear_history();
+	if (execve(path, group->cmd, group->env) == -1)
+	{
+		if (ft_strncmp(path, group->cmd[0], ft_strlen(group->cmd[0])))
+			free(path);
+		ft_putstr_fd("philoshell: command not found: ", 2);
+		ft_putendl_fd(group->cmd[0], 2);
+		cleanup_and_exit(group, errno);
+	}
 }
 
 void	simple_command(t_group *group)
@@ -35,22 +42,26 @@ void	simple_command(t_group *group)
 		else
 			return ;
 	}
-	if (is_builtin(group->cmd[0]))
-		builtin(group);
-	else if (group->operator == PIPE)
-		exec(group);
-	else
+	if (builtin(group))
 	{
-		group->pid = fork();
-		if (group->pid == 0)
-			exec(group);
-		waitpid(group->pid, &status, 0);
-		if (WIFEXITED(status))
-			group->exitcode = WEXITSTATUS(status);
+		if (group->operator == PIPE)
+			cleanup_and_exit(group, 0);
 		else
-			error_msg("program quit unexpectedly");
+		{
+			restore_redirection(group);
+			return ;
+		}
 	}
-	restore_redirection(group);
+	if (group->operator == PIPE)
+		exec(group);
+	group->pid = fork();
+	if (group->pid == 0)
+		exec(group);
+	waitpid(group->pid, &status, 0);
+	if (WIFEXITED(status))
+		group->exitcode = WEXITSTATUS(status);
+	else
+		error_msg("program quit unexpectedly");
 }
 
 static void	child(t_group *group)

@@ -6,11 +6,11 @@
 /*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/09 09:44:07 by jmuller           #+#    #+#             */
-/*   Updated: 2023/12/03 19:34:24 by mwallage         ###   ########.fr       */
+/*   Updated: 2023/12/05 11:00:29 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "builtin.h"
 
 static void	update_oldpwd(t_group *group)
 {
@@ -72,10 +72,10 @@ static void	goto_previous_dir(t_group *group)
 	}
 }
 
-void	builtin_cd(t_group *group)
+int	builtin_cd(t_group *group)
 {
 	if (!group->cmd[1])
-		return ;
+		return (1);
 	if (group->cmd[1][0] == '~')
 		goto_home(group);
 	else if (ft_strcmp(group->cmd[1], "-") == 0)
@@ -85,4 +85,5 @@ void	builtin_cd(t_group *group)
 		update_oldpwd(group);
 		update_pwd(group);
 	}
+	return (1);
 }

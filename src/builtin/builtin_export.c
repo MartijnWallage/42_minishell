@@ -11,7 +11,8 @@
 /*   Updated: 2023/11/07 10:44:19 by jmuller          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#include "minishell.h"
+
+#include "builtin.h"
 
 /*
  *	Syntax:
@@ -98,7 +99,7 @@ static void	export_without_arg(char **env)
 	}
 }
 
-void	builtin_export(t_group *group)
+int	builtin_export(t_group *group)
 {
 	int	i;
 
@@ -111,4 +112,5 @@ void	builtin_export(t_group *group)
 			update_env(group, group->cmd[i]);
 		i++;
 	}
+	return (1);
 }

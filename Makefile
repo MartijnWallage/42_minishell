@@ -6,12 +6,12 @@
 #    By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/10/05 15:16:08 by mwallage          #+#    #+#              #
-#    Updated: 2023/11/23 11:12:09 by mwallage         ###   ########.fr        #
+#    Updated: 2023/12/05 10:39:18 by mwallage         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 CC			:= cc
-CFLAGS		:= -Wall -Wextra -Werror -g -fsanitize=address
+CFLAGS		:= -Wall -Wextra -Werror -g #-fsanitize=address
 SRCDIR		:= ./src
 OBJDIR		:= ./obj
 INCDIR		:= ./inc
@@ -24,13 +24,14 @@ LIBFLAGS	:= -L$(LIBFTDIR) -lft $(READLINE)
 HOST		:= $(shell hostname)
 SRC			:= main.c \
 				reader/reader.c \
-				lexer/tokenizer.c \
-				lexer/lexer_utils.c \
+				tokenizer/tokenizer.c \
+				tokenizer/tokenizer_utils.c \
 				parser/parser.c \
 				parser/parse_redirect.c \
 				expander/expander.c \
+				expander/expander_utils.c \
 				exec/exec_redirect.c \
-				exec/exec.c \
+				exec/exec_utils.c \
 				exec/executor.c \
 				utils/utils.c \
 				error/error.c \
@@ -54,7 +55,7 @@ $(LIBFT): $(LIBFTDIR)
 $(OBJDIR):
 	mkdir obj;
 	mkdir obj/reader;
-	mkdir obj/lexer;
+	mkdir obj/tokenizer;
 	mkdir obj/parser;
 	mkdir obj/expander;
 	mkdir obj/exec;

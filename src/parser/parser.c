@@ -6,7 +6,7 @@
 /*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/22 18:15:14 by mwallage          #+#    #+#             */
-/*   Updated: 2023/12/03 23:36:37 by mwallage         ###   ########.fr       */
+/*   Updated: 2023/12/05 10:37:23 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ static int	first_pipe(char **tokens)
 	return (-1);
 }
 
-t_group	*init_group(char **cmd, char **env, int exitcode)
+static t_group	*init_group(char **cmd, char **env, int exitcode)
 {
 	t_group	*list;
 

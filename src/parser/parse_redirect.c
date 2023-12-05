@@ -6,13 +6,13 @@
 /*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/22 18:15:14 by mwallage          #+#    #+#             */
-/*   Updated: 2023/12/03 19:02:01 by mwallage         ###   ########.fr       */
+/*   Updated: 2023/12/05 10:35:41 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	remove_word(char **tab, int index)
+static void	remove_word(char **tab, int index)
 {
 	int	i;
 
@@ -26,7 +26,7 @@ void	remove_word(char **tab, int index)
 	tab[i] = NULL;
 }
 
-void	here_doc(t_group *group, int index)
+static void	here_doc(t_group *group, int index)
 {
 	if (group->cmd[index] == NULL || is_special_char(group->cmd[index][0]))
 	{
@@ -46,7 +46,7 @@ void	here_doc(t_group *group, int index)
 	remove_word(group->cmd, index - 1);
 }
 
-void	redirect_in(t_group *group, int index)
+static void	redirect_in(t_group *group, int index)
 {
 	if (group->cmd[index] == NULL || is_special_char(group->cmd[index][0]))
 	{
@@ -66,7 +66,7 @@ void	redirect_in(t_group *group, int index)
 	remove_word(group->cmd, index - 1);
 }
 
-void	redirect_out(t_group *group, int index, bool append)
+static void	redirect_out(t_group *group, int index, bool append)
 {
 	if (group->cmd[index] == NULL || is_special_char(group->cmd[index][0]))
 	{

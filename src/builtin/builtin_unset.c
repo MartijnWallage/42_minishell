@@ -6,13 +6,13 @@
 /*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/03 12:10:00 by mwallage          #+#    #+#             */
-/*   Updated: 2023/12/03 19:29:24 by mwallage         ###   ########.fr       */
+/*   Updated: 2023/12/05 10:58:08 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "builtin.h"
 
-void	remove_var(t_group *group, char *key)
+static void	remove_var(t_group *group, char *key)
 {
 	int		i;
 	int		j;
@@ -40,7 +40,7 @@ void	remove_var(t_group *group, char *key)
 	group->env = new_env;
 }
 
-void	builtin_unset(t_group *group)
+int	builtin_unset(t_group *group)
 {
 	int	i;
 
@@ -48,7 +48,8 @@ void	builtin_unset(t_group *group)
 	while (group->cmd[++i])
 	{
 		if (mini_getenv(group->env, group->cmd[i]) == NULL)
-			return ;
+			return (1);
 		remove_var(group, group->cmd[i]);
 	}
+	return (1);
 }

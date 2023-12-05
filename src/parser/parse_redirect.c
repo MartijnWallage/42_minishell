@@ -6,7 +6,7 @@
 /*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/22 18:15:14 by mwallage          #+#    #+#             */
-/*   Updated: 2023/12/05 10:35:41 by mwallage         ###   ########.fr       */
+/*   Updated: 2023/12/05 14:11:11 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ static void	remove_word(char **tab, int index)
 
 static void	here_doc(t_group *group, int index)
 {
-	if (group->cmd[index] == NULL || is_special_char(group->cmd[index][0]))
+	if (group->cmd[index] == NULL || is_meta_char(group->cmd[index][0]))
 	{
 		remove_word(group->cmd, index - 1);
 		group->exitcode = 2;
@@ -48,7 +48,7 @@ static void	here_doc(t_group *group, int index)
 
 static void	redirect_in(t_group *group, int index)
 {
-	if (group->cmd[index] == NULL || is_special_char(group->cmd[index][0]))
+	if (group->cmd[index] == NULL || is_meta_char(group->cmd[index][0]))
 	{
 		remove_word(group->cmd, index - 1);
 		group->exitcode = 2;
@@ -68,7 +68,7 @@ static void	redirect_in(t_group *group, int index)
 
 static void	redirect_out(t_group *group, int index, bool append)
 {
-	if (group->cmd[index] == NULL || is_special_char(group->cmd[index][0]))
+	if (group->cmd[index] == NULL || is_meta_char(group->cmd[index][0]))
 	{
 		remove_word(group->cmd, index - 1);
 		group->exitcode = 2;

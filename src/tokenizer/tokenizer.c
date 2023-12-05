@@ -6,30 +6,23 @@
 /*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/02 11:13:16 by mwallage          #+#    #+#             */
-/*   Updated: 2023/12/05 10:40:52 by mwallage         ###   ########.fr       */
+/*   Updated: 2023/12/05 14:23:59 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-/*
- *	Special Characters, we need to handle: ', ", <, >, >>, <<, 
- *	|, $, &?, ||, &&, (, ).
- *	Special Characters, we dont have to handle: \ , ;
- *	Special Characters, that the subject doesnt say anything about: !, #, [, ] 
- */
-
 static int	token_len(const char *s)
 {
 	int		size;
 	char	opening_quote;
+	int		control_op_len;
 
-	if (is_special_charpair(*s, *(s + 1)))
-		return (2);
-    if (is_special_char(*s))
-		return (1);
+	control_op_len = is_control_operator(s);
+	if (control_op_len)
+		return (control_op_len);
 	size = 0;
-	while (s[size] && !is_whitespace(s[size]) && !is_special_char(s[size]))
+	while (s[size] && !is_meta_char(s[size]))
 	{
 		if (is_quotation_mark(s[size]))
 		{
@@ -101,5 +94,7 @@ char	**tokenizer(char const *s)
 		fill_str(tab[i], s, wordlen);
 		s += wordlen;
 	}
+	for (int i = 0; i < words; i++)
+		printf("%s****\n", tab[i]);
 	return (tab);
 }

@@ -6,7 +6,7 @@
 /*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/22 18:15:14 by mwallage          #+#    #+#             */
-/*   Updated: 2023/12/05 10:37:23 by mwallage         ###   ########.fr       */
+/*   Updated: 2023/12/05 14:27:06 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ static int	first_pipe(char **tokens)
 	i = 0;
 	while (tokens && tokens[i])
 	{
-		if (tokens[i][0] == '|' && tokens[i + 1])
+		if (ft_strncmp(tokens[i], "|", 2) == 0 && tokens[i + 1])
 			return (i);
 		i++;
 	}

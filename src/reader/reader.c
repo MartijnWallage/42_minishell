@@ -6,7 +6,7 @@
 /*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/22 18:15:25 by mwallage          #+#    #+#             */
-/*   Updated: 2023/12/05 11:06:06 by mwallage         ###   ########.fr       */
+/*   Updated: 2023/12/05 11:11:05 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ static char *get_prompt(char **env)
 
 	user = mini_getenv(env, "USER");
 	if (!user)
-		user = "";
+		user = "user";
 	path = mini_getenv(env, "PWD");
 	if (!path)
 		path = "";

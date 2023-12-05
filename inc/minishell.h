@@ -6,7 +6,7 @@
 /*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 15:40:59 by mwallage          #+#    #+#             */
-/*   Updated: 2023/12/05 10:50:48 by mwallage         ###   ########.fr       */
+/*   Updated: 2023/12/05 14:09:26 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,10 +68,10 @@ typedef struct s_group
 /*	reader.c		*/
 char	*reader(char **env);
 /*	tokenizer		*/
-bool	is_whitespace(const char c);
-bool	is_special_char(const char c);
-bool	is_special_charpair(const char a, const char b);
-bool	is_quotation_mark(const char c);
+int		is_whitespace(const char c);
+int		is_meta_char(const char c);
+int		is_control_operator(const char *token);
+int		is_quotation_mark(const char c);
 int		wordlen(const char *str, const char c);
 char	**tokenizer(char const *s);
 /*	parser		*/

@@ -15,14 +15,17 @@
 
 # include "minishell.h"
 
-/*	executor.c		*/
-void	exec(t_group *group);
-void	simple_command(t_group *group);
+/*	exec_pipe.c		*/
+void	pipeline(t_group *group);
+void	child(t_group *group);
 /*	exec_redirect.c	*/
 int		redirect(t_group *group);
+void 	restore_redirection(t_group *group);
 /*	exec_utils.c	*/
 char	*try_paths(char *cmd, char **paths);
 char	*get_path(char *cmd, char **env);
-void 	restore_redirection(t_group *group);
+/*	executor.c		*/
+void	exec(t_group *group);
+void	simple_command(t_group *group);
 
 #endif

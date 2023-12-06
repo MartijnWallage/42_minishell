@@ -65,13 +65,3 @@ char	*get_path(char *cmd, char **env)
 	free_tab(paths);
 	return (whole_cmd);
 }
-
-void restore_redirection(t_group *group)
-{
-	if (group->heredoc && dup2(group->original_stdin, STDIN_FILENO) == -1)
-		error_msg("could not restore redirection");
-	if (group->infile != STDIN_FILENO && dup2(group->original_stdin, STDIN_FILENO) == -1)
-		error_msg("could not restore redirection");
-	if (group->outfile != STDOUT_FILENO && dup2(group->original_stdout, STDOUT_FILENO) == -1)
-		error_msg("could not restore redirection");
-}

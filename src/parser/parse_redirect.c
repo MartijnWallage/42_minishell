@@ -96,13 +96,13 @@ void	parse_redirect(t_group *group)
 	i = 0;
 	while (group->cmd[i] && group->cmd[i][0] != '|')
 	{
-		if (group->cmd[i][0] == '<' && group->cmd[i][1] == '<')
+		if (ft_strncmp(group->cmd[i], "<<", 3) == 0)
 			here_doc(group, i + 1);
-		else if (group->cmd[i][0] == '<')
+		else if (ft_strncmp(group->cmd[i], "<", 2) == 0)
 			redirect_in(group, i + 1);
-		else if (group->cmd[i][0] == '>' && group->cmd[i][1] == '>')
+		else if (ft_strncmp(group->cmd[i], ">>", 3) == 0)
 			redirect_out(group, i + 1, true);
-		else if (group->cmd[i][0] == '>')
+		else if (ft_strncmp(group->cmd[i], ">", 2) == 0)
 			redirect_out(group, i + 1, false);
 		else
 			i++;

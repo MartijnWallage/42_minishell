@@ -16,11 +16,11 @@ static int	token_len(const char *s)
 {
 	int		size;
 	char	opening_quote;
-	int		control_op_len;
+	int		token_len;
 
-	control_op_len = is_control_operator(s);
-	if (control_op_len)
-		return (control_op_len);
+	token_len = is_token(s);
+	if (token_len)
+		return (token_len);
 	size = 0;
 	while (s[size] && !is_meta_char(s[size]))
 	{

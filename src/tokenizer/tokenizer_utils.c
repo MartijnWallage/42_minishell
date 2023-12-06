@@ -71,6 +71,31 @@ int    is_control_operator(const char *token)
     return (0);
 }
 
+int is_token(const char *token)
+{
+    if (token[0] == '|' && token[1] == '|')
+        return (2);
+    else if (token[0] == '|')
+        return (1);
+    else if (token[0] == '&' && token[1] == '&')
+        return (2);
+    else if (token[0] == '&')
+        return (1);
+    else if (token[0] == '<' && token[1] == '<')
+        return (2);
+    else if (token[0] == '<')
+        return (1);
+    else if (token[0] == '>' && token[1] == '>')
+        return (2);
+    else if (token[0] == '>')
+        return (1);
+    else if (token[0] == '(')
+        return (1);
+    else if (token[0] == ')')
+        return (1);
+    return (0);
+}
+
 int	is_quotation_mark(const char c)
 {
 	if (c == '\'' || c == '\"')

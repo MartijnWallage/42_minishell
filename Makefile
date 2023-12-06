@@ -30,6 +30,7 @@ SRC			:= main.c \
 				parser/parse_redirect.c \
 				expander/expander.c \
 				expander/expander_utils.c \
+				exec/exec_pipe.c \
 				exec/exec_redirect.c \
 				exec/exec_utils.c \
 				exec/executor.c \

@@ -71,6 +71,7 @@ char	*reader(char **env);
 int		is_whitespace(const char c);
 int		is_meta_char(const char c);
 int		is_control_operator(const char *token);
+int		is_token(const char *token);
 int		is_quotation_mark(const char c);
 int		wordlen(const char *str, const char c);
 char	**tokenizer(char const *s);

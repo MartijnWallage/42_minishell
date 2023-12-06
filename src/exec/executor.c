@@ -39,94 +39,32 @@ void	simple_command(t_group *group)
 	{
 		if (group->operator == PIPE)
 			cleanup_and_exit(group, 1);
-		else
-			return ;
 	}
-	if (builtin(group))
+	else if (builtin(group))
 	{
 		if (group->operator == PIPE)
 			cleanup_and_exit(group, 0);
-		else
-		{
-			restore_redirection(group);
-			return ;
-		}
 	}
-	if (group->operator == PIPE)
+	else if (group->operator == PIPE)
 		exec(group);
-	group->pid = fork();
-	if (group->pid == 0)
-		exec(group);
-	waitpid(group->pid, &status, 0);
-	if (WIFEXITED(status))
-		group->exitcode = WEXITSTATUS(status);
 	else
-		error_msg("program quit unexpectedly");
-}
-
-static void	child(t_group *group)
-{
-	if (group->next && pipe(group->pipefd) == -1)
 	{
-		error_msg("");
-		return ;
-	}
-	group->pid = fork();
-	if (group->pid == -1)
-	{
-		error_msg("");
-		return ;
-	}
-	if (group->pid == 0)
-	{
-		if (group->previous && group->infile == STDIN_FILENO)
-		{
-			dup2(group->previous->pipefd[0], STDIN_FILENO);
-			close(group->previous->pipefd[0]);
-		}
-		if (group->next && group->outfile == STDOUT_FILENO)
-		{
-			close(group->pipefd[0]);
-			dup2(group->pipefd[1], STDOUT_FILENO);
-			close(group->pipefd[1]);
-		}
-		if (group->cmd && group->cmd[0])
-			simple_command(group);
+		group->pid = fork();
+		if (group->pid == 0)
+			exec(group);
+		waitpid(group->pid, &status, 0);
+		if (WIFEXITED(status))
+			group->exitcode = WEXITSTATUS(status);
 		else
-			cleanup_and_exit(group, 0);
+			error_msg("program quit unexpectedly");
 	}
-	if (group->previous)
-		close(group->previous->pipefd[0]);
-	if (group->next)
-		close(group->pipefd[1]);
+	restore_redirection(group);
 }
 
 void	executor(t_group *group)
 {
-	t_group	*current;
-	t_group	*last;
-	int		status;
-
 	if (group->operator == 0)
-	{
 		simple_command(group);
-		return ;
-	}
-	current = group;
-	while (current)
-	{
-		child(current);
-		current = current->next;
-	}
-	current = group;
-	while (current)
-	{
-		waitpid(current->pid, &status, 0);
-		last = current;
-		current = current->next;
-	}
-	if (WIFEXITED(status))
-		last->exitcode = WEXITSTATUS(status);
-	else
-		error_msg(last->cmd[0]);
+	else if (group->operator == PIPE)
+		pipeline(group);
 }

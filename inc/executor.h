@@ -16,7 +16,7 @@
 # include "minishell.h"
 
 /*	exec_pipe.c		*/
-void	pipeline(t_group *group);
+t_group	*pipeline(t_group *group);
 void	child(t_group *group);
 /*	exec_redirect.c	*/
 int		redirect(t_group *group);

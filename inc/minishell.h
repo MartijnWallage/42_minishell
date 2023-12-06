@@ -49,8 +49,7 @@ typedef struct s_group
 {
 	char			**cmd;
 	char			**env;
-	int				operator;	// Operator between this group and the next group
-								// none (0), PIPE, or AND (&&), or OR (||)
+	int				operator;
 	int				pipefd[2];
 	char			*heredoc;
 	pid_t			pid;

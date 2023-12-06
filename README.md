@@ -38,4 +38,7 @@ Our minishell (called "philoshell", since both authors are philosophers) consist
 ## Current State
 
 - All the basic functionality is there, except for SIGNALS and the bonus.
-- We need better error handling and exit codes.
+- Bonus: Logical operators are processed by the tokenizer and the executor but not yet by the parser.
+- Bonus: Parentheses are processed by the tokenizer but not yet by the parser or executor
+- Bonus: wildcards not yet implemented at all.
+- We need a general syntax check.

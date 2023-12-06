@@ -14,7 +14,7 @@
 
 void	child(t_group *group)
 {
-	if (group->next && pipe(group->pipefd) == -1)
+	if (group->operator == PIPE && group->next && pipe(group->pipefd) == -1)
 	{
 		error_msg("");
 		return ;
@@ -32,7 +32,7 @@ void	child(t_group *group)
 			dup2(group->previous->pipefd[0], STDIN_FILENO);
 			close(group->previous->pipefd[0]);
 		}
-		if (group->next && group->outfile == STDOUT_FILENO)
+		if (group->operator == PIPE && group->next && group->outfile == STDOUT_FILENO)
 		{
 			close(group->pipefd[0]);
 			dup2(group->pipefd[1], STDOUT_FILENO);
@@ -45,11 +45,11 @@ void	child(t_group *group)
 	}
 	if (group->previous)
 		close(group->previous->pipefd[0]);
-	if (group->next)
+	if (group->operator == PIPE && group->next)
 		close(group->pipefd[1]);
 }
 
-void	pipeline(t_group *group)
+t_group	*pipeline(t_group *group)
 {
 	t_group	*current;
 	t_group	*last;
@@ -59,17 +59,23 @@ void	pipeline(t_group *group)
 	while (current)
 	{
 		child(current);
+		if (current->operator != PIPE)
+			break ;
 		current = current->next;
 	}
 	current = group;
+	last = current;
 	while (current)
 	{
 		waitpid(current->pid, &status, 0);
 		last = current;
+		if (current->operator != PIPE)
+			break ;
 		current = current->next;
 	}
 	if (WIFEXITED(status))
 		last->exitcode = WEXITSTATUS(status);
 	else
 		error_msg(last->cmd[0]);
+	return (last);
 }

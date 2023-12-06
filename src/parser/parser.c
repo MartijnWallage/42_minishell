@@ -58,20 +58,28 @@ static char	**get_right_side(char **tab, int begin)
 	return (ret);
 }
 
-static int	first_pipe(char **tokens)
+/// @brief	Find first operator in **tokens
+/// @param tokens  array of strings passed by the tokenizer
+/// @return	Index of the first operator, or -1 if no operator
+static int	first_operator(char **tokens)
 {
 	int	i;
 
 	i = 0;
 	while (tokens && tokens[i])
 	{
-		if (ft_strncmp(tokens[i], "|", 2) == 0 && tokens[i + 1])
+		if (is_control_operator(tokens[i]) && tokens[i + 1])
 			return (i);
 		i++;
 	}
 	return (-1);
 }
 
+/// @brief 			Initialize group
+/// @param cmd 		list of tokens passed by tokenizer
+/// @param env 		copy of environment
+/// @param exitcode last known exitcode
+/// @return 		the initalized group
 static t_group	*init_group(char **cmd, char **env, int exitcode)
 {
 	t_group	*list;
@@ -90,9 +98,10 @@ static t_group	*init_group(char **cmd, char **env, int exitcode)
 	list->outfile = STDOUT_FILENO;
 	list->infile_name = NULL;
 	list->outfile_name = NULL;
-	list->original_stdin = dup(STDIN_FILENO);
+	list->original_stdin = dup(STDIN_FILENO);		// Probably should not do this here but more specifically where it is needed
 	list->original_stdout = dup(STDOUT_FILENO);
 	list->exitcode = exitcode;
+	list->pid = 1;
 	return (list);
 }
 
@@ -111,18 +120,22 @@ t_group	*parser(char **cmd, char **env, int exitcode)
 		exit(MALLOC_CODE);
 	}
 	parse_redirect(list);
-	breakpoint = first_pipe(cmd);
+	breakpoint = first_operator(cmd);
 	if (breakpoint == -1)
 		return (list);
 	list->cmd = get_left_side(cmd, breakpoint);
 	protect_malloc(list, list->cmd);
-	list->operator = PIPE;
+	if (ft_strncmp(cmd[breakpoint], "|", 2) == 0)
+		list->operator = PIPE;
+	else if (ft_strncmp(cmd[breakpoint], "&&", 3) == 0)
+		list->operator = AND;
+	else if (ft_strncmp(cmd[breakpoint], "||", 3) == 0)
+		list->operator = OR;
 	right_side = get_right_side(cmd, breakpoint + 1);
 	free_tab(cmd);
 	protect_malloc(list, right_side);
 	list->next = parser(right_side, list->env, exitcode);
 	protect_malloc(list, list->next);
 	list->next->previous = list;
-	list->next->operator = PIPE;
 	return (list);
 }

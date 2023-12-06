@@ -37,15 +37,15 @@ void	simple_command(t_group *group)
 		return ;
 	if (!redirect(group))
 	{
-		if (group->operator == PIPE)
+		if (group->pid == 0)
 			cleanup_and_exit(group, 1);
 	}
 	else if (builtin(group))
 	{
-		if (group->operator == PIPE)
+		if (group->pid == 0)
 			cleanup_and_exit(group, 0);
 	}
-	else if (group->operator == PIPE)
+	else if (group->pid == 0)
 		exec(group);
 	else
 	{
@@ -63,8 +63,14 @@ void	simple_command(t_group *group)
 
 void	executor(t_group *group)
 {
-	if (group->operator == 0)
+	if (group == NULL)
+		return ;
+	if (group->operator == PIPE)
+		group = pipeline(group);
+	else
 		simple_command(group);
-	else if (group->operator == PIPE)
-		pipeline(group);
+	if (group->operator == AND && group->exitcode == 0)
+		executor(group->next);
+	if (group->operator == OR && group->exitcode != 0)
+		executor(group->next);
 }

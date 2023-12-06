@@ -27,6 +27,13 @@ int	main(int argc, char **argv, char **envp)
 	while (1)
 	{
 		line = reader(env_cpy);
+		if (!line)
+		{
+			error_msg("readline failed");
+			rl_clear_history();
+			exit(errno);
+			// echo hello && ls && cat README.md | wc || echo failed!
+		}
 		tokens = tokenizer(line);
 		free(line);
 		if (!tokens)
@@ -36,11 +43,6 @@ int	main(int argc, char **argv, char **envp)
 				free_tab(env_cpy);
 			error_msg(MALLOC_MSG);
 			return (MALLOC_CODE);
-		}
-		if (!*tokens)
-		{
-			free(tokens);
-			continue ;
 		}
 		list = parser(tokens, env_cpy, exitcode);
 		if (env_cpy != envp)

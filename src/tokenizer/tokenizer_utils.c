@@ -62,8 +62,6 @@ int    is_control_operator(const char *token)
         return (1);
     else if (token[0] == '&' && token[1] == '&')
         return (2);
-    else if (token[0] == '&')
-        return (1);
     else if (token[0] == '(')
         return (1);
     else if (token[0] == ')')
@@ -79,8 +77,6 @@ int is_token(const char *token)
         return (1);
     else if (token[0] == '&' && token[1] == '&')
         return (2);
-    else if (token[0] == '&')
-        return (1);
     else if (token[0] == '<' && token[1] == '<')
         return (2);
     else if (token[0] == '<')

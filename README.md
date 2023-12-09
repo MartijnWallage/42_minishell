@@ -37,8 +37,7 @@ Our minishell (called "philoshell", since both authors are philosophers) consist
 
 ## Current State
 
-- All the basic functionality is there, except for SIGNALS and the bonus.
+- All the basic functionality is there, except for SIGNALS.
 - Bonus: wildcards not yet implemented.
-- We need a general syntax check.
+- The syntax check is still incomplete.
 - segfault with `((echo hello | cat -e))` (should be a syntax error because outer parentheses do not have an argument to operate on)
-- Problem with redirecting in a pipeline

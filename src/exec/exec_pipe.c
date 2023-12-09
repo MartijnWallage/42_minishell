@@ -6,7 +6,7 @@
 /*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/30 15:20:23 by mwallage          #+#    #+#             */
-/*   Updated: 2023/12/09 15:17:37 by mwallage         ###   ########.fr       */
+/*   Updated: 2023/12/09 20:18:38 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,11 +64,9 @@ void	pipeline(t_group *group)
 	current = group;
 	while (current && current->next && current->next->operator == PIPE)
 	{
-		printf("sending %s to the pipe\n", current->cmd[0]);
 		ft_pipe(current);
 		current = current->next->next;
 	}
-		printf("sending %s to the pipe\n", current->cmd[0]);
 	ft_pipe(current);
 	current = group;
 	while (current && current->next && current->next->operator == PIPE)

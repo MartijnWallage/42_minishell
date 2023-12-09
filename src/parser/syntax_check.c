@@ -6,7 +6,7 @@
 /*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/22 18:15:14 by mwallage          #+#    #+#             */
-/*   Updated: 2023/12/09 17:31:55 by mwallage         ###   ########.fr       */
+/*   Updated: 2023/12/09 20:18:19 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,6 @@ int	is_valid_syntax(char **cmd, int *exitcode)
 	i = -1;
 	while (cmd[++i])
 	{
-		printf("Checking %s\n", cmd[i]);
 		if (!is_matching_quotes(cmd[i]))
 			return (syntax_error(cmd[i], exitcode));
 		if (cmd[i][0] == ')')

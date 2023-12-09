@@ -6,7 +6,7 @@
 /*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/22 18:14:58 by mwallage          #+#    #+#             */
-/*   Updated: 2023/12/09 19:29:00 by mwallage         ###   ########.fr       */
+/*   Updated: 2023/12/09 20:17:17 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,10 +40,9 @@ void	simple_command(t_group *group)
 		else
 			return ;
 	}
-	printf("Redirect succeeded\n");
 	expander(group);
-	for (int i = 0; group->cmd[i]; i++)
-		printf("After expander: %s\n", group->cmd[i]);
+/* 	for (int i = 0; group->cmd[i]; i++)
+		printf("After expander: %s\n", group->cmd[i]); */
 	if (builtin(group))
 	{
 		if (group->pid == 0)

@@ -6,7 +6,7 @@
 /*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/30 15:20:23 by mwallage          #+#    #+#             */
-/*   Updated: 2023/12/09 19:47:23 by mwallage         ###   ########.fr       */
+/*   Updated: 2023/12/09 20:17:44 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,6 @@ static int	handle_heredoc(t_group *group, char *eof)
 	int		pipefd[2];
 	int		status;
 
-	printf("Handling heredoc...\n");
 	if (group->infile != STDIN_FILENO)
 		close(group->infile);
 	if (pipe(pipefd) == -1)
@@ -65,7 +64,6 @@ static int	handle_heredoc(t_group *group, char *eof)
 	else
 		close(pipefd[1]);
 	waitpid(pid, &status, 0);
-	printf("Heredoc child returned\n");
 	if (WIFEXITED(status))
 		*group->exitcode = WEXITSTATUS(status);
 	else
@@ -74,7 +72,6 @@ static int	handle_heredoc(t_group *group, char *eof)
 		return (close(pipefd[0]), 0);
 	close(pipefd[0]);
 	group->infile = group->original_stdin;	// A really bad way to indicate that original stdin needs to be restored
-	printf("Done with heredoc\n");
 	return (1);
 }
 

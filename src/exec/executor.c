@@ -6,7 +6,7 @@
 /*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/22 18:14:58 by mwallage          #+#    #+#             */
-/*   Updated: 2023/12/09 20:25:15 by mwallage         ###   ########.fr       */
+/*   Updated: 2023/12/09 21:52:03 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,9 @@ void	exec(t_group *group)
 	{
 		if (ft_strncmp(path, group->cmd[0], ft_strlen(group->cmd[0])))
 			free(path);
-		ft_putstr_fd("philoshell: command not found: ", 2);
-		ft_putendl_fd(group->cmd[0], 2);
+		ft_putstr_fd("philoshell: ", 2);
+		ft_putstr_fd(group->cmd[0], 2);
+		ft_putendl_fd(": command not found", 2);
 		cleanup_and_exit(group, errno);
 	}
 }
@@ -33,6 +34,8 @@ void	simple_command(t_group *group)
 {
 	if (!group->cmd || !group->cmd[0])
 		return ;
+	ft_putstr_fd("Simple command: ", group->original_stdout);
+	ft_putendl_fd(group->cmd[0], group->original_stdout);
 	if (!redirect(group))
 	{
 		if (group->pid == 0)
@@ -41,8 +44,6 @@ void	simple_command(t_group *group)
 			return ;
 	}
 	expander(group);
-/* 	for (int i = 0; group->cmd[i]; i++)
-		printf("After expander: %s\n", group->cmd[i]); */
 	if (builtin(group))
 	{
 		if (group->pid == 0)

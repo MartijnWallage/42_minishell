@@ -6,7 +6,7 @@
 /*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 11:44:55 by mwallage          #+#    #+#             */
-/*   Updated: 2023/12/09 17:57:02 by mwallage         ###   ########.fr       */
+/*   Updated: 2023/12/09 22:06:27 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,10 +73,13 @@ void	ft_waitpid(t_group *group)
 	waitpid(group->pid, &status, 0);
 	if (WIFEXITED(status))
 		*group->exitcode = WEXITSTATUS(status);
-	else if (group->cmd)
-		error_msg(group->cmd[0]);
-	else
-		error_msg("program quit unexpectedly");
+	else if (WEXITSTATUS(status))
+	{
+		if (group->cmd[0])
+			error_msg(group->cmd[0]);
+		else
+			error_msg("program quit unexpectedly");
+	}
 }
 
 /// @brief skip next simple command or the next pipeline, if there is one

@@ -24,22 +24,26 @@ int	builtin_exit(t_group *group)
 	return (1);
 }
 
-int	builtin_env(char **env)
+int	builtin_env(t_group *group)
 {
-	int	i;
+	int		i;
+	char	**env;
 
+	env = *group->mini_env;
 	i = -1;
 	while (env[++i])
 		printf("%s\n", env[i]);
+	*group->exitcode = 0;
 	return (1);
 }
 
-int	builtin_pwd(char **env)
+int	builtin_pwd(t_group *group)
 {
 	char	*pwd;
 
-	pwd = mini_getenv(env, "PWD");
+	pwd = mini_getenv(*group->mini_env, "PWD");
 	printf("%s\n", pwd);
+	*group->exitcode = 0;
 	return (1);
 }
 
@@ -59,6 +63,7 @@ int	builtin_echo(t_group *group)
 	}
 	if (!group->cmd[1] || ft_strncmp(group->cmd[1], "-n", 3))
 		printf("\n");
+	*group->exitcode = 0;
 	return (1);
 }
 
@@ -69,9 +74,9 @@ int	builtin(t_group	*group)
 	if (ft_strncmp(group->cmd[0], "exit", 5) == 0)
 		return (builtin_exit(group));
 	if (ft_strncmp(group->cmd[0], "env", 4) == 0)
-		return (builtin_env(group->env));
+		return (builtin_env(group));
 	if (ft_strncmp(group->cmd[0], "pwd", 4) == 0)
-		return (builtin_pwd(group->env));
+		return (builtin_pwd(group));
 	if (ft_strncmp(group->cmd[0], "echo", 5) == 0)
 		return (builtin_echo(group));
 	if (ft_strncmp(group->cmd[0], "export", 7) == 0)

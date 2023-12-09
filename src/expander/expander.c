@@ -6,7 +6,7 @@
 /*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/03 12:08:00 by mwallage          #+#    #+#             */
-/*   Updated: 2023/12/05 10:09:57 by mwallage         ###   ########.fr       */
+/*   Updated: 2023/12/09 15:21:10 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,20 +65,17 @@ static void	find_and_expand_vars(t_group *group, int word_index)
 	}
 }
 
-void	expander(t_group *list)
+void	expander(t_group *group)
 {
-	t_group	*current;
 	int		i;
 	
-	current = list;
-	while (current)
+	if (!group || !group->cmd)
+		return ;
+	remove_redirect(group->cmd);
+	i = -1;
+	while (group->cmd[++i])
 	{
-		i = -1;
-		while (current->cmd[++i])
-		{
-			find_and_expand_vars(current, i);
-			remove_quotes(current->cmd[i]);
-		}
-		current = current->next;
+		find_and_expand_vars(group, i);
+		remove_quotes(group->cmd[i]);
 	}
 }

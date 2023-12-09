@@ -1,27 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtin.h                                          :+:      :+:    :+:   */
+/*   parser.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 15:40:59 by mwallage          #+#    #+#             */
-/*   Updated: 2023/12/05 11:00:11 by mwallage         ###   ########.fr       */
+/*   Updated: 2023/12/08 22:57:13 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef BUILTIN_H
-# define BUILTIN_H
+#ifndef EXPANDER_H
+# define EXPANDER_H
 
 # include "minishell.h"
 
-int	builtin_export(t_group *group);
-int	builtin_unset(t_group *group);
-int	builtin_cd(t_group *group);
-int	builtin_exit(t_group *group);
-int	builtin_env(t_group *group);
-int	builtin_pwd(t_group *group);
-int	builtin_echo(t_group *group);
-void	append_var(t_group *group, char *var);
+/*	parser_utils.c */
+int		find_closing_parenth(char **cmd);
+int		first_operator(char **tokens);
+char	**get_left_side(char **tab, int end);
+char	**get_right_side(char **tab, int begin);
+t_operator	get_operator(char *str);
+/*	syntax_check	*/
+int		is_valid_syntax(char **cmd, int *exitcode);
 
 #endif

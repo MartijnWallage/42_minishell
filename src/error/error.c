@@ -6,7 +6,7 @@
 /*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/22 18:14:52 by mwallage          #+#    #+#             */
-/*   Updated: 2023/12/03 23:40:40 by mwallage         ###   ########.fr       */
+/*   Updated: 2023/12/08 23:01:37 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,14 +33,17 @@ int	error_msg(const char *info)
 	return (0);
 }
 
-void	*syntax_error(const char token)
+int	syntax_error(const char *token, int *exitcode)
 {
 	write(STDERR_FILENO, "philoshell: ", 12);
 	write(STDERR_FILENO, "syntax error near unexpected token '", 36);
-	if (token == '\n')
+	if (token && token[0] == '\n')
 		write(STDERR_FILENO, "newline", 7);
+	else if (token)
+		write(STDERR_FILENO, token, ft_strlen(token));
 	else
-		write(STDERR_FILENO, &token, 1);
+		write(STDERR_FILENO, "(NULL)", 6);
 	write(STDERR_FILENO, "'\n", 2);
-	return (NULL);
+	*exitcode = 2;
+	return (0);
 }

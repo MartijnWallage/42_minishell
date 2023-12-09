@@ -6,7 +6,7 @@
 /*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 11:44:55 by mwallage          #+#    #+#             */
-/*   Updated: 2023/12/05 10:30:17 by mwallage         ###   ########.fr       */
+/*   Updated: 2023/12/09 17:57:02 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,4 +64,30 @@ char	*get_path(char *cmd, char **env)
 	whole_cmd = try_paths(cmd, paths);
 	free_tab(paths);
 	return (whole_cmd);
+}
+
+void	ft_waitpid(t_group *group)
+{
+	int	status;
+
+	waitpid(group->pid, &status, 0);
+	if (WIFEXITED(status))
+		*group->exitcode = WEXITSTATUS(status);
+	else if (group->cmd)
+		error_msg(group->cmd[0]);
+	else
+		error_msg("program quit unexpectedly");
+}
+
+/// @brief skip next simple command or the next pipeline, if there is one
+/// @param group current group (the first group after && or ||)
+/// @return the next group that the executor should evaluate
+t_group	*skip_next_complete_command(t_group *group)
+{
+	if (!group)
+		return (NULL);
+	while (group->next && group->next->operator == PIPE)
+		group = group->next->next;
+	group = group->next;
+	return (group);
 }

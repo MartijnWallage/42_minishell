@@ -49,48 +49,55 @@ void	append_var(t_group *group, char *var)
 	int		i;
 	int		tablen;
 	char	**new_env;
+	char	**old_env;
 
-	tablen = tab_len(group->env);
+	old_env = *group->mini_env;
+	tablen = tab_len(old_env);
 	new_env = malloc(sizeof(char *) * (tablen + 2));
 	protect_malloc(group, new_env);
 	i = -1;
 	while (++i < tablen)
 	{
-		new_env[i] = ft_strdup(group->env[i]);
+		new_env[i] = ft_strdup((*group->mini_env)[i]);
 		protect_malloc(group, new_env[i]);
 	}
 	new_env[i] = ft_strdup(var);
 	protect_malloc(group, new_env[i]);
 	new_env[i + 1] = NULL;
-	free_tab(group->env);
-	group->env = new_env;
+	free_tab(old_env);
+	*group->mini_env = new_env;
 }
 
 
 static void	update_env(t_group *group, char *var)
 {
-	int	i;
-	int	j;
+	int		i;
+	int		j;
+	char	**env;
 
+	env = *group->mini_env;
 	i = -1;
-	while (group->env[++i])
+	while (env[++i])
 	{
 		j = 0;
-		while (var[j] != '=' && group->env[i][j] == var[j])
+		while (var[j] != '=' && env[i][j] == var[j])
 			++j;
 		if (var[j] == '=')
 		{
-			free(group->env[i]);
-			group->env[i] = ft_strdup(var);
-			protect_malloc(group, group->env[i]);
+			free(env[i]);
+			env[i] = ft_strdup(var);
+			protect_malloc(group, env[i]);
 			return ;
 		}
 	}
 	append_var(group, var);
 }
 
-static void	export_without_arg(char **env)
+static void	export_without_arg(char ***mini_env)
 {
+	char	**env;
+
+	env = *mini_env;
 	while (*env)
 	{
 		printf("declare -x ");
@@ -105,12 +112,13 @@ int	builtin_export(t_group *group)
 
 	i = 1;
 	if (group->cmd[i] == NULL)
-		export_without_arg(group->env);
+		export_without_arg(group->mini_env);
 	else while (group->cmd[i])
 	{
 		if (is_valid_arg(group->cmd[i]))
 			update_env(group, group->cmd[i]);
 		i++;
 	}
+	*group->exitcode = 0;
 	return (1);
 }

@@ -14,7 +14,7 @@
 
 int	remove_quotes(char *str)
 {
-	char	opening_quote;
+	char	OPEN_SUBSHELLing_quote;
 	int		flag;
 
 	flag = 1;
@@ -24,9 +24,9 @@ int	remove_quotes(char *str)
 		{
 			if (*str == '\'')
 				flag = 0;
-			opening_quote = *str;
+			OPEN_SUBSHELLing_quote = *str;
 			remove_first_char(str);
-			while (*str && *str != opening_quote)
+			while (*str && *str != OPEN_SUBSHELLing_quote)
 				str++;
 			remove_first_char(str);
 		}
@@ -56,14 +56,14 @@ char	*get_value(t_group *group, char *word)
 
 	if (word[0] == '?')
 	{
-		value = ft_itoa(group->exitcode);
+		value = ft_itoa(*group->exitcode);
 		protect_malloc(group, value);
 		return (value);
 	}
 	keylen = get_keylen(word);
 	key = ft_substr(word, 0, keylen);
 	protect_malloc(group, key);
-	value = mini_getenv(group->env, key);
+	value = mini_getenv(*group->mini_env, key);
 	free(key);
 	if (value)
 	{

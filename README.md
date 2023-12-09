@@ -15,7 +15,7 @@ Our minishell (called "philoshell", since both authors are philosophers) consist
 - LEXER: a lexer could be a combination of a TOKENIZER, which splits the input into seperate words or tokens, and a - what shall we call it? - TYPER, which assigns a type to each token. So far, however, we found that we only really need a TOKENIZER. It returns a char **.
 - PARSER: takes the char ** that it gets from the TOKENIZER and creates a linked list, with all the information necessary for the EXECUTOR to do its work.
 	- Splits the line up into groups that form a simple command, separated by pipes |.
-	- Pre-processes redirection: everything except the redirection itself. So the file is opened, but STDIN is not yet redirected to the fileno.
+	- Pre-processes redirection: everything except the redirection itself. So the file is OPEN_SUBSHELLed, but STDIN is not yet redirected to the fileno.
 	- If we do the bonus part, we will also need to handle parentheses and logical operators. Not sure yet if we will.
 - EXPANDER:
 	- expands variables
@@ -38,7 +38,7 @@ Our minishell (called "philoshell", since both authors are philosophers) consist
 ## Current State
 
 - All the basic functionality is there, except for SIGNALS and the bonus.
-- Bonus: Logical operators are processed by the tokenizer and the executor but not yet by the parser.
-- Bonus: Parentheses are processed by the tokenizer but not yet by the parser or executor
-- Bonus: wildcards not yet implemented at all.
+- Bonus: wildcards not yet implemented.
 - We need a general syntax check.
+- segfault with `((echo hello | cat -e))` (should be a syntax error because outer parentheses do not have an argument to operate on)
+- Problem with redirecting in a pipeline

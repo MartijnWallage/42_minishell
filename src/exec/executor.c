@@ -6,7 +6,7 @@
 /*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/22 18:14:58 by mwallage          #+#    #+#             */
-/*   Updated: 2023/12/05 14:14:37 by mwallage         ###   ########.fr       */
+/*   Updated: 2023/12/09 19:29:00 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,10 @@ void	exec(t_group *group)
 {
 	char	*path;
 
-	path = get_path(group->cmd[0], group->env);
+	path = get_path(group->cmd[0], *group->mini_env);
 	protect_malloc(group, path);
 	rl_clear_history();
-	if (execve(path, group->cmd, group->env) == -1)
+	if (execve(path, group->cmd, *group->mini_env) == -1)
 	{
 		if (ft_strncmp(path, group->cmd[0], ft_strlen(group->cmd[0])))
 			free(path);
@@ -31,16 +31,20 @@ void	exec(t_group *group)
 
 void	simple_command(t_group *group)
 {
-	int		status;
-
 	if (!group->cmd || !group->cmd[0])
 		return ;
 	if (!redirect(group))
 	{
 		if (group->pid == 0)
 			cleanup_and_exit(group, 1);
+		else
+			return ;
 	}
-	else if (builtin(group))
+	printf("Redirect succeeded\n");
+	expander(group);
+	for (int i = 0; group->cmd[i]; i++)
+		printf("After expander: %s\n", group->cmd[i]);
+	if (builtin(group))
 	{
 		if (group->pid == 0)
 			cleanup_and_exit(group, 0);
@@ -52,25 +56,53 @@ void	simple_command(t_group *group)
 		group->pid = fork();
 		if (group->pid == 0)
 			exec(group);
-		waitpid(group->pid, &status, 0);
-		if (WIFEXITED(status))
-			group->exitcode = WEXITSTATUS(status);
-		else
-			error_msg("program quit unexpectedly");
+		ft_waitpid(group);
 	}
 	restore_redirection(group);
+}
+
+void	open_subshell(t_group *group)
+{
+	t_group	*list;
+
+	list = parser(&group->cmd[1], group->mini_env, group->exitcode);
+	expander(list);
+	group->pid = fork();
+	if (group->pid == -1)
+	{
+		error_msg("could not create subshell");
+		return ;
+	}
+	if (group->pid == 0)
+		executor(list);
+	else
+		ft_waitpid(group);
 }
 
 void	executor(t_group *group)
 {
 	if (group == NULL)
 		return ;
-	if (group->operator == PIPE)
-		group = pipeline(group);
-	else
+	if (group->operator == CLOSE_SUBSHELL)
+		cleanup_and_exit(group, *group->exitcode);
+ 	if (group->next && group->next->operator == PIPE)
+		pipeline(group);
+	else if (group->operator == OPEN_SUBSHELL)
+	{
+		open_subshell(group);
+		executor(group->next);
+	}
+	else if (group->operator == AND && *group->exitcode == 0)
+		executor(group->next);
+	else if (group->operator == AND)
+		executor(skip_next_complete_command(group->next));
+	else if (group->operator == OR && *group->exitcode != 0)
+		executor(group->next);
+	else if (group->operator == OR)
+		executor(skip_next_complete_command(group->next));
+	else if (group->operator == NONE)
+	{
 		simple_command(group);
-	if (group->operator == AND && group->exitcode == 0)
 		executor(group->next);
-	if (group->operator == OR && group->exitcode != 0)
-		executor(group->next);
+	}
 }

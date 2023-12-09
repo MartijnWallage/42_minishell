@@ -6,7 +6,7 @@
 #    By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/10/05 15:16:08 by mwallage          #+#    #+#              #
-#    Updated: 2023/12/05 10:39:18 by mwallage         ###   ########.fr        #
+#    Updated: 2023/12/09 14:38:38 by mwallage         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,14 +27,17 @@ SRC			:= main.c \
 				tokenizer/tokenizer.c \
 				tokenizer/tokenizer_utils.c \
 				parser/parser.c \
-				parser/parse_redirect.c \
+				parser/parser_utils.c \
+				parser/syntax_check.c \
 				expander/expander.c \
 				expander/expander_utils.c \
+				expander/remove_redirect.c \
 				exec/exec_pipe.c \
 				exec/exec_redirect.c \
 				exec/exec_utils.c \
 				exec/executor.c \
 				utils/utils.c \
+				utils/utils_checks.c \
 				error/error.c \
 				clean/clean.c \
 				builtin/builtin.c \

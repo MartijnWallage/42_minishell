@@ -6,7 +6,7 @@
 /*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 15:40:59 by mwallage          #+#    #+#             */
-/*   Updated: 2023/12/05 14:09:26 by mwallage         ###   ########.fr       */
+/*   Updated: 2023/12/09 19:37:45 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,6 @@
 
 # define FORMAT			"philoshell: format\n\t./minishell [no arguments]"
 # define INVALID_INPUT	"philoshell: input is invalid"
-# define PIPE			1
-# define AND			2
-# define OR				3
 # define PIPE_ERR		"pipe error"
 # define FORK_ERR		"fork error"
 # define MALLOC_MSG		"malloc error"
@@ -45,21 +42,28 @@
 # include <sys/wait.h>
 # include "../libft/inc/libft.h"
 
+typedef enum
+{
+	NONE,
+	PIPE,
+	AND,
+	OR,
+	OPEN_SUBSHELL,
+	CLOSE_SUBSHELL
+}	t_operator;
+
 typedef struct s_group
 {
 	char			**cmd;
-	char			**env;
-	int				operator;
+	char			***mini_env;
+ 	t_operator		operator;
 	int				pipefd[2];
-	char			*heredoc;
 	pid_t			pid;
 	int				original_stdin;
 	int				original_stdout;
 	int				infile;
-	char			*infile_name;
 	int				outfile;
-	char			*outfile_name;
-	int				exitcode;
+	int				*exitcode;
 	struct s_group	*previous;
 	struct s_group	*next;
 }					t_group;
@@ -76,7 +80,7 @@ int		wordlen(const char *str, const char c);
 char	**tokenizer(char const *s);
 /*	parser		*/
 void	parse_redirect(t_group *group);
-t_group	*parser(char **tokens, char **env, int exitcode);
+t_group	*parser(char **tokens, char ***env, int *exitcode);
 /*	expander	*/
 void	expander(t_group *list);
 /*	exec			*/
@@ -85,16 +89,18 @@ void	executor(t_group *group);
 int		builtin(t_group *group);
 /*	error.c			*/
 int		error_msg(const char *info);
-void	*syntax_error(const char token);
+int		syntax_error(const char *token, int *exitcode);
 /*	utils.c			*/
 int		tab_len(char **tab);
 char	**copy_tab(char **tab);
 char	*mini_getenv(char **env, char *key);
 t_group	*group_last(t_group *group);
+int		is_redirect(const char *str);
 /*	clean.c			*/
 void	*free_tab(char **tab);
 void	cleanup(t_group *list);
 void	cleanup_and_exit(t_group *list, int exitcode);
 void	protect_malloc(t_group *group, void *ptr);
+void	protect_malloc_during_build(char **cmd, char ***env, void *ptr);
 
 #endif

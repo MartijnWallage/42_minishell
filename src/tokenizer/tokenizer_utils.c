@@ -6,7 +6,7 @@
 /*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/03 12:09:10 by mwallage          #+#    #+#             */
-/*   Updated: 2023/12/05 14:09:47 by mwallage         ###   ########.fr       */
+/*   Updated: 2023/12/08 23:26:31 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,8 @@ int is_token(const char *token)
         return (1);
     else if (token[0] == '&' && token[1] == '&')
         return (2);
+    else if (token[0] == '&')
+        return (1);
     else if (token[0] == '<' && token[1] == '<')
         return (2);
     else if (token[0] == '<')

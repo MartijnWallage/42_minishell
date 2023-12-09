@@ -6,7 +6,7 @@
 /*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/03 12:10:00 by mwallage          #+#    #+#             */
-/*   Updated: 2023/12/05 10:58:08 by mwallage         ###   ########.fr       */
+/*   Updated: 2023/12/09 20:25:15 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,23 +21,23 @@ static void	remove_var(t_group *group, char *key)
 	char	**new_env;
 
 	keylen = ft_strlen(key);
-	tablen = tab_len(*group->mini_env);
+	tablen = tab_len(*group->env_ptr);
 	new_env = malloc(sizeof(char *) * tablen);
 	protect_malloc(group, new_env);
 	i = -1;
 	j = 0;
-	while ((*group->mini_env)[++i])
+	while ((*group->env_ptr)[++i])
 	{
-		if (ft_strncmp((*group->mini_env)[i], key, keylen))
+		if (ft_strncmp((*group->env_ptr)[i], key, keylen))
 		{
-			new_env[j] = ft_strdup((*group->mini_env)[i]);
+			new_env[j] = ft_strdup((*group->env_ptr)[i]);
 			protect_malloc(group, new_env[j]);
 			j++;
 		}
 	}
 	new_env[j] = NULL;
-	free_tab(*group->mini_env);
-	*group->mini_env = new_env;
+	free_tab(*group->env_ptr);
+	*group->env_ptr = new_env;
 }
 
 int	builtin_unset(t_group *group)
@@ -47,7 +47,7 @@ int	builtin_unset(t_group *group)
 	i = 0;
 	while (group->cmd[++i])
 	{
-		if (mini_getenv(*group->mini_env, group->cmd[i]) == NULL)
+		if (mini_getenv(*group->env_ptr, group->cmd[i]) == NULL)
 		{
 			*group->exitcode = 0;
 			return (1);

@@ -6,7 +6,7 @@
 /*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/22 18:14:58 by mwallage          #+#    #+#             */
-/*   Updated: 2023/12/09 20:17:17 by mwallage         ###   ########.fr       */
+/*   Updated: 2023/12/09 20:25:15 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,10 @@ void	exec(t_group *group)
 {
 	char	*path;
 
-	path = get_path(group->cmd[0], *group->mini_env);
+	path = get_path(group->cmd[0], *group->env_ptr);
 	protect_malloc(group, path);
 	rl_clear_history();
-	if (execve(path, group->cmd, *group->mini_env) == -1)
+	if (execve(path, group->cmd, *group->env_ptr) == -1)
 	{
 		if (ft_strncmp(path, group->cmd[0], ft_strlen(group->cmd[0])))
 			free(path);
@@ -64,7 +64,7 @@ void	open_subshell(t_group *group)
 {
 	t_group	*list;
 
-	list = parser(&group->cmd[1], group->mini_env, group->exitcode);
+	list = parser(&group->cmd[1], group->env_ptr, group->exitcode);
 	expander(list);
 	group->pid = fork();
 	if (group->pid == -1)

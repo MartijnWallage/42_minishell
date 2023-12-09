@@ -6,7 +6,7 @@
 /*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/03 12:08:00 by mwallage          #+#    #+#             */
-/*   Updated: 2023/12/05 10:15:52 by mwallage         ###   ########.fr       */
+/*   Updated: 2023/12/09 20:25:15 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ char	*get_value(t_group *group, char *word)
 	keylen = get_keylen(word);
 	key = ft_substr(word, 0, keylen);
 	protect_malloc(group, key);
-	value = mini_getenv(*group->mini_env, key);
+	value = mini_getenv(*group->env_ptr, key);
 	free(key);
 	if (value)
 	{

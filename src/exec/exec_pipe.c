@@ -6,7 +6,7 @@
 /*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/30 15:20:23 by mwallage          #+#    #+#             */
-/*   Updated: 2023/12/09 20:18:38 by mwallage         ###   ########.fr       */
+/*   Updated: 2023/12/09 20:30:21 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,15 @@
 
 void	dup_and_close(t_group *group)
 {
+	if (group->original_stdin == STDIN_FILENO)
+		group->original_stdin = dup(STDIN_FILENO);
 	if (group->previous && group->previous->previous)
 	{
 		dup2(group->previous->pipefd[0], STDIN_FILENO);
 		close(group->previous->pipefd[0]);
 	}
+	if (group->original_stdout == STDOUT_FILENO)
+		group->original_stdout = dup(STDOUT_FILENO);
 	if (group->next && group->next->operator == PIPE)
 	{
 		close(group->next->pipefd[0]);

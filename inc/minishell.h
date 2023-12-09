@@ -6,7 +6,7 @@
 /*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 15:40:59 by mwallage          #+#    #+#             */
-/*   Updated: 2023/12/09 19:37:45 by mwallage         ###   ########.fr       */
+/*   Updated: 2023/12/09 20:43:17 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ typedef enum
 typedef struct s_group
 {
 	char			**cmd;
-	char			***mini_env;
+	char			***env_ptr;
  	t_operator		operator;
 	int				pipefd[2];
 	pid_t			pid;
@@ -79,8 +79,7 @@ int		is_quotation_mark(const char c);
 int		wordlen(const char *str, const char c);
 char	**tokenizer(char const *s);
 /*	parser		*/
-void	parse_redirect(t_group *group);
-t_group	*parser(char **tokens, char ***env, int *exitcode);
+t_group	*parser(char **tokens, char ***env_ptr, int *exitcode);
 /*	expander	*/
 void	expander(t_group *list);
 /*	exec			*/
@@ -101,6 +100,6 @@ void	*free_tab(char **tab);
 void	cleanup(t_group *list);
 void	cleanup_and_exit(t_group *list, int exitcode);
 void	protect_malloc(t_group *group, void *ptr);
-void	protect_malloc_during_build(char **cmd, char ***env, void *ptr);
+void	protect_malloc_during_build(char **cmd, char ***env_ptr, void *ptr);
 
 #endif

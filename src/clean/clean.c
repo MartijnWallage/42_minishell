@@ -6,7 +6,7 @@
 /*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/22 18:14:40 by mwallage          #+#    #+#             */
-/*   Updated: 2023/12/07 19:41:11 by mwallage         ###   ########.fr       */
+/*   Updated: 2023/12/09 20:38:36 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,10 @@ void	cleanup(t_group *list)
 	head = list;
 	while (head && head->previous)
 		head = head->previous;
+	if (head->original_stdin != STDIN_FILENO)
+		close(head->original_stdin);
+	if (head->original_stdout != STDOUT_FILENO)
+		close(head->original_stdout);
 	free_tab(head->cmd);
 	temp = head->next;
 	free(head);
@@ -49,8 +53,8 @@ void	cleanup(t_group *list)
 void	cleanup_and_exit(t_group *list, int exitcode)
 {
 	rl_clear_history();
-	free_tab(*list->mini_env);
-	list->mini_env = NULL;
+	free_tab(*list->env_ptr);
+	list->env_ptr = NULL;
 	cleanup(list);
 	exit(exitcode);
 }
@@ -64,12 +68,12 @@ void	protect_malloc(t_group *group, void *ptr)
 	}
 }
 
-void	protect_malloc_during_build(char **cmd, char ***mini_env, void *ptr)
+void	protect_malloc_during_build(char **cmd, char ***env_ptr, void *ptr)
 {
 	if (ptr == NULL)
 	{
 		free_tab(cmd);
-		free_tab(*mini_env);
+		free_tab(*env_ptr);
 		error_msg(MALLOC_MSG);
 		rl_clear_history();
 		exit(MALLOC_CODE);

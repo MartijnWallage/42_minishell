@@ -6,7 +6,7 @@
 /*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/03 12:10:00 by mwallage          #+#    #+#             */
-/*   Updated: 2023/12/05 17:08:18 by mwallage         ###   ########.fr       */
+/*   Updated: 2023/12/09 20:25:15 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ int	builtin_env(t_group *group)
 	int		i;
 	char	**env;
 
-	env = *group->mini_env;
+	env = *group->env_ptr;
 	i = -1;
 	while (env[++i])
 		printf("%s\n", env[i]);
@@ -41,7 +41,7 @@ int	builtin_pwd(t_group *group)
 {
 	char	*pwd;
 
-	pwd = mini_getenv(*group->mini_env, "PWD");
+	pwd = mini_getenv(*group->env_ptr, "PWD");
 	printf("%s\n", pwd);
 	*group->exitcode = 0;
 	return (1);

@@ -6,7 +6,7 @@
 /*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 11:44:55 by mwallage          #+#    #+#             */
-/*   Updated: 2023/12/10 10:10:47 by mwallage         ###   ########.fr       */
+/*   Updated: 2023/12/10 10:33:42 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,7 @@ void	ft_waitpid(t_group *group)
 /// @brief skip next simple command or the next pipeline, if there is one
 /// @param group current group (the first group after && or ||)
 /// @return the next group that the executor should evaluate
-t_group	*skip_next_complete_command(t_group *group)
+t_group	*next_complete_command(t_group *group)
 {
 	if (!group)
 		return (NULL);

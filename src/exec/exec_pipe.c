@@ -6,7 +6,7 @@
 /*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/30 15:20:23 by mwallage          #+#    #+#             */
-/*   Updated: 2023/12/10 10:10:36 by mwallage         ###   ########.fr       */
+/*   Updated: 2023/12/10 10:27:22 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,5 +75,4 @@ void	pipeline(t_group *group)
 		current = current->next->next;
 	}
 	ft_waitpid(current);
-	executor(current->next);
 }

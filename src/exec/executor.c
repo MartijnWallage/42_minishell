@@ -6,7 +6,7 @@
 /*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/22 18:14:58 by mwallage          #+#    #+#             */
-/*   Updated: 2023/12/10 10:16:35 by mwallage         ###   ########.fr       */
+/*   Updated: 2023/12/10 10:35:40 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,21 +86,13 @@ void	executor(t_group *group)
  	if (group->next && group->next->operator == PIPE)
 		pipeline(group);
 	else if (group->operator == OPEN_SUBSHELL)
-	{
 		open_subshell(group);
-		executor(group->next);
-	}
-	else if (group->operator == AND && *group->exitcode == 0)
-		executor(group->next);
-	else if (group->operator == AND)
-		executor(skip_next_complete_command(group->next));
-	else if (group->operator == OR && *group->exitcode != 0)
-		executor(group->next);
-	else if (group->operator == OR)
-		executor(skip_next_complete_command(group->next));
+	else if (group->operator == AND && *group->exitcode != 0)
+		group = group->next;
+	else if (group->operator == OR && *group->exitcode == 0)
+		group = group->next;
 	else if (group->operator == NONE)
-	{
 		simple_command(group);
-		executor(group->next);
-	}
+	group = next_complete_command(group);
+	executor(group);
 }

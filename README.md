@@ -39,5 +39,3 @@ Our minishell (called "philoshell", since both authors are philosophers) consist
 
 - All the basic functionality is there, except for SIGNALS.
 - Bonus: wildcards not yet implemented.
-- The syntax check is still incomplete.
-- segfault with `((echo hello | cat -e))` (should be a syntax error because outer parentheses do not have an argument to operate on)

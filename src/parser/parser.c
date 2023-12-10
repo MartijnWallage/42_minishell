@@ -6,7 +6,7 @@
 /*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/22 18:15:14 by mwallage          #+#    #+#             */
-/*   Updated: 2023/12/09 20:28:20 by mwallage         ###   ########.fr       */
+/*   Updated: 2023/12/10 12:38:56 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,14 +37,12 @@ static t_group	*init_group(char **cmd, char ***env_ptr, int *exitcode)
 	return (list);
 }
 
-t_group	*parser(char **cmd, char ***env_ptr,  int *exitcode)
+t_group	*parser(char **cmd, char ***env_ptr, int *exitcode)
 {
 	int		breakpoint;
 	char	**right_side;
 	t_group	*list;
 	
-	if (!is_valid_syntax(cmd, exitcode))
-		return (free_tab(cmd), NULL);
 	list = init_group(cmd, env_ptr, exitcode);
 	protect_malloc_during_build(cmd, env_ptr, list);
 	breakpoint = first_operator(cmd);
@@ -62,7 +60,7 @@ t_group	*parser(char **cmd, char ***env_ptr,  int *exitcode)
 			list->next = parser(right_side, env_ptr, exitcode);
 			list->next->previous = list;
 		}
-		free_tab(cmd);
+//		free_tab(cmd);
 		return (list);
 	}
  	if (is_control_operator(cmd[0]))

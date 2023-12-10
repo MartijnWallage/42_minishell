@@ -6,7 +6,7 @@
 /*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 16:46:09 by mwallage          #+#    #+#             */
-/*   Updated: 2023/12/09 20:18:04 by mwallage         ###   ########.fr       */
+/*   Updated: 2023/12/10 11:59:25 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,11 +43,14 @@ int	main(int argc, char **argv, char **envp)
 			error_msg(MALLOC_MSG);
 			return (MALLOC_CODE);
 		}
-/* 		for (int i = 0; tokens[i]; i++)
+		if (!is_valid_syntax(tokens, &exitcode))
+		{
+			free_tab(tokens);
+			continue ;
+		}
+/*  		for (int i = 0; tokens[i]; i++)
 			printf("This is send to the parser: %s\n", tokens[i]); */
 		list = parser(tokens, &mini_env, &exitcode);
-		if (list == NULL)
-			continue ;
  		
 /* 		printf("The following is sent to the executor:\n");
 		t_group *current = list;

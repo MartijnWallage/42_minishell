@@ -6,7 +6,7 @@
 /*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/22 18:15:14 by mwallage          #+#    #+#             */
-/*   Updated: 2023/12/09 20:18:19 by mwallage         ###   ########.fr       */
+/*   Updated: 2023/12/10 11:43:10 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,32 +39,35 @@ int	is_valid_redirect(char *filename)
 
 int	is_valid_syntax(char **cmd, int *exitcode)
 {
-	int		i;
+	int	i;
+	int	counter;
 
+	if (cmd == NULL)
+		return (0);
+	counter = 1;
+	i = -1;
+	while (cmd[++i] && counter)
+	{
+		counter += cmd[i][0] == '(';
+		counter -= cmd[i][0] == ')';
+	}
+	if (counter != 1)
+		return (syntax_error("()", exitcode), 0);
 	i = -1;
 	while (cmd[++i])
 	{
 		if (!is_matching_quotes(cmd[i]))
-			return (syntax_error(cmd[i], exitcode));
-		if (cmd[i][0] == ')')
-			return (syntax_error(cmd[i], exitcode));
-/* 		if (cmd[i][0] == '(')
-		{
-			while (cmd[++i] && cmd[i][0] != ')')
-				;
-			if (cmd[j] == NULL || cmd[j - 1][0] == '(')
-				return (j - 1);
-		}
-		else if (is_control_operator(cmd[i]))
+			return (i);
+		if (cmd[i][0] == '(' && cmd[i + 1][0] == ')')
+			return (syntax_error("()", exitcode), 0);
+
+		/* if (is_control_operator(cmd[i]) && cmd[i] != '(' && cmd[i] != ')')
 		{
 			// find argument to the left and to the right
 			// check if argument is valid
-		}*/
+		} */
 		if (is_redirect(cmd[i]) && !is_valid_redirect(cmd[i + 1]))
-		{
-			printf("Not a valid redirect\n");
-			return (syntax_error(cmd[i + 1], exitcode));
-		}
+			return (syntax_error(cmd[i + 1], exitcode), 0);
 	}
 	return (1);
 }

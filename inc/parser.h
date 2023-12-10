@@ -6,7 +6,7 @@
 /*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 15:40:59 by mwallage          #+#    #+#             */
-/*   Updated: 2023/12/08 22:57:13 by mwallage         ###   ########.fr       */
+/*   Updated: 2023/12/10 11:58:38 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,5 @@ int		first_operator(char **tokens);
 char	**get_left_side(char **tab, int end);
 char	**get_right_side(char **tab, int begin);
 t_operator	get_operator(char *str);
-/*	syntax_check	*/
-int		is_valid_syntax(char **cmd, int *exitcode);
 
 #endif

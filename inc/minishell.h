@@ -6,7 +6,7 @@
 /*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 15:40:59 by mwallage          #+#    #+#             */
-/*   Updated: 2023/12/09 20:43:17 by mwallage         ###   ########.fr       */
+/*   Updated: 2023/12/10 11:58:45 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,15 +68,11 @@ typedef struct s_group
 	struct s_group	*next;
 }					t_group;
 
+/*	syntax_check	*/
+int		is_valid_syntax(char **cmd, int *exitcode);
 /*	reader.c		*/
 char	*reader(char **env);
 /*	tokenizer		*/
-int		is_whitespace(const char c);
-int		is_meta_char(const char c);
-int		is_control_operator(const char *token);
-int		is_token(const char *token);
-int		is_quotation_mark(const char c);
-int		wordlen(const char *str, const char c);
 char	**tokenizer(char const *s);
 /*	parser		*/
 t_group	*parser(char **tokens, char ***env_ptr, int *exitcode);
@@ -94,7 +90,13 @@ int		tab_len(char **tab);
 char	**copy_tab(char **tab);
 char	*mini_getenv(char **env, char *key);
 t_group	*group_last(t_group *group);
+/* utils_checks. */
 int		is_redirect(const char *str);
+int		is_whitespace(const char c);
+int		is_meta_char(const char c);
+int		is_control_operator(const char *token);
+int		is_token(const char *token);
+int		is_quotation_mark(const char c);
 /*	clean.c			*/
 void	*free_tab(char **tab);
 void	cleanup(t_group *list);

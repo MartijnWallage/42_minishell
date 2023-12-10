@@ -6,7 +6,7 @@
 /*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/22 18:14:58 by mwallage          #+#    #+#             */
-/*   Updated: 2023/12/10 10:35:40 by mwallage         ###   ########.fr       */
+/*   Updated: 2023/12/10 12:38:34 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,8 @@ void	open_subshell(t_group *group)
 {
 	t_group	*list;
 
+	if (!is_valid_syntax(group->cmd, group->exitcode))
+		return ;
 	list = parser(&group->cmd[1], group->env_ptr, group->exitcode);
 	expander(list);
 	group->pid = fork();

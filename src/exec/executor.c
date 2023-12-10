@@ -6,7 +6,7 @@
 /*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/22 18:14:58 by mwallage          #+#    #+#             */
-/*   Updated: 2023/12/09 21:52:03 by mwallage         ###   ########.fr       */
+/*   Updated: 2023/12/10 10:16:35 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,8 +34,6 @@ void	simple_command(t_group *group)
 {
 	if (!group->cmd || !group->cmd[0])
 		return ;
-	ft_putstr_fd("Simple command: ", group->original_stdout);
-	ft_putendl_fd(group->cmd[0], group->original_stdout);
 	if (!redirect(group))
 	{
 		if (group->pid == 0)

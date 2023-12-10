@@ -6,7 +6,7 @@
 /*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/30 15:20:23 by mwallage          #+#    #+#             */
-/*   Updated: 2023/12/09 20:57:18 by mwallage         ###   ########.fr       */
+/*   Updated: 2023/12/10 10:15:46 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ static void	write_heredoc(t_group *group, char *eof, int pipefd[2])
 	char	*line;
 
 	close(pipefd[0]);
-	dup2(pipefd[1], STDOUT_FILENO);
+	ft_dup2(group, pipefd[1], STDOUT_FILENO);
 	while (1)
 	{
 		write(group->original_stdout, "> ", 1);
@@ -56,7 +56,7 @@ static int	handle_heredoc(t_group *group, char *eof)
 	if (group->infile != STDIN_FILENO)
 	{
 		close(group->infile);
-		dup2(group->original_stdin, STDIN_FILENO);
+		ft_dup2(group, group->original_stdin, STDIN_FILENO);
 	}
 	if (pipe(pipefd) == -1)
 		return (0);
@@ -72,9 +72,7 @@ static int	handle_heredoc(t_group *group, char *eof)
 		*group->exitcode = WEXITSTATUS(status);
 	else
 		return (close(pipefd[0]), 0);
-	if (group->original_stdin == STDIN_FILENO)
-		group->original_stdin = dup(STDIN_FILENO);
-	if (dup2(pipefd[0], STDIN_FILENO) == -1)
+	if (ft_dup2(group, pipefd[0], STDIN_FILENO) == -1)
 		return (close(pipefd[0]), 0);
 	close(pipefd[0]);
 	group->infile = group->original_stdin;
@@ -91,9 +89,7 @@ int	open_infile(t_group *group, char *path)
 	group->infile = open(path, O_RDONLY, 0444);
 	if (group->infile == -1)
 		return (group->infile = STDIN_FILENO, 0);
-	if (group->original_stdin == STDIN_FILENO)
-		group->original_stdin = dup(STDIN_FILENO);
-	if (dup2(group->infile, STDIN_FILENO) == -1)
+	if (ft_dup2(group, group->infile, STDIN_FILENO) == -1)
 		return (0);
 	if (close(group->infile) == -1)
 		return (group->infile = STDIN_FILENO, 0);
@@ -113,9 +109,7 @@ int	open_outfile(t_group *group, char *path, bool append)
 		group->outfile = open(path, O_CREAT | O_WRONLY | O_TRUNC, 0644);
 	if (group->outfile == -1)
 		return (0);
-	if (group->original_stdout == STDOUT_FILENO)
-		group->original_stdout = dup(STDOUT_FILENO);
-	if (dup2(group->outfile, STDOUT_FILENO) == -1)
+	if (ft_dup2(group, group->outfile, STDOUT_FILENO) == -1)
 		return (0);
 	if (close(group->outfile) == -1)
 		return (group->outfile = STDOUT_FILENO, 0);

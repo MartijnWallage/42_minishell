@@ -6,7 +6,7 @@
 /*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 11:44:55 by mwallage          #+#    #+#             */
-/*   Updated: 2023/12/09 22:06:27 by mwallage         ###   ########.fr       */
+/*   Updated: 2023/12/10 10:10:47 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,15 @@ char	*get_path(char *cmd, char **env)
 	whole_cmd = try_paths(cmd, paths);
 	free_tab(paths);
 	return (whole_cmd);
+}
+
+int	ft_dup2(t_group *group, int fd1, int fd2)
+{
+	if (fd2 == STDIN_FILENO && group->original_stdin == STDIN_FILENO)
+		group->original_stdin = dup(STDIN_FILENO);
+	if (fd2 == STDOUT_FILENO && group->original_stdout == STDOUT_FILENO)
+		group->original_stdout = dup(STDOUT_FILENO);
+	return (dup2(fd1, fd2));
 }
 
 void	ft_waitpid(t_group *group)

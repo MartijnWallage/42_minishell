@@ -6,7 +6,7 @@
 #    By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/10/05 15:16:08 by mwallage          #+#    #+#              #
-#    Updated: 2023/12/10 12:46:31 by mwallage         ###   ########.fr        #
+#    Updated: 2023/12/10 17:17:54 by mwallage         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -30,7 +30,7 @@ SRC			:= main.c \
 				parser/syntax_check.c \
 				expander/expander.c \
 				expander/expander_utils.c \
-				expander/remove_redirect.c \
+				expander/expand_wildcards.c \
 				exec/exec_pipe.c \
 				exec/exec_redirect.c \
 				exec/exec_utils.c \

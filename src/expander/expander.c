@@ -6,7 +6,7 @@
 /*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/03 12:08:00 by mwallage          #+#    #+#             */
-/*   Updated: 2023/12/09 15:21:10 by mwallage         ###   ########.fr       */
+/*   Updated: 2023/12/10 17:16:16 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,49 @@ static void	find_and_expand_vars(t_group *group, int word_index)
 	}
 }
 
+int	remove_quotes(char *str)
+{
+	char	OPEN_SUBSHELLing_quote;
+	int		flag;
+
+	flag = 1;
+	while (str && *str)
+	{
+		if (*str == '\'' || *str == '\"')
+		{
+			if (*str == '\'')
+				flag = 0;
+			OPEN_SUBSHELLing_quote = *str;
+			remove_first_char(str);
+			while (*str && *str != OPEN_SUBSHELLing_quote)
+				str++;
+			remove_first_char(str);
+		}
+		else
+			str++;
+	}
+	return (flag);
+}
+
+void	remove_redirect(char **cmd)
+{
+	int	i;
+
+	if (!cmd)
+		return ;
+	i = 0;
+	while (cmd[i])
+	{
+		if (is_redirect(cmd[i]))
+		{
+			remove_word(cmd, i + 1);
+			remove_word(cmd, i);
+		}
+		else
+			i++;
+	}
+}
+
 void	expander(t_group *group)
 {
 	int		i;
@@ -75,6 +118,7 @@ void	expander(t_group *group)
 	i = -1;
 	while (group->cmd[++i])
 	{
+		expand_wildcards(group, i);
 		find_and_expand_vars(group, i);
 		remove_quotes(group->cmd[i]);
 	}

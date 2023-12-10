@@ -1,0 +1,46 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   expand_wildcards.c                                 :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/11/03 12:08:00 by mwallage          #+#    #+#             */
+/*   Updated: 2023/12/10 17:24:52 by mwallage         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "expander.h"
+
+void	expand_wildcards(t_group *group, int index)
+{
+    const char		*pattern;
+	DIR				*dir;
+	struct dirent	*entry;
+	int				is_match;
+	
+	pattern = group->cmd[index];
+    if (pattern == NULL || strchr(pattern, '*') == NULL)
+		return ;
+	dir = opendir(".");
+	if (dir == NULL)
+	{
+		error_msg("could not open current working directory");
+		return ;
+	}
+	is_match = 0;
+	entry = readdir(dir);
+	while (entry)
+	{
+		printf("wildcard expansion: %s\n", entry->d_name);
+ 		if (fnmatch(pattern, entry->d_name, 0) == 0)
+		{
+			printf("It's a match!: %s\n", entry->d_name);
+			is_match = insert_word(group, entry->d_name, index + 1);
+		}
+		entry = readdir(dir);
+	}
+	if (is_match)
+		remove_word(group->cmd, index);
+	closedir(dir);
+}

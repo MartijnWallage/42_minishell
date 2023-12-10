@@ -6,7 +6,7 @@
 #    By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/10/05 15:16:08 by mwallage          #+#    #+#              #
-#    Updated: 2023/12/10 11:59:00 by mwallage         ###   ########.fr        #
+#    Updated: 2023/12/10 12:46:31 by mwallage         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,11 +23,11 @@ READLINE	:= -lreadline -lhistory -L $(READLINE_DIR)/lib
 LIBFLAGS	:= -L$(LIBFTDIR) -lft $(READLINE)
 HOST		:= $(shell hostname)
 SRC			:= main.c \
-				syntax_check.c \
 				reader/reader.c \
 				tokenizer/tokenizer.c \
 				parser/parser.c \
 				parser/parser_utils.c \
+				parser/syntax_check.c \
 				expander/expander.c \
 				expander/expander_utils.c \
 				expander/remove_redirect.c \

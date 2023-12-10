@@ -6,7 +6,7 @@
 /*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 15:40:59 by mwallage          #+#    #+#             */
-/*   Updated: 2023/12/10 11:58:45 by mwallage         ###   ########.fr       */
+/*   Updated: 2023/12/10 12:47:38 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,13 +68,12 @@ typedef struct s_group
 	struct s_group	*next;
 }					t_group;
 
-/*	syntax_check	*/
-int		is_valid_syntax(char **cmd, int *exitcode);
 /*	reader.c		*/
 char	*reader(char **env);
 /*	tokenizer		*/
 char	**tokenizer(char const *s);
 /*	parser		*/
+int		is_valid_syntax(char **cmd, int *exitcode);
 t_group	*parser(char **tokens, char ***env_ptr, int *exitcode);
 /*	expander	*/
 void	expander(t_group *list);

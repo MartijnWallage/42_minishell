@@ -39,4 +39,4 @@ Our minishell (called "philoshell", since both authors are philosophers) consist
 
 - All the basic functionality is there, except for SIGNALS.
 - There are some memory leaks to fix.
-- Some issue with readline and moving to a newline, possibly having to do with the colours in the prompt.
+- Some issue with readline and resizing to the window, possibly having to do with the colours in the prompt.

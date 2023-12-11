@@ -24,9 +24,9 @@
 # define MALLOC_MSG		"malloc error"
 # define MALLOC_CODE	142
 
-# define GRN_BOLD		"\e[1;32m"
-# define BLU_BOLD		"\e[1;34m"
-# define RES			"\e[0m"
+# define GRN_BOLD		"\001\033[1;32m\002"
+# define BLU_BOLD		"\001\033[1;34m\002"
+# define RES			"\001\033[0m\002"
 
 # include <errno.h>
 # include <string.h>

@@ -16,13 +16,13 @@ static void	prompt_cat(char *prompt, char *user, char *path, char *home)
 {
 	int		len;
 
-	len = ft_strlcpy(prompt, GRN_BOLD, 9);
+	len = ft_strlcpy(prompt, GRN_BOLD, ft_strlen(GRN_BOLD) + 1);
 	len = ft_strlcat(prompt, user, len + ft_strlen(user) + 1);
 	len = ft_strlcat(prompt, "@", len + 2);
 	len = ft_strlcat(prompt, HOSTNAME, len + ft_strlen(HOSTNAME) + 1);
-	len = ft_strlcat(prompt, RES, len + 6);
+	len = ft_strlcat(prompt, RES, len + ft_strlen(RES) + 1);
 	len = ft_strlcat(prompt, ":", len + 2);
-	len = ft_strlcat(prompt, BLU_BOLD, len + 9);
+	len = ft_strlcat(prompt, BLU_BOLD, len + ft_strlen(BLU_BOLD) + 1);
 	if (ft_strncmp(path, home, ft_strlen(home)) == 0)
 	{
 		len = ft_strlcat(prompt, "~", len + 2);
@@ -30,7 +30,7 @@ static void	prompt_cat(char *prompt, char *user, char *path, char *home)
 	}
 	len = ft_strlcat(prompt, path, len + ft_strlen(path) + 1);
 	len = ft_strlcat(prompt, " $ ", len + 4);
-	ft_strlcat(prompt, RES, len + 6);
+	ft_strlcat(prompt, RES, len + ft_strlen(RES) + 1);
 }
 
 static char *get_prompt(char **env)
@@ -51,7 +51,7 @@ static char *get_prompt(char **env)
 	if (!home)
 		home = "";
 	prompt = malloc(ft_strlen(user) + ft_strlen(HOSTNAME)
-		+ ft_strlen(path) + 33);
+		+ ft_strlen(path) + 41);
 	if (prompt == NULL)
 		return (NULL);
 	prompt_cat(prompt, user, path, home);

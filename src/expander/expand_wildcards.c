@@ -6,11 +6,34 @@
 /*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/03 12:08:00 by mwallage          #+#    #+#             */
-/*   Updated: 2023/12/10 17:24:52 by mwallage         ###   ########.fr       */
+/*   Updated: 2023/12/11 11:05:08 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "expander.h"
+
+int	wildcard_match(const char *pattern, const char *name)
+{
+	while (*pattern == *name || *pattern == '*')
+	{
+		if (*pattern == 0)
+			return (0);
+		if (*pattern == '*')
+		{
+			pattern++;
+			while (*name && *name != *pattern)
+				name++;
+			if (*name == 0 && *pattern != 0)
+				return (1);
+		}
+		else 
+		{
+			pattern++;
+			name++;
+		}
+	}
+	return (1);
+}
 
 void	expand_wildcards(t_group *group, int index)
 {
@@ -33,7 +56,7 @@ void	expand_wildcards(t_group *group, int index)
 	while (entry)
 	{
 		printf("wildcard expansion: %s\n", entry->d_name);
- 		if (fnmatch(pattern, entry->d_name, 0) == 0)
+ 		if (wildcard_match(pattern, entry->d_name) == 0)
 		{
 			printf("It's a match!: %s\n", entry->d_name);
 			is_match = insert_word(group, entry->d_name, index + 1);

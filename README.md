@@ -38,4 +38,4 @@ Our minishell (called "philoshell", since both authors are philosophers) consist
 ## Current State
 
 - All the basic functionality is there, except for SIGNALS.
-- Bonus: wildcards not yet implemented.
+- There are some memory leaks to fix.

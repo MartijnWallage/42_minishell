@@ -18,8 +18,6 @@
 /*	parser_utils.c */
 int		find_closing_parenth(char **cmd);
 int		first_operator(char **tokens);
-char	**get_left_side(char **tab, int end);
-char	**get_right_side(char **tab, int begin);
 t_operator	get_operator(char *str);
 
 #endif

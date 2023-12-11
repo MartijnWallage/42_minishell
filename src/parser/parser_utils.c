@@ -25,7 +25,7 @@ int	find_closing_parenth(char **cmd)
 		counter -= (cmd[i][0] == ')');
 		i++;
 	}
-	return (i - 1);
+	return (i);
 }
 
 /// @brief	Find first operator in **tokens
@@ -43,52 +43,6 @@ int	first_operator(char **tokens)
 		i++;
 	}
 	return (-1);
-}
-
-char	**get_left_side(char **tab, int end)
-{
-	char	**ret;
-	int		i;
-
-	ret = malloc(sizeof(char *) * (end + 1));
-	if (!ret)
-		return (NULL);
-	ret[end] = NULL;
-	i = -1;
-	while (++i < end)
-	{
-		ret[i] = ft_strdup(tab[i]);
-		if (!ret[i])
-		{
-			free_tab(ret);
-			return (NULL);
-		}
-	}
-	return (ret);
-}
-
-char	**get_right_side(char **tab, int begin)
-{
-	char	**ret;
-	int		i;
-	int		size;
-
-	size = tab_len(tab);
-	ret = malloc(sizeof(char *) * (size - begin + 1));
-	if (!ret)
-		return (NULL);
-	ret[size - begin] = NULL;
-	i = -1;
-	while (++i < (size - begin))
-	{
-		ret[i] = ft_strdup(tab[i + begin]);
-		if (!ret[i])
-		{
-			free_tab(ret);
-			return (NULL);
-		}
-	}
-	return (ret);
 }
 
 t_operator	get_operator(char *str)

@@ -39,6 +39,7 @@ static char *get_prompt(char **env)
 	char	*prompt;
 	char	*user;
 	char	*home;
+//	char	*temp;
 
 	user = mini_getenv(env, "USER");
 	if (!user)
@@ -54,6 +55,12 @@ static char *get_prompt(char **env)
 	if (prompt == NULL)
 		return (NULL);
 	prompt_cat(prompt, user, path, home);
+/* 	temp = prompt;
+	prompt = ft_strjoin("\001\002", prompt);
+	free(temp);
+	temp = prompt;
+	prompt = ft_strjoin(prompt, "\001\002");
+	free(temp); */
 	return (prompt);
 }
 

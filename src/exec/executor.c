@@ -42,6 +42,11 @@ void	simple_command(t_group *group)
 			return ;
 	}
 	expander(group);
+	if (group->cmd[0] == NULL)
+	{
+		restore_redirection(group);
+		return ;
+	}
 	if (builtin(group))
 	{
 		if (group->pid == 0)

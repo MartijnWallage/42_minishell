@@ -95,6 +95,10 @@ int	is_valid_syntax(char **cmd, int *exitcode)
 			if (!check_right_arg(cmd, i, exitcode))
 				return (0);
 		}
+		if (cmd[i][0] == '(' && i > 0 && !is_control_operator(cmd[i - 1]))
+			return (syntax_error(cmd[i], exitcode), 0);
+		if (cmd[i][0] == ')' && cmd[i + 1] && !is_control_operator(cmd[i + 1]))
+			return (syntax_error(cmd[i], exitcode), 0);
 		if (is_redirect(cmd[i]) && !is_valid_redirect(cmd[i + 1]))
 			return (syntax_error(cmd[i + 1], exitcode), 0);
 	}

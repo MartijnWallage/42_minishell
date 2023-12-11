@@ -48,9 +48,7 @@ int	main(int argc, char **argv, char **envp)
 			free_tab(tokens);
 			continue ;
 		}
-/*  		for (int i = 0; tokens[i]; i++)
-			printf("This is send to the parser: %s\n", tokens[i]); */
-		list = parser(tokens, &mini_env, &exitcode);
+ 		list = parser(tokens, &mini_env, &exitcode);
  		
 /* 		printf("The following is sent to the executor:\n");
 		t_group *current = list;
@@ -65,8 +63,8 @@ int	main(int argc, char **argv, char **envp)
 			if (current)
 				printf(" -> ");
 		}
-		printf("\n\n"); */
-		
+		printf("\n\n");
+		 */
 		executor(list);
 		cleanup(list);
 	}

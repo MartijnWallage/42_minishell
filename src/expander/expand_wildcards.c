@@ -20,7 +20,8 @@ int	wildcard_match(const char *pattern, const char *name)
 			return (0);
 		if (*pattern == '*')
 		{
-			pattern++;
+			while (*pattern == '*')
+				pattern++;
 			while (*name && *name != *pattern)
 				name++;
 			if (*name == 0 && *pattern != 0)
@@ -55,12 +56,8 @@ void	expand_wildcards(t_group *group, int index)
 	entry = readdir(dir);
 	while (entry)
 	{
-		printf("wildcard expansion: %s\n", entry->d_name);
  		if (wildcard_match(pattern, entry->d_name) == 0)
-		{
-			printf("It's a match!: %s\n", entry->d_name);
 			is_match = insert_word(group, entry->d_name, index + 1);
-		}
 		entry = readdir(dir);
 	}
 	if (is_match)

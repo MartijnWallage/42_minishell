@@ -37,6 +37,52 @@ static t_group	*init_group(char **cmd, char ***env_ptr, int *exitcode)
 	return (list);
 }
 
+static char	**get_left_side(char **tab, int end)
+{
+	char	**ret;
+	int		i;
+
+	ret = malloc(sizeof(char *) * (end + 1));
+	if (!ret)
+		return (NULL);
+	ret[end] = NULL;
+	i = -1;
+	while (++i < end)
+	{
+		ret[i] = ft_strdup(tab[i]);
+		if (!ret[i])
+		{
+			free_tab(ret);
+			return (NULL);
+		}
+	}
+	return (ret);
+}
+
+static char	**get_right_side(char **tab, int begin)
+{
+	char	**ret;
+	int		i;
+	int		size;
+
+	size = tab_len(tab);
+	ret = malloc(sizeof(char *) * (size - begin + 1));
+	if (!ret)
+		return (NULL);
+	ret[size - begin] = NULL;
+	i = -1;
+	while (++i < (size - begin))
+	{
+		ret[i] = ft_strdup(tab[i + begin]);
+		if (!ret[i])
+		{
+			free_tab(ret);
+			return (NULL);
+		}
+	}
+	return (ret);
+}
+
 t_group	*parser(char **cmd, char ***env_ptr, int *exitcode)
 {
 	int		breakpoint;
@@ -48,39 +94,40 @@ t_group	*parser(char **cmd, char ***env_ptr, int *exitcode)
 	breakpoint = first_operator(cmd);
 	if (breakpoint == -1)
 		return (list);
-	if (cmd[0] && cmd[0][0] == '(')
+ 	if (is_control_operator(cmd[0]) && cmd[0][0] != '(')
 	{
-		breakpoint = find_closing_parenth(cmd);
-		list->cmd = get_left_side(cmd, breakpoint + 1);
-		list->operator = OPEN_SUBSHELL;
-		if (cmd[breakpoint + 1])
-		{
-			right_side = get_right_side(cmd, breakpoint + 1);
-			protect_malloc(list, right_side);
-			list->next = parser(right_side, env_ptr, exitcode);
-			list->next->previous = list;
-		}
-//		free_tab(cmd);
-		return (list);
-	}
- 	if (is_control_operator(cmd[0]))
-	{
-		list->cmd = NULL;
 		list->operator = get_operator(cmd[0]);
-		right_side = get_right_side(cmd, 1);
-		protect_malloc(list, right_side);
+		list->cmd = NULL;
+		breakpoint = 1;
+	}
+	else if (cmd[0][0] == '(')
+	{
+		list->operator = OPEN_SUBSHELL;
+		breakpoint = find_closing_parenth(cmd);
+	}
+	if (list->operator == NONE || list->operator == OPEN_SUBSHELL)
+	{
+		list->cmd = get_left_side(cmd, breakpoint);
+		protect_malloc(list, list->cmd);
+/* 		printf("Left side: ");
+		for (int i = 0; list->cmd[i]; i++)
+			printf("%s --  ", list->cmd[i]); 
+		printf("\n"); */
+	}
+	if (cmd[breakpoint] == NULL)
+	{
 		free_tab(cmd);
-		list->next = parser(right_side, env_ptr, exitcode);
-		if (list->next)
-			list->next->previous = list;
 		return (list);
 	}
-	list->cmd = get_left_side(cmd, breakpoint);
-	protect_malloc(list, list->cmd);
 	right_side = get_right_side(cmd, breakpoint);
 	protect_malloc(list, right_side);
-//	free_tab(cmd);
+/*	int len = tab_len(right_side);
+ 	printf("Right side: ");
+	for (int i = 0; i < len; i++)
+		printf("%s -- ", right_side[i]);
+	printf("\n"); */
 	list->next = parser(right_side, env_ptr, exitcode);
+//	free_tab(cmd);			Causes segfault in subshell. Don't know why.
 	if (list->next)
 		list->next->previous = list;
 	return (list);

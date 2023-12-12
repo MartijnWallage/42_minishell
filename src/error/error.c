@@ -47,3 +47,12 @@ int	syntax_error(const char *token, int *exitcode)
 	*exitcode = 2;
 	return (0);
 }
+
+int	redirect_error(t_group *group, const char *info)
+{
+	error_msg(info);
+	if (group->pid == 0)
+		cleanup_and_exit(group, 1);
+	*group->exitcode = 1;
+	return (0);
+}

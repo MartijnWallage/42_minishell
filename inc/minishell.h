@@ -84,6 +84,7 @@ int		builtin(t_group *group);
 /*	error.c			*/
 int		error_msg(const char *info);
 int		syntax_error(const char *token, int *exitcode);
+int		redirect_error(t_group *group, const char *info);
 /*	utils.c			*/
 int		tab_len(char **tab);
 char	**copy_tab(char **tab);

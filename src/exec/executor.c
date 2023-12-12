@@ -35,12 +35,7 @@ void	simple_command(t_group *group)
 	if (!group->cmd || !group->cmd[0])
 		return ;
 	if (!redirect(group))
-	{
-		if (group->pid == 0)
-			cleanup_and_exit(group, 1);
-		else
-			return ;
-	}
+		return ;
 	expander(group);
 	if (group->cmd[0] == NULL)
 	{
@@ -93,7 +88,7 @@ void	executor(t_group *group)
 		return ;
 	if (group->operator == CLOSE_SUBSHELL)
 		cleanup_and_exit(group, *group->exitcode);
- 	if (group->next && group->next->operator == PIPE)
+	if (group->next && group->next->operator == PIPE)
 		pipeline(group);
 	else if (group->operator == OPEN_SUBSHELL)
 		open_subshell(group);

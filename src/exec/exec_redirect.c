@@ -68,16 +68,16 @@ int	redirect(t_group *group)
 	{
 		if (ft_strncmp(group->cmd[i], "<<", 3) == 0
 			&& !handle_heredoc(group, group->cmd[i + 1]))
-			return (error_msg("here_doc"));
+			return (redirect_error(group, "incomplete here_doc"));
 		else if (ft_strncmp(group->cmd[i], "<", 2) == 0
 			&& !open_infile(group, group->cmd[i + 1]))
-			return (error_msg(group->cmd[i + 1]));
+			return (redirect_error(group, group->cmd[i + 1]));
 		else if (ft_strncmp(group->cmd[i], ">>", 3) == 0
 			&& !open_outfile(group, group->cmd[i + 1], true))
-			return (error_msg(group->cmd[i + 1]));
+			return (redirect_error(group, group->cmd[i + 1]));
 		else if (ft_strncmp(group->cmd[i], ">", 2) == 0
 			&& !open_outfile(group, group->cmd[i + 1], false))
-			return (error_msg(group->cmd[i + 1]));
+			return (redirect_error(group, group->cmd[i + 1]));
 	}
 	return (1);
 }

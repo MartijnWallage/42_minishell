@@ -30,6 +30,7 @@
 
 # include <errno.h>
 # include <string.h>
+# include <signal.h>
 # include <stdio.h>
 # include <stdlib.h>
 # include <readline/readline.h>
@@ -102,5 +103,9 @@ void	cleanup(t_group *list);
 void	cleanup_and_exit(t_group *list, int exitcode);
 void	protect_malloc(t_group *group, void *ptr);
 void	protect_malloc_during_build(char **cmd, char ***env_ptr, void *ptr);
+/* signals.c */
+void	handle_sigint(int sig);
+void	handle_sigquit(int sig);
+void	signal_handler();
 
 #endif

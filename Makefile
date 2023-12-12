@@ -36,6 +36,7 @@ SRC			:= main.c \
 				exec/exec_redirect.c \
 				exec/exec_utils.c \
 				exec/executor.c \
+				signals/signals.c \
 				utils/utils.c \
 				utils/utils_checks.c \
 				error/error.c \
@@ -67,6 +68,7 @@ $(OBJDIR):
 	mkdir obj/clean;
 	mkdir obj/utils;
 	mkdir obj/builtin;
+	mkdir obj/signals;
 
 $(NAME): $(LIBFT) $(OBJDIR) $(OBJS)
 	$(CC) $(OBJS) $(CFLAGS) $(LIBFLAGS) -o $@

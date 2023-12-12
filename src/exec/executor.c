@@ -70,8 +70,6 @@ void	open_subshell(t_group *group)
 
 	if (!is_valid_syntax(group->cmd, group->exitcode))
 		return ;
-	list = parser(&group->cmd[1], group->env_ptr, group->exitcode);
-	expander(list);
 	group->pid = fork();
 	if (group->pid == -1)
 	{
@@ -79,9 +77,14 @@ void	open_subshell(t_group *group)
 		return ;
 	}
 	if (group->pid == 0)
+	{
+		list = parser(&group->cmd[1], group->env_ptr, group->exitcode);
+		expander(list);
+		cleanup(group);
 		executor(list);
-	else
-		ft_waitpid(group);
+		cleanup_and_exit(list, *list->exitcode);
+	}
+	ft_waitpid(group);
 }
 
 void	executor(t_group *group)

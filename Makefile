@@ -11,7 +11,7 @@
 # **************************************************************************** #
 
 CC			:= cc
-CFLAGS		:= -Wall -Wextra -Werror -g #-fsanitize=address
+CFLAGS		:= -Wall -Wextra -Werror -g -fsanitize=address
 SRCDIR		:= ./src
 OBJDIR		:= ./obj
 INCDIR		:= ./inc

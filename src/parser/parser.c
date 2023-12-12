@@ -23,7 +23,7 @@ static t_group	*init_group(char **cmd, char ***env_ptr, int *exitcode)
 
 	list = malloc(sizeof(t_group));
 	protect_malloc_during_build(cmd, env_ptr, list);
-	list->cmd = cmd;
+	list->cmd = NULL;
 	list->operator = NONE;
 	list->previous = NULL;
 	list->next = NULL;
@@ -93,11 +93,14 @@ t_group	*parser(char **cmd, char ***env_ptr, int *exitcode)
 	protect_malloc_during_build(cmd, env_ptr, list);
 	breakpoint = first_operator(cmd);
 	if (breakpoint == -1)
+	{
+		if (cmd && cmd[0])
+			list->cmd = copy_tab(cmd);
 		return (list);
+	}
  	if (is_control_operator(cmd[0]) && cmd[0][0] != '(')
 	{
 		list->operator = get_operator(cmd[0]);
-		list->cmd = NULL;
 		breakpoint = 1;
 	}
 	else if (cmd[0][0] == '(')
@@ -115,10 +118,7 @@ t_group	*parser(char **cmd, char ***env_ptr, int *exitcode)
 		printf("\n"); */
 	}
 	if (cmd[breakpoint] == NULL)
-	{
-		free_tab(cmd);
 		return (list);
-	}
 	right_side = get_right_side(cmd, breakpoint);
 	protect_malloc(list, right_side);
 /*	int len = tab_len(right_side);
@@ -127,7 +127,7 @@ t_group	*parser(char **cmd, char ***env_ptr, int *exitcode)
 		printf("%s -- ", right_side[i]);
 	printf("\n"); */
 	list->next = parser(right_side, env_ptr, exitcode);
-	free_tab(cmd);		//	Causes segfault in subshell. Don't know why.
+	free_tab(right_side);		//	Causes segfault in subshell. Don't know why.
 	if (list->next)
 		list->next->previous = list;
 	return (list);

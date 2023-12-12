@@ -29,7 +29,7 @@ char	**copy_tab(char **tab)
 	char	**ret;
 
 	size = tab_len(tab);
-	ret = malloc(size * (sizeof(char *) + 1));
+	ret = malloc((sizeof(char *)) * (size + 1));
 	if (!ret)
 		return (NULL);
 	ret[size] = NULL;

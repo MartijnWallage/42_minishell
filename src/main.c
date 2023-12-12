@@ -58,6 +58,7 @@ int	main(int argc, char **argv, char **envp)
 		return (1);
 	mini_env = copy_tab(envp);
 	exitcode = 0;
+	signal_handler();
 	while (1)
 	{
 		line = reader(mini_env);

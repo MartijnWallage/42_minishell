@@ -39,4 +39,3 @@ Our minishell (called "philoshell", since both authors are philosophers) consist
 
 - All the basic functionality is there, except for SIGNALS.
 - There are some memory leaks to fix.
-- wildcards with multiple results only displaying one result

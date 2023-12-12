@@ -49,7 +49,6 @@ int	main(int argc, char **argv, char **envp)
 			continue ;
 		}
  		list = parser(tokens, &mini_env, &exitcode);
- 		
 /* 		printf("The following is sent to the executor:\n");
 		t_group *current = list;
 		while (current)

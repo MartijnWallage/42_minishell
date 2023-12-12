@@ -12,7 +12,7 @@
 
 #include "expander.h"
 
-int	wildcard_match(const char *pattern, const char *name)
+static int	wildcard_match(const char *pattern, const char *name)
 {
 	while (*pattern == *name || *pattern == '*')
 	{
@@ -57,7 +57,10 @@ void	expand_wildcards(t_group *group, int index)
 	while (entry)
 	{
  		if (wildcard_match(pattern, entry->d_name) == 0)
-			is_match = insert_word(group, entry->d_name, index + 1);
+		{
+			is_match = insert_word(group, entry->d_name, index + 1); 
+			pattern = group->cmd[index];
+		}
 		entry = readdir(dir);
 	}
 	if (is_match)

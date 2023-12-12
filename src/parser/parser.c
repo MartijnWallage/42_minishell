@@ -122,12 +122,12 @@ t_group	*parser(char **cmd, char ***env_ptr, int *exitcode)
 	right_side = get_right_side(cmd, breakpoint);
 	protect_malloc(list, right_side);
 /*	int len = tab_len(right_side);
- 	printf("Right side: ");
+  	printf("Right side: ");
 	for (int i = 0; i < len; i++)
 		printf("%s -- ", right_side[i]);
 	printf("\n"); */
 	list->next = parser(right_side, env_ptr, exitcode);
-//	free_tab(cmd);			Causes segfault in subshell. Don't know why.
+	free_tab(cmd);		//	Causes segfault in subshell. Don't know why.
 	if (list->next)
 		list->next->previous = list;
 	return (list);

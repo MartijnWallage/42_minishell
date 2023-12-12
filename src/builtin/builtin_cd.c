@@ -35,7 +35,7 @@ static void	update_pwd(t_group *group)
 {
 	int		i;
 	char	buffer[1024];
-		
+
 	i = 0;
 	while (*group->env_ptr[i] && ft_strncmp(*group->env_ptr[i], "PWD=", 4))
 		i++;
@@ -66,7 +66,7 @@ static void	goto_previous_dir(t_group *group)
 	old_path = mini_getenv(*group->env_ptr, "OLDPWD");
 	if (old_path)
 	{
-		free(group->cmd[1]);	
+		free(group->cmd[1]);
 		group->cmd[1] = ft_strdup(old_path);
 		protect_malloc(group, group->cmd[1]);
 	}

@@ -10,14 +10,14 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef EXPANDER_H
-# define EXPANDER_H
+#ifndef PARSER_H
+# define PARSER_H
 
 # include "minishell.h"
 
 /*	parser_utils.c */
-int		find_closing_parenth(char **cmd);
-int		first_operator(char **tokens);
+int			find_closing_parenth(char **cmd);
+int			first_operator(char **tokens);
 t_operator	get_operator(char *str);
 
 #endif

@@ -12,13 +12,47 @@
 
 #include "minishell.h"
 
+static void	exit_after_tokenizer(char **mini_env)
+{
+	rl_clear_history();
+	free_tab(mini_env);
+	error_msg(MALLOC_MSG);
+	exit(MALLOC_CODE);
+}
+
+static void	exit_after_reader(char **mini_env)
+{
+	rl_clear_history();
+	free_tab(mini_env);
+	printf("exit\n");
+	exit(0);
+}
+
+static void	main_routine(char *line, char ***mini_env, int *exitcode)
+{
+	t_group	*list;
+	char	**tokens;
+
+	tokens = tokenizer(line);
+	free(line);
+	if (!tokens)
+		exit_after_tokenizer(*mini_env);
+	if (!is_valid_syntax(tokens, exitcode))
+	{
+		free_tab(tokens);
+		return ;
+	}
+	list = parser(tokens, mini_env, exitcode);
+	free_tab(tokens);
+	executor(list);
+	cleanup(list);
+}
+
 int	main(int argc, char **argv, char **envp)
 {
 	char	*line;
-	char	**tokens;
 	char	**mini_env;
 	int		exitcode;
-	t_group	*list;
 
 	if (argc != 1 || argv[1])
 		return (1);
@@ -27,46 +61,8 @@ int	main(int argc, char **argv, char **envp)
 	while (1)
 	{
 		line = reader(mini_env);
-		if (!line)
-		{
-			error_msg("readline failed");
-			free_tab(mini_env);
-			rl_clear_history();
-			exit(errno);
-		}
-		tokens = tokenizer(line);
-		free(line);
-		if (!tokens)
-		{
-			rl_clear_history();
-			free_tab(mini_env);
-			error_msg(MALLOC_MSG);
-			return (MALLOC_CODE);
-		}
-		if (!is_valid_syntax(tokens, &exitcode))
-		{
-			free_tab(tokens);
-			continue ;
-		}
- 		list = parser(tokens, &mini_env, &exitcode);
-		free_tab(tokens);
-/* 		printf("The following is sent to the executor:\n");
-		t_group *current = list;
-		while (current)
-		{
-			if (current->cmd)
-				for (int j = 0; j < tab_len(current->cmd); j++)
-					printf("%s ", current->cmd[j]);
-			else
-				printf("%d", current->operator);
-			current = current->next;
-			if (current)
-				printf(" -> ");
-		}
-		printf("\n\n");
-		 */
-		executor(list);
-		cleanup(list);
+		if (line == NULL)
+			exit_after_reader(mini_env);
+		main_routine(line, &mini_env, &exitcode);
 	}
-	return (0);
 }

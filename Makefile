@@ -11,7 +11,7 @@
 # **************************************************************************** #
 
 CC			:= cc
-CFLAGS		:= -Wall -Wextra -Werror -g -fsanitize=address
+CFLAGS		:= -Wall -Wextra -Werror -g #-fsanitize=address
 SRCDIR		:= ./src
 OBJDIR		:= ./obj
 INCDIR		:= ./inc
@@ -31,6 +31,7 @@ SRC			:= main.c \
 				expander/expander.c \
 				expander/expander_utils.c \
 				expander/expand_wildcards.c \
+				exec/exec_heredoc.c \
 				exec/exec_pipe.c \
 				exec/exec_redirect.c \
 				exec/exec_utils.c \

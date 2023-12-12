@@ -70,7 +70,7 @@ static void	fill_str(char *tab, const char *s, int wordlen)
 	}
 }
 
-char	**tokenizer(char const *s)
+char	**tokenizer(const char *s)
 {
 	char	**tab;
 	int		words;

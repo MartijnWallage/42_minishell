@@ -42,7 +42,7 @@
 # include <sys/wait.h>
 # include "../libft/inc/libft.h"
 
-typedef enum
+typedef enum s_operator
 {
 	NONE,
 	PIPE,
@@ -56,7 +56,7 @@ typedef struct s_group
 {
 	char			**cmd;
 	char			***env_ptr;
- 	t_operator		operator;
+	t_operator		operator;
 	int				pipefd[2];
 	pid_t			pid;
 	int				original_stdin;

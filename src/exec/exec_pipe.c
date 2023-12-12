@@ -56,11 +56,10 @@ void	ft_pipe(t_group *group)
 		close(group->next->pipefd[1]);
 }
 
-
 void	pipeline(t_group *group)
 {
 	t_group	*current;
-	
+
 	current = group;
 	while (current && current->next && current->next->operator == PIPE)
 	{

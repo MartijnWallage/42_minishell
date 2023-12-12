@@ -1,5 +1,3 @@
-
-
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
@@ -13,20 +11,6 @@
 /* ************************************************************************** */
 
 #include "builtin.h"
-
-/*
- *	Syntax:
- *	- export var_name=value var_name2=value;
- *
- *	Features:
- *	- allows for multiple var assignments in one go
- *	- checks for validity of key/value-pairs
- *	- updates key/value pairs
- *	- naked export command, gives "declare -x $env[i]"
-
- *	To do:
- *	- proper exit codes
- */
 
 static int	is_valid_arg(char *str)
 {
@@ -67,7 +51,6 @@ void	append_var(t_group *group, char *var)
 	free_tab(old_env);
 	*group->env_ptr = new_env;
 }
-
 
 static void	update_env(t_group *group, char *var)
 {
@@ -110,15 +93,13 @@ int	builtin_export(t_group *group)
 {
 	int	i;
 
-	i = 1;
-	if (group->cmd[i] == NULL)
+	i = 0;
+	if (group->cmd[1] == NULL)
 		export_without_arg(group->env_ptr);
-	else while (group->cmd[i])
-	{
-		if (is_valid_arg(group->cmd[i]))
-			update_env(group, group->cmd[i]);
-		i++;
-	}
+	else
+		while (group->cmd[++i])
+			if (is_valid_arg(group->cmd[i]))
+				update_env(group, group->cmd[i]);
 	*group->exitcode = 0;
 	return (1);
 }

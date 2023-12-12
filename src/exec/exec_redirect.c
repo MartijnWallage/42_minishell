@@ -12,71 +12,14 @@
 
 #include "executor.h"
 
-void restore_redirection(t_group *group)
+void	restore_redirection(t_group *group)
 {
-	if (group->infile != STDIN_FILENO && dup2(group->original_stdin, STDIN_FILENO) == -1)
+	if (group->infile != STDIN_FILENO
+		&& dup2(group->original_stdin, STDIN_FILENO) == -1)
 		error_msg("could not restore redirection");
-	if (group->outfile != STDOUT_FILENO && dup2(group->original_stdout, STDOUT_FILENO) == -1)
+	if (group->outfile != STDOUT_FILENO
+		&& dup2(group->original_stdout, STDOUT_FILENO) == -1)
 		error_msg("could not restore redirection");
-}
-
-static void	write_heredoc(t_group *group, char *eof, int pipefd[2])
-{
-	char	*line;
-
-	close(pipefd[0]);
-	ft_dup2(group, pipefd[1], STDOUT_FILENO);
-	while (1)
-	{
-		write(group->original_stdout, "> ", 1);
-		line = get_next_line(group->original_stdin);
-		if (line == NULL)
-		{
-			close(pipefd[1]);
-			error_msg("incomplete here_doc");
-			cleanup_and_exit(group, 2);
-		}
-		if (ft_strncmp(line, eof, ft_strlen(eof)) == 0)
-		{
-			free(line);
-			close(pipefd[1]);
-			cleanup_and_exit(group, 2);
-		}
-		ft_putstr_fd(line, pipefd[1]);
-		free(line);
-	}
-}
-
-static int	handle_heredoc(t_group *group, char *eof)
-{
-	pid_t	pid;
-	int		pipefd[2];
-	int		status;
-
-	if (group->infile != STDIN_FILENO)
-	{
-		close(group->infile);
-		ft_dup2(group, group->original_stdin, STDIN_FILENO);
-	}
-	if (pipe(pipefd) == -1)
-		return (0);
-	pid = fork();
-	if (pid == -1)
-		return (close(pipefd[0]), close(pipefd[1]), (0));
-	if (pid == 0)
-		write_heredoc(group, eof, pipefd);
-	else
-		close(pipefd[1]);
-	waitpid(pid, &status, 0);
-	if (WIFEXITED(status))
-		*group->exitcode = WEXITSTATUS(status);
-	else
-		return (close(pipefd[0]), 0);
-	if (ft_dup2(group, pipefd[0], STDIN_FILENO) == -1)
-		return (close(pipefd[0]), 0);
-	close(pipefd[0]);
-	group->infile = group->original_stdin;
-	return (1);
 }
 
 int	open_infile(t_group *group, char *path)
@@ -116,7 +59,7 @@ int	open_outfile(t_group *group, char *path, bool append)
 	return (1);
 }
 
-int redirect(t_group *group)
+int	redirect(t_group *group)
 {
 	int	i;
 

@@ -15,13 +15,13 @@
 
 # include "minishell.h"
 
-int	builtin_export(t_group *group);
-int	builtin_unset(t_group *group);
-int	builtin_cd(t_group *group);
-int	builtin_exit(t_group *group);
-int	builtin_env(t_group *group);
-int	builtin_pwd(t_group *group);
-int	builtin_echo(t_group *group);
+int		builtin_export(t_group *group);
+int		builtin_unset(t_group *group);
+int		builtin_cd(t_group *group);
+int		builtin_exit(t_group *group);
+int		builtin_env(t_group *group);
+int		builtin_pwd(t_group *group);
+int		builtin_echo(t_group *group);
 void	append_var(t_group *group, char *var);
 
 #endif

@@ -20,7 +20,7 @@ void	pipeline(t_group *group);
 void	child(t_group *group);
 /*	exec_redirect.c	*/
 int		redirect(t_group *group);
-void 	restore_redirection(t_group *group);
+void	restore_redirection(t_group *group);
 /*	exec_utils.c	*/
 char	*try_paths(char *cmd, char **paths);
 char	*get_path(char *cmd, char **env);
@@ -31,5 +31,8 @@ t_group	*next_complete_command(t_group *group);
 void	exec(t_group *group);
 void	simple_command(t_group *group);
 void	open_subshell(t_group *group);
+/*	exec_heredoc.c	*/
+int		handle_heredoc(t_group *group, char *eof);
+void	write_heredoc(t_group *group, char *eof, int pipefd[2]);
 
 #endif

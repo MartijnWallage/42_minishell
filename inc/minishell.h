@@ -108,5 +108,6 @@ void	protect_malloc_during_build(char **cmd, char ***env_ptr, void *ptr);
 void	handle_sigint(int sig);
 void	handle_sigquit(int sig);
 void	signal_handler();
+void	check_signal_flag(t_group *group);
 
 #endif

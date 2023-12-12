@@ -11,7 +11,7 @@
 # **************************************************************************** #
 
 CC			:= cc
-CFLAGS		:= -Wall -Wextra -Werror -g #-fsanitize=address
+CFLAGS		:= -Wall -Wextra -Werror -g -fsanitize=address
 SRCDIR		:= ./src
 OBJDIR		:= ./obj
 INCDIR		:= ./inc
@@ -39,7 +39,7 @@ SRC			:= main.c \
 				signals/signals.c \
 				utils/utils.c \
 				utils/utils_checks.c \
-				error/error.c \
+				clean/error.c \
 				clean/clean.c \
 				builtin/builtin.c \
 				builtin/builtin_export.c \
@@ -64,7 +64,6 @@ $(OBJDIR):
 	mkdir obj/parser;
 	mkdir obj/expander;
 	mkdir obj/exec;
-	mkdir obj/error;
 	mkdir obj/clean;
 	mkdir obj/utils;
 	mkdir obj/builtin;

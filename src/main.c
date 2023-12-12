@@ -45,6 +45,7 @@ static void	main_routine(char *line, char ***mini_env, int *exitcode)
 	list = parser(tokens, mini_env, exitcode);
 	free_tab(tokens);
 	executor(list);
+	check_signal_flag(list);
 	cleanup(list);
 }
 

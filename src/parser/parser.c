@@ -33,7 +33,7 @@ static t_group	*init_group(char **cmd, char ***env_ptr, int *exitcode)
 	list->original_stdin = STDIN_FILENO;
 	list->original_stdout = STDOUT_FILENO;
 	list->exitcode = exitcode;
-	list->pid = 1;
+	list->pid = -1;
 	return (list);
 }
 

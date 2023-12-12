@@ -69,7 +69,7 @@ void	ft_waitpid(t_group *group)
 	waitpid(group->pid, &status, 0);
 	if (WIFEXITED(status))
 		*group->exitcode = WEXITSTATUS(status);
-	else if (WEXITSTATUS(status))
+	else if ((*group->exitcode = WEXITSTATUS(status)))
 	{
 		if (group->cmd[0])
 			error_msg(group->cmd[0]);

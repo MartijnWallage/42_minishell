@@ -106,7 +106,7 @@ char	**tokenizer(const char *s)
 	tab = malloc((words + 1) * sizeof(char *));
 	if (tab == NULL)
 		return (NULL);
-    tab[words] = NULL;
+	tab[words] = NULL;
 	i = -1;
 	while (++i < words)
 	{

@@ -12,7 +12,7 @@
 
 #include "parser.h"
 
-static int is_matching_quotes(const char *str)
+static int	is_matching_quotes(const char *str)
 {
 	char	quote;
 
@@ -64,7 +64,7 @@ static int	check_right_arg(char **cmd, int index, int *exitcode)
 		return (syntax_error(cmd[j], exitcode), 0);
 	return (1);
 }
-			
+
 int	is_valid_syntax(char **cmd, int *exitcode)
 {
 	int	i;

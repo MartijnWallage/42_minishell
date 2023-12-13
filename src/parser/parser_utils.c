@@ -16,7 +16,7 @@ int	find_closing_parenth(char **cmd)
 {
 	int	i;
 	int	counter;
-	
+
 	i = 1;
 	counter = 1;
 	while (counter)

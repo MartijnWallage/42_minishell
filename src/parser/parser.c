@@ -83,22 +83,9 @@ static char	**get_right_side(char **tab, int begin)
 	return (ret);
 }
 
-t_group	*parser(char **cmd, char ***env_ptr, int *exitcode)
+void	fill_group(t_group *list, char **cmd, int breakpoint)
 {
-	int		breakpoint;
-	char	**right_side;
-	t_group	*list;
-	
-	list = init_group(cmd, env_ptr, exitcode);
-	protect_malloc_during_build(cmd, env_ptr, list);
-	breakpoint = first_operator(cmd);
-	if (breakpoint == -1)
-	{
-		if (cmd && cmd[0])
-			list->cmd = copy_tab(cmd);
-		return (list);
-	}
- 	if (is_control_operator(cmd[0]) && cmd[0][0] != '(')
+	if (is_control_operator(cmd[0]) && cmd[0][0] != '(')
 	{
 		list->operator = get_operator(cmd[0]);
 		breakpoint = 1;
@@ -112,22 +99,31 @@ t_group	*parser(char **cmd, char ***env_ptr, int *exitcode)
 	{
 		list->cmd = get_left_side(cmd, breakpoint);
 		protect_malloc(list, list->cmd);
-/* 		printf("Left side: ");
-		for (int i = 0; list->cmd[i]; i++)
-			printf("%s --  ", list->cmd[i]); 
-		printf("\n"); */
 	}
+}
+
+t_group	*parser(char **cmd, char ***env_ptr, int *exitcode)
+{
+	int		breakpoint;
+	char	**right_side;
+	t_group	*list;
+
+	list = init_group(cmd, env_ptr, exitcode);
+	protect_malloc_during_build(cmd, env_ptr, list);
+	breakpoint = first_operator(cmd);
+	if (breakpoint == -1)
+	{
+		if (cmd && cmd[0])
+			list->cmd = copy_tab(cmd);
+		return (list);
+	}
+	fill_group(list, cmd, breakpoint);
 	if (cmd[breakpoint] == NULL)
 		return (list);
 	right_side = get_right_side(cmd, breakpoint);
 	protect_malloc(list, right_side);
-/*	int len = tab_len(right_side);
-  	printf("Right side: ");
-	for (int i = 0; i < len; i++)
-		printf("%s -- ", right_side[i]);
-	printf("\n"); */
 	list->next = parser(right_side, env_ptr, exitcode);
-	free_tab(right_side);		//	Causes segfault in subshell. Don't know why.
+	free_tab(right_side);
 	if (list->next)
 		list->next->previous = list;
 	return (list);

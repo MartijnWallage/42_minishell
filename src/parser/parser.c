@@ -83,7 +83,7 @@ static char	**get_right_side(char **tab, int begin)
 	return (ret);
 }
 
-void	fill_group(t_group *list, char **cmd, int breakpoint)
+int	fill_group(t_group *list, char **cmd, int breakpoint)
 {
 	if (is_control_operator(cmd[0]) && cmd[0][0] != '(')
 	{
@@ -100,6 +100,7 @@ void	fill_group(t_group *list, char **cmd, int breakpoint)
 		list->cmd = get_left_side(cmd, breakpoint);
 		protect_malloc(list, list->cmd);
 	}
+	return (breakpoint);
 }
 
 t_group	*parser(char **cmd, char ***env_ptr, int *exitcode)
@@ -117,7 +118,7 @@ t_group	*parser(char **cmd, char ***env_ptr, int *exitcode)
 			list->cmd = copy_tab(cmd);
 		return (list);
 	}
-	fill_group(list, cmd, breakpoint);
+	breakpoint = fill_group(list, cmd, breakpoint);
 	if (cmd[breakpoint] == NULL)
 		return (list);
 	right_side = get_right_side(cmd, breakpoint);

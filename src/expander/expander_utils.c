@@ -6,7 +6,7 @@
 /*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/03 12:08:00 by mwallage          #+#    #+#             */
-/*   Updated: 2023/12/10 17:28:04 by mwallage         ###   ########.fr       */
+/*   Updated: 2023/12/13 16:36:23 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,11 @@ int	insert_word(t_group *group, char *new_word, int index)
 	while (i < index)
 	{
 		new_cmd[i] = ft_strdup(group->cmd[i]);
-		protect_malloc(group, new_cmd[i]);
+		if (new_cmd[i] == NULL)
+		{
+			free_tab(new_cmd);
+			protect_malloc(group, NULL);
+		}
 		i++;
 	}
 	new_cmd[i] = ft_strdup(new_word);
@@ -96,7 +100,11 @@ int	insert_word(t_group *group, char *new_word, int index)
 	while (++i < tablen + 1)
 	{
 		new_cmd[i] = ft_strdup(group->cmd[i - 1]);
-		protect_malloc(group, new_cmd[i]);	// there's a leak here. new_cmd is not getting freed. Also in export
+		if (new_cmd[i] == NULL)
+		{
+			free_tab(new_cmd);
+			protect_malloc(group, NULL);
+		}
 	}
 	new_cmd[i] = NULL;
 	free_tab(group->cmd);

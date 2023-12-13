@@ -6,7 +6,7 @@
 /*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/03 12:08:00 by mwallage          #+#    #+#             */
-/*   Updated: 2023/12/11 11:05:08 by mwallage         ###   ########.fr       */
+/*   Updated: 2023/12/13 16:17:15 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ static int	wildcard_match(const char *pattern, const char *name)
 			if (*name == 0 && *pattern != 0)
 				return (1);
 		}
-		else 
+		else
 		{
 			pattern++;
 			name++;
@@ -38,13 +38,11 @@ static int	wildcard_match(const char *pattern, const char *name)
 
 void	expand_wildcards(t_group *group, int index)
 {
-    const char		*pattern;
 	DIR				*dir;
 	struct dirent	*entry;
 	int				is_match;
-	
-	pattern = group->cmd[index];
-    if (pattern == NULL || strchr(pattern, '*') == NULL)
+
+	if (group->cmd[index] == NULL || strchr(group->cmd[index], '*') == NULL)
 		return ;
 	dir = opendir(".");
 	if (dir == NULL)
@@ -56,11 +54,8 @@ void	expand_wildcards(t_group *group, int index)
 	entry = readdir(dir);
 	while (entry)
 	{
- 		if (wildcard_match(pattern, entry->d_name) == 0)
-		{
-			is_match = insert_word(group, entry->d_name, index + 1); 
-			pattern = group->cmd[index];
-		}
+		if (wildcard_match(group->cmd[index], entry->d_name) == 0)
+			is_match = insert_word(group, entry->d_name, index + 1);
 		entry = readdir(dir);
 	}
 	if (is_match)

@@ -6,7 +6,7 @@
 /*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/30 15:20:23 by mwallage          #+#    #+#             */
-/*   Updated: 2023/12/10 10:27:22 by mwallage         ###   ########.fr       */
+/*   Updated: 2023/12/13 16:02:48 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,17 +40,22 @@ void	write_heredoc(t_group *group, char *eof, int pipefd[2])
 	}
 }
 
+void	close_previous_infile(t_group *group)
+{
+	if (group->infile != STDIN_FILENO)
+	{
+		close(group->infile);
+		ft_dup2(group, group->original_stdin, STDIN_FILENO);
+	}
+}
+
 int	handle_heredoc(t_group *group, char *eof)
 {
 	pid_t	pid;
 	int		pipefd[2];
 	int		status;
 
-	if (group->infile != STDIN_FILENO)
-	{
-		close(group->infile);
-		ft_dup2(group, group->original_stdin, STDIN_FILENO);
-	}
+	close_previous_infile(group);
 	if (pipe(pipefd) == -1)
 		return (0);
 	pid = fork();

@@ -6,7 +6,7 @@
 /*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/22 18:15:30 by mwallage          #+#    #+#             */
-/*   Updated: 2023/12/09 14:36:25 by mwallage         ###   ########.fr       */
+/*   Updated: 2023/12/13 15:51:13 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 int	tab_len(char **tab)
 {
 	int	size;
-	
+
 	size = 0;
 	while (tab && tab[size])
 		size++;
@@ -70,7 +70,7 @@ char	*mini_getenv(char **env, char *key)
 t_group	*group_last(t_group *group)
 {
 	t_group	*current;
-	
+
 	current = group;
 	while (current && current->next)
 		current = current->next;

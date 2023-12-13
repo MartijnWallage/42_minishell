@@ -6,12 +6,12 @@
 #    By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/10/05 15:16:08 by mwallage          #+#    #+#              #
-#    Updated: 2023/12/10 17:17:54 by mwallage         ###   ########.fr        #
+#    Updated: 2023/12/13 16:06:07 by mwallage         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 CC			:= cc
-CFLAGS		:= -Wall -Wextra -Werror -g -fsanitize=address
+CFLAGS		:= -Wall -Wextra -Werror -g #-fsanitize=address
 SRCDIR		:= ./src
 OBJDIR		:= ./obj
 INCDIR		:= ./inc

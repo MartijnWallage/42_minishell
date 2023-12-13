@@ -6,7 +6,7 @@
 /*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 15:40:59 by mwallage          #+#    #+#             */
-/*   Updated: 2023/12/10 12:47:38 by mwallage         ###   ########.fr       */
+/*   Updated: 2023/12/13 16:00:08 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,7 @@ typedef struct s_group
 char	*reader(char **env);
 /*	tokenizer		*/
 char	**tokenizer(char const *s);
+int		is_token(const char *token);
 /*	parser		*/
 int		is_valid_syntax(char **cmd, int *exitcode);
 t_group	*parser(char **tokens, char ***env_ptr, int *exitcode);
@@ -96,7 +97,6 @@ int		is_redirect(const char *str);
 int		is_whitespace(const char c);
 int		is_meta_char(const char c);
 int		is_control_operator(const char *token);
-int		is_token(const char *token);
 int		is_quotation_mark(const char c);
 /*	clean.c			*/
 void	*free_tab(char **tab);
@@ -107,7 +107,7 @@ void	protect_malloc_during_build(char **cmd, char ***env_ptr, void *ptr);
 /* signals.c */
 void	handle_sigint(int sig);
 void	handle_sigquit(int sig);
-void	signal_handler();
+void	signal_handler(void);
 void	check_signal_flag(t_group *group);
 
 #endif

@@ -6,11 +6,36 @@
 /*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/02 11:13:16 by mwallage          #+#    #+#             */
-/*   Updated: 2023/12/10 10:40:59 by mwallage         ###   ########.fr       */
+/*   Updated: 2023/12/13 15:59:46 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+int	is_token(const char *token)
+{
+	if (token[0] == '|' && token[1] == '|')
+		return (2);
+	else if (token[0] == '|')
+		return (1);
+	else if (token[0] == '&' && token[1] == '&')
+		return (2);
+	else if (token[0] == '&')
+		return (1);
+	else if (token[0] == '<' && token[1] == '<')
+		return (2);
+	else if (token[0] == '<')
+		return (1);
+	else if (token[0] == '>' && token[1] == '>')
+		return (2);
+	else if (token[0] == '>')
+		return (1);
+	else if (token[0] == '(')
+		return (1);
+	else if (token[0] == ')')
+		return (1);
+	return (0);
+}
 
 static int	token_len(const char *s)
 {

@@ -6,7 +6,7 @@
 /*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 16:46:09 by mwallage          #+#    #+#             */
-/*   Updated: 2023/12/10 11:59:25 by mwallage         ###   ########.fr       */
+/*   Updated: 2023/12/13 16:03:42 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ static void	main_routine(char *line, char ***mini_env, int *exitcode)
 	list = parser(tokens, mini_env, exitcode);
 	free_tab(tokens);
 	executor(list);
-	check_signal_flag(list);
+//	check_signal_flag(list);
 	cleanup(list);
 }
 
@@ -59,7 +59,7 @@ int	main(int argc, char **argv, char **envp)
 		return (1);
 	mini_env = copy_tab(envp);
 	exitcode = 0;
-	signal_handler();
+//	signal_handler();
 	while (1)
 	{
 		line = reader(mini_env);

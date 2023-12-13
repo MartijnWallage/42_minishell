@@ -64,6 +64,7 @@ char	*reader(char **env)
 
 	prompt = get_prompt(env);
 	protect_malloc(NULL, prompt);
+	// set_input_signals();
 	str = readline(prompt);
 	free(prompt);
 	add_history(str);

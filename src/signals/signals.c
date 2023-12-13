@@ -47,6 +47,6 @@ void	check_signal_flag(t_group *group)
 	{
 		*group->exitcode = 130;
 		write(2, "Quit (core dumped)\n", ft_strlen("Quit (core dumped)\n"));
-		kill(group->pid, SIGTERM);
+//		kill(group->pid, SIGTERM);
 	}
 }

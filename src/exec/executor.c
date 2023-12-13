@@ -48,10 +48,14 @@ void	simple_command(t_group *group)
 			cleanup_and_exit(group, 0);
 	}
 	else if (group->pid == 0)
+	{
+		// set_exec_signals()
 		exec(group);
+	}
 	else
 	{
 		group->pid = fork();
+		// set_exec_signals()
 		if (group->pid == 0)
 			exec(group);
 		ft_waitpid(group);

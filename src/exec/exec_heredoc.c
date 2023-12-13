@@ -16,6 +16,7 @@ void	write_heredoc(t_group *group, char *eof, int pipefd[2])
 {
 	char	*line;
 
+	// set ctrl-c to here_doc interrupt
 	close(pipefd[0]);
 	ft_dup2(group, pipefd[1], STDOUT_FILENO);
 	while (1)
@@ -53,6 +54,7 @@ int	handle_heredoc(t_group *group, char *eof)
 	if (pipe(pipefd) == -1)
 		return (0);
 	pid = fork();
+	// ignore ctrl-c
 	if (pid == -1)
 		return (close(pipefd[0]), close(pipefd[1]), (0));
 	if (pid == 0)

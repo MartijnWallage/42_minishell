@@ -51,7 +51,10 @@ int	open_outfile(t_group *group, char *path, bool append)
 	else
 		group->outfile = open(path, O_CREAT | O_WRONLY | O_TRUNC, 0644);
 	if (group->outfile == -1)
+	{
+		fprintf(stderr, "Can't open file\n");
 		return (0);
+	}
 	if (ft_dup2(group, group->outfile, STDOUT_FILENO) == -1)
 		return (0);
 	if (close(group->outfile) == -1)
@@ -77,7 +80,10 @@ int	redirect(t_group *group)
 			return (redirect_error(group, group->cmd[i + 1]));
 		else if (ft_strncmp(group->cmd[i], ">", 2) == 0
 			&& !open_outfile(group, group->cmd[i + 1], false))
-			return (redirect_error(group, group->cmd[i + 1]));
+			{
+				fprintf(stderr, "Houston we have a problem\n");
+				return (redirect_error(group, group->cmd[i + 1]));
+			}
 	}
 	return (1);
 }

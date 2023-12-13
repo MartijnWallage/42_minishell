@@ -30,13 +30,6 @@ static int	is_matching_quotes(const char *str)
 	return (is_matching_quotes(++str));
 }
 
-static int	is_valid_redirect(char *filename)
-{
-	if (filename == NULL || is_meta_char(filename[0]))
-		return (0);
-	return (1);
-}
-
 static int	check_left_arg(char **cmd, int index, int *exitcode)
 {
 	int	j;
@@ -65,13 +58,11 @@ static int	check_right_arg(char **cmd, int index, int *exitcode)
 	return (1);
 }
 
-int	is_valid_syntax(char **cmd, int *exitcode)
+static int	check_parentheses(char **cmd, int *exitcode)
 {
-	int	i;
 	int	counter;
+	int	i;
 
-	if (cmd == NULL)
-		return (0);
 	counter = 1;
 	i = -1;
 	while (cmd[++i] && counter)
@@ -83,11 +74,34 @@ int	is_valid_syntax(char **cmd, int *exitcode)
 	}
 	if (counter != 1)
 		return (syntax_error("missing parenthesis", exitcode), 0);
+	return (1);
+}
+
+int	check_redirect(char **cmd, int index, int *exitcode)
+{
+	if (!is_redirect(cmd[index]))
+		return (1);
+	if (cmd[index + 1] == NULL || is_meta_char(cmd[index + 1][0]))
+	{
+		syntax_error(cmd[index + 1], exitcode);
+		return (0);
+	}
+	return (1);
+}
+
+int	is_valid_syntax(char **cmd, int *exitcode)
+{
+	int	i;
+
+	if (cmd == NULL)
+		return (0);
+	if (!check_parentheses(cmd, exitcode))
+		return (0);
 	i = -1;
 	while (cmd[++i])
 	{
 		if (!is_matching_quotes(cmd[i]))
-			return (i);
+			return (syntax_error(cmd[i], exitcode), 0);
 		if (is_control_operator(cmd[i]) && cmd[i][0] != '(' && cmd[i][0] != ')')
 		{
 			if (!check_left_arg(cmd, i, exitcode))
@@ -99,8 +113,8 @@ int	is_valid_syntax(char **cmd, int *exitcode)
 			return (syntax_error(cmd[i], exitcode), 0);
 		if (cmd[i][0] == ')' && cmd[i + 1] && !is_control_operator(cmd[i + 1]))
 			return (syntax_error(cmd[i], exitcode), 0);
-		if (is_redirect(cmd[i]) && !is_valid_redirect(cmd[i + 1]))
-			return (syntax_error(cmd[i + 1], exitcode), 0);
+		if (!check_redirect(cmd, i, exitcode))
+			return (0);
 	}
 	return (1);
 }

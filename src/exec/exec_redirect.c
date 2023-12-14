@@ -6,13 +6,13 @@
 /*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/30 15:20:23 by mwallage          #+#    #+#             */
-/*   Updated: 2023/12/14 09:37:10 by mwallage         ###   ########.fr       */
+/*   Updated: 2023/12/14 12:31:21 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "executor.h"
 
-void	restore_redirection(t_group *group)
+void	*restore_redirection(t_group *group)
 {
 	if (group->infile != STDIN_FILENO
 		&& dup2(group->original_stdin, STDIN_FILENO) == -1)
@@ -20,6 +20,7 @@ void	restore_redirection(t_group *group)
 	if (group->outfile != STDOUT_FILENO
 		&& dup2(group->original_stdout, STDOUT_FILENO) == -1)
 		error_msg("could not restore redirection");
+	return (NULL);
 }
 
 int	open_infile(t_group *group, char *path)
@@ -68,28 +69,16 @@ int	redirect(t_group *group)
 	{
 		if (ft_strncmp(group->cmd[i], "<<", 3) == 0
 			&& !handle_heredoc(group, group->cmd[i + 1]))
-			{
-				redirect_error(group, "incomplete here_doc");
-				return (0);
-			}
+			return (redirect_error(group, "incomplete here_doc"));
 		else if (ft_strncmp(group->cmd[i], "<", 2) == 0
 			&& !open_infile(group, group->cmd[i + 1]))
-			{
-				redirect_error(group, group->cmd[i + 1]);
-				return (0);
-			}
+			return (redirect_error(group, group->cmd[i + 1]));
 		else if (ft_strncmp(group->cmd[i], ">>", 3) == 0
 			&& !open_outfile(group, group->cmd[i + 1], true))
-			{
-				redirect_error(group, group->cmd[i + 1]);
-				return (0);
-			}
+			return (redirect_error(group, group->cmd[i + 1]));
 		else if (ft_strncmp(group->cmd[i], ">", 2) == 0
 			&& !open_outfile(group, group->cmd[i + 1], false))
-			{
-				redirect_error(group, group->cmd[i + 1]);
-				return (0);
-			}
+			return (redirect_error(group, group->cmd[i + 1]));
 	}
 	return (1);
 }

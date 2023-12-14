@@ -6,7 +6,7 @@
 /*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/22 18:15:25 by mwallage          #+#    #+#             */
-/*   Updated: 2023/12/05 11:11:05 by mwallage         ###   ########.fr       */
+/*   Updated: 2023/12/14 12:21:41 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ static void	prompt_cat(char *prompt, char *user, char *path, char *home)
 	ft_strlcat(prompt, RES, len + ft_strlen(RES) + 1);
 }
 
-static char *get_prompt(char **env)
+static char	*get_prompt(char **env)
 {
 	char	*path;
 	char	*prompt;

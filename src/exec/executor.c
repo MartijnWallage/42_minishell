@@ -6,7 +6,7 @@
 /*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/22 18:14:58 by mwallage          #+#    #+#             */
-/*   Updated: 2023/12/14 09:35:57 by mwallage         ###   ########.fr       */
+/*   Updated: 2023/12/14 12:41:14 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,40 +30,37 @@ void	exec(t_group *group)
 	}
 }
 
-void	simple_command(t_group *group)
+void	ft_execute(t_group *group)
+{
+	// set_exec_signals()
+	if (group->pid == 0)
+		exec(group);
+	else
+	{
+		group->pid = fork();
+		if (group->pid == 0)
+			exec(group);
+		ft_waitpid(group);
+	}
+}
+
+void	*simple_command(t_group *group)
 {
 	if (!group->cmd || !group->cmd[0])
-		return ;
+		return (NULL);
 	if (!redirect(group))
-	{
-		restore_redirection(group);
-		return ;
-	}
+		return (restore_redirection(group));
 	expander(group);
 	if (group->cmd[0] == NULL)
-	{
-		restore_redirection(group);
-		return ;
-	}
+		return (restore_redirection(group));
 	if (builtin(group))
 	{
 		if (group->pid == 0)
 			cleanup_and_exit(group, 0);
 	}
-	else if (group->pid == 0)
-	{
-		// set_exec_signals()
-		exec(group);
-	}
 	else
-	{
-		group->pid = fork();
-		// set_exec_signals()
-		if (group->pid == 0)
-			exec(group);
-		ft_waitpid(group);
-	}
-	restore_redirection(group);
+		ft_execute(group);
+	return (restore_redirection(group));
 }
 
 void	open_subshell(t_group *group)

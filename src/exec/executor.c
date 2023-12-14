@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmuller <jmuller@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/22 18:14:58 by mwallage          #+#    #+#             */
-/*   Updated: 2023/12/14 16:16:22 by jmuller          ###   ########.fr       */
+/*   Updated: 2023/12/14 18:23:13 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,6 @@ void	exec(t_group *group)
 
 void	ft_execute(t_group *group)
 {
-	handle_signals(NON_INTERACTIVE);
 	if (group->pid == 0)
 		exec(group);
 	else
@@ -90,6 +89,7 @@ void	executor(t_group *group)
 {
 	if (group == NULL)
 		return ;
+	handle_signals(NON_INTERACTIVE);
 	if (group->operator == CLOSE_SUBSHELL)
 		cleanup_and_exit(group, *group->exitcode);
 	if (group->next && group->next->operator == PIPE)

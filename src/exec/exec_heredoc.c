@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_heredoc.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmuller <jmuller@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/30 15:20:23 by mwallage          #+#    #+#             */
-/*   Updated: 2023/12/14 16:49:20 by jmuller          ###   ########.fr       */
+/*   Updated: 2023/12/14 18:32:11 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,10 +59,10 @@ int	handle_heredoc(t_group *group, char *eof)
 	close_previous_infile(group);
 	if (pipe(pipefd) == -1)
 		return (1);
+	signal(SIGINT, SIG_IGN);
 	pid = fork();
 	if (pid == -1)
 		return (close(pipefd[0]), close(pipefd[1]), 1);
-	signal(SIGINT, SIG_IGN);
 	if (pid == 0)
 		write_heredoc(group, eof, pipefd);
 	else

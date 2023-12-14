@@ -12,13 +12,27 @@
 
 #include "expander.h"
 
+static void	join_right_side(t_group *group, int i, int dollar, int keylen)
+{
+	char	*temp;
+	char	*word;
+
+	word = group->cmd[i];
+	temp = group->cmd[i];
+	group->cmd[i] = ft_strjoin(group->cmd[i], &word[dollar + keylen + 1]);
+	if (word != temp)
+		free(word);
+	if (temp != group->cmd[i])
+		free(temp);
+	protect_malloc(group, group->cmd[i]);
+}
+
 static char	*expand_var(t_group *group, int word_index, int *dollar_sign)
 {
 	int		keylen;
 	int		valuelen;
 	char	*word;
 	char	*value;
-	char	*temp;
 
 	word = group->cmd[word_index];
 	keylen = get_keylen(&word[*dollar_sign + 1]);
@@ -30,16 +44,7 @@ static char	*expand_var(t_group *group, int word_index, int *dollar_sign)
 		free(value);
 	protect_malloc(group, group->cmd[word_index]);
 	if (word[*dollar_sign + keylen + 1])
-	{
-		temp = group->cmd[word_index];
-		group->cmd[word_index] = ft_strjoin(group->cmd[word_index],
-				&word[*dollar_sign + keylen + 1]);
-		if (word != temp)
-			free(word);
-		if (temp != group->cmd[word_index])
-			free(temp);
-		protect_malloc(group, group->cmd[word_index]);
-	}
+		join_right_side(group, word_index, *dollar_sign, keylen);
 	*dollar_sign += valuelen - 1;
 	return (group->cmd[word_index]);
 }
@@ -62,49 +67,6 @@ static void	find_and_expand_vars(t_group *group, int word_index)
 		else if (waiting_for_quote != '\'' && word[i] == '$'
 			&& (isalnum(word[i + 1]) || word[i + 1] == '?'))
 			word = expand_var(group, word_index, &i);
-	}
-}
-
-int	remove_quotes(char *str)
-{
-	char	opening_quote;
-	int		flag;
-
-	flag = 1;
-	while (str && *str)
-	{
-		if (*str == '\'' || *str == '\"')
-		{
-			if (*str == '\'')
-				flag = 0;
-			opening_quote = *str;
-			remove_first_char(str);
-			while (*str && *str != opening_quote)
-				str++;
-			remove_first_char(str);
-		}
-		else
-			str++;
-	}
-	return (flag);
-}
-
-void	remove_redirect(char **cmd)
-{
-	int	i;
-
-	if (!cmd)
-		return ;
-	i = 0;
-	while (cmd[i])
-	{
-		if (is_redirect(cmd[i]))
-		{
-			remove_word(cmd, i + 1);
-			remove_word(cmd, i);
-		}
-		else
-			i++;
 	}
 }
 

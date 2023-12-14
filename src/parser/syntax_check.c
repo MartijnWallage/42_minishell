@@ -30,34 +30,6 @@ static int	is_matching_quotes(const char *str)
 	return (is_matching_quotes(++str));
 }
 
-static int	check_left_arg(char **cmd, int index, int *exitcode)
-{
-	int	j;
-
-	j = index - 1;
-	while (j >= 0 && (cmd[j][0] == ')' || cmd[j][0] == '('))
-		j--;
-	if (j < 0)
-		return (syntax_error(cmd[index], exitcode), 0);
-	if (is_control_operator(cmd[j]))
-		return (syntax_error(cmd[j], exitcode), 0);
-	return (1);
-}
-
-static int	check_right_arg(char **cmd, int index, int *exitcode)
-{
-	int	j;
-
-	j = index + 1;
-	while (cmd[j] && (cmd[j][0] == '(' || cmd[j][0] == ')'))
-		j++;
-	if (cmd[j] == NULL)
-		return (syntax_error(cmd[index], exitcode), 0);
-	if (is_control_operator(cmd[j]))
-		return (syntax_error(cmd[j], exitcode), 0);
-	return (1);
-}
-
 static int	check_parentheses(char **cmd, int *exitcode)
 {
 	int	counter;
@@ -93,8 +65,6 @@ int	is_valid_syntax(char **cmd, int *exitcode)
 {
 	int	i;
 
-	if (cmd == NULL)
-		return (0);
 	if (!check_parentheses(cmd, exitcode))
 		return (0);
 	i = -1;

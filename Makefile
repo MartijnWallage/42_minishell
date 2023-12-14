@@ -28,9 +28,11 @@ SRC			:= main.c \
 				parser/parser.c \
 				parser/parser_utils.c \
 				parser/syntax_check.c \
+				parser/syntax_utils.c \
 				expander/expander.c \
 				expander/expander_utils.c \
 				expander/expand_wildcards.c \
+				expander/expander_remove.c \
 				exec/exec_heredoc.c \
 				exec/exec_pipe.c \
 				exec/exec_redirect.c \

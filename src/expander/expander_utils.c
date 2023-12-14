@@ -49,30 +49,23 @@ char	*get_value(t_group *group, char *word)
 	return (value);
 }
 
-void	remove_first_char(char *str)
-{
-	if (!str || !*str)
-		return ;
-	while (str && *str && *(str + 1))
-	{
-		*str = *(str + 1);
-		str++;
-	}
-	*str = *(str + 1);
-}
-
-void	remove_word(char **tab, int index)
+static int	copy_left_side(t_group *group, char **new_cmd, char **old_cmd, \
+	int index)
 {
 	int	i;
 
-	i = index;
-	while (tab[i + 1])
+	i = 0;
+	while (i < index)
 	{
-		tab[i] = tab[i + 1];
+		new_cmd[i] = ft_strdup(old_cmd[i]);
+		if (new_cmd[i] == NULL)
+		{
+			free_tab(new_cmd);
+			protect_malloc(group, NULL);
+		}
 		i++;
 	}
-	free(tab[i + 1]);
-	tab[i] = NULL;
+	return (i);
 }
 
 int	insert_word(t_group *group, char *new_word, int index)
@@ -84,17 +77,7 @@ int	insert_word(t_group *group, char *new_word, int index)
 	tablen = tab_len(group->cmd);
 	new_cmd = malloc(sizeof(char *) * (tablen + 2));
 	protect_malloc(group, new_cmd);
-	i = 0;
-	while (i < index)
-	{
-		new_cmd[i] = ft_strdup(group->cmd[i]);
-		if (new_cmd[i] == NULL)
-		{
-			free_tab(new_cmd);
-			protect_malloc(group, NULL);
-		}
-		i++;
-	}
+	i = copy_left_side(group, new_cmd, group->cmd, index);
 	new_cmd[i] = ft_strdup(new_word);
 	protect_malloc(group, new_cmd[i]);
 	while (++i < tablen + 1)

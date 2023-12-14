@@ -50,7 +50,7 @@ static char	*get_prompt(char **env)
 	if (!home)
 		home = "";
 	prompt = malloc(ft_strlen(user) + ft_strlen(HOSTNAME)
-		+ ft_strlen(path) + 41);
+			+ ft_strlen(path) + 41);
 	if (prompt == NULL)
 		return (NULL);
 	prompt_cat(prompt, user, path, home);
@@ -67,6 +67,7 @@ char	*reader(char **env)
 	// set_input_signals();
 	str = readline(prompt);
 	free(prompt);
-	add_history(str);
+	if (str && *str)
+		add_history(str);
 	return (str);
 }

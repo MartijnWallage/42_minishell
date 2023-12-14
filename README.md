@@ -37,5 +37,5 @@ Our minishell (called "philoshell", since both authors are philosophers) consist
 
 ## Current State
 
-- All the basic functionality is there, except for SIGNALS.
-- There are some memory leaks to fix.
+- Here_Doc inside of a pipe does not quit in the right way.
+- `cat >outfile | << EOF cat` behaves weirdly.

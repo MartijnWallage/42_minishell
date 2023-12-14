@@ -6,7 +6,7 @@
 /*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/22 18:14:58 by mwallage          #+#    #+#             */
-/*   Updated: 2023/12/10 12:38:34 by mwallage         ###   ########.fr       */
+/*   Updated: 2023/12/14 09:35:57 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,10 @@ void	simple_command(t_group *group)
 	if (!group->cmd || !group->cmd[0])
 		return ;
 	if (!redirect(group))
+	{
+		restore_redirection(group);
 		return ;
+	}
 	expander(group);
 	if (group->cmd[0] == NULL)
 	{

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_heredoc.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jmuller <jmuller@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/30 15:20:23 by mwallage          #+#    #+#             */
-/*   Updated: 2023/12/13 16:02:48 by mwallage         ###   ########.fr       */
+/*   Updated: 2023/12/14 16:49:20 by jmuller          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ void	write_heredoc(t_group *group, char *eof, int pipefd[2])
 {
 	char	*line;
 
-	// set ctrl-c to here_doc interrupt
+	handle_signals(HEREDOC);
 	close(pipefd[0]);
 	ft_dup2(group, pipefd[1], STDOUT_FILENO);
 	while (1)
@@ -26,14 +26,15 @@ void	write_heredoc(t_group *group, char *eof, int pipefd[2])
 		if (line == NULL)
 		{
 			close(pipefd[1]);
-			error_msg("incomplete here_doc");
-			cleanup_and_exit(group, 2);
+			write(2, "\n", 1);
+			error_msg("warning: here-document delimited by end-of-file");
+			cleanup_and_exit(group, 0);
 		}
 		if (ft_strncmp(line, eof, ft_strlen(eof)) == 0)
 		{
 			free(line);
 			close(pipefd[1]);
-			cleanup_and_exit(group, 2);
+			cleanup_and_exit(group, 0);
 		}
 		ft_putstr_fd(line, pipefd[1]);
 		free(line);
@@ -57,23 +58,25 @@ int	handle_heredoc(t_group *group, char *eof)
 
 	close_previous_infile(group);
 	if (pipe(pipefd) == -1)
-		return (0);
+		return (1);
 	pid = fork();
-	// ignore ctrl-c
 	if (pid == -1)
-		return (close(pipefd[0]), close(pipefd[1]), (0));
+		return (close(pipefd[0]), close(pipefd[1]), 1);
+	signal(SIGINT, SIG_IGN);
 	if (pid == 0)
 		write_heredoc(group, eof, pipefd);
 	else
 		close(pipefd[1]);
 	waitpid(pid, &status, 0);
 	if (WIFEXITED(status))
+	{
 		*group->exitcode = WEXITSTATUS(status);
-	else
-		return (close(pipefd[0]), 0);
+		if (*group->exitcode)
+			return (*group->exitcode);
+	}
 	if (ft_dup2(group, pipefd[0], STDIN_FILENO) == -1)
-		return (close(pipefd[0]), 0);
+		return (close(pipefd[0]), 1);
 	close(pipefd[0]);
 	group->infile = group->original_stdin;
-	return (1);
+	return (0);
 }

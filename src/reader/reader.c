@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   reader.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jmuller <jmuller@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/22 18:15:25 by mwallage          #+#    #+#             */
-/*   Updated: 2023/12/14 12:21:41 by mwallage         ###   ########.fr       */
+/*   Updated: 2023/12/14 15:56:38 by jmuller          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ char	*reader(char **env)
 
 	prompt = get_prompt(env);
 	protect_malloc(NULL, prompt);
-	// set_input_signals();
+	handle_signals(INTERACTIVE);
 	str = readline(prompt);
 	free(prompt);
 	if (str && *str)

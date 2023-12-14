@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jmuller <jmuller@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 15:40:59 by mwallage          #+#    #+#             */
-/*   Updated: 2023/12/13 16:00:08 by mwallage         ###   ########.fr       */
+/*   Updated: 2023/12/14 16:03:54 by jmuller          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,8 @@
 # include <sys/wait.h>
 # include "../libft/inc/libft.h"
 
+extern volatile sig_atomic_t	g_sigid;
+
 typedef enum s_operator
 {
 	NONE,
@@ -52,6 +54,13 @@ typedef enum s_operator
 	OPEN_SUBSHELL,
 	CLOSE_SUBSHELL
 }	t_operator;
+
+typedef enum s_mode
+{
+	NON_INTERACTIVE,
+	INTERACTIVE,
+	HEREDOC
+}	t_mode;
 
 typedef struct s_group
 {
@@ -107,7 +116,7 @@ void	protect_malloc_during_build(char **cmd, char ***env_ptr, void *ptr);
 /* signals.c */
 void	handle_sigint(int sig);
 void	handle_sigquit(int sig);
-void	signal_handler_parent(void);
+void	handle_signals(t_mode mode);
 void	check_signal_flag(t_group *group);
 
 #endif

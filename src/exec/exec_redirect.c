@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_redirect.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jmuller <jmuller@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/30 15:20:23 by mwallage          #+#    #+#             */
-/*   Updated: 2023/12/14 12:31:21 by mwallage         ###   ########.fr       */
+/*   Updated: 2023/12/14 16:27:35 by jmuller          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,8 +68,13 @@ int	redirect(t_group *group)
 	while (group->cmd[++i])
 	{
 		if (ft_strncmp(group->cmd[i], "<<", 3) == 0
-			&& !handle_heredoc(group, group->cmd[i + 1]))
-			return (redirect_error(group, "incomplete here_doc"));
+			&& handle_heredoc(group, group->cmd[i + 1]))
+		{
+			if (*group->exitcode)
+				return (0);
+			else
+				return (redirect_error(group, "incomplete here_doc"));
+		}
 		else if (ft_strncmp(group->cmd[i], "<", 2) == 0
 			&& !open_infile(group, group->cmd[i + 1]))
 			return (redirect_error(group, group->cmd[i + 1]));

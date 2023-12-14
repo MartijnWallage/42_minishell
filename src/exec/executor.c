@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jmuller <jmuller@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/22 18:14:58 by mwallage          #+#    #+#             */
-/*   Updated: 2023/12/14 12:41:14 by mwallage         ###   ########.fr       */
+/*   Updated: 2023/12/14 16:16:22 by jmuller          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ void	exec(t_group *group)
 
 void	ft_execute(t_group *group)
 {
-	// set_exec_signals()
+	handle_signals(NON_INTERACTIVE);
 	if (group->pid == 0)
 		exec(group);
 	else

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jmuller <jmuller@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 16:46:09 by mwallage          #+#    #+#             */
-/*   Updated: 2023/12/14 09:33:45 by mwallage         ###   ########.fr       */
+/*   Updated: 2023/12/14 15:40:10 by jmuller          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ static void	main_routine(char *line, char ***mini_env, int *exitcode)
 	list = parser(tokens, mini_env, exitcode);
 	free_tab(tokens);
 	executor(list);
-//	check_signal_flag(list);
+	check_signal_flag(list);
 	cleanup(list);
 }
 
@@ -59,7 +59,6 @@ int	main(int argc, char **argv, char **envp)
 		return (1);
 	mini_env = copy_tab(envp);
 	exitcode = 0;
-	signal_handler_parent();
 	while (1)
 	{
 		line = reader(mini_env);

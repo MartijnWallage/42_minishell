@@ -27,6 +27,7 @@ static t_group	*init_group(char **cmd, char ***env_ptr, int *exitcode)
 	list->operator = NONE;
 	list->previous = NULL;
 	list->next = NULL;
+	list->subshell = NULL;
 	list->env_ptr = env_ptr;
 	list->infile = STDIN_FILENO;
 	list->outfile = STDOUT_FILENO;
@@ -83,22 +84,28 @@ static char	**get_right_side(char **tab, int begin)
 	return (ret);
 }
 
-int	fill_group(t_group *list, char **cmd, int breakpoint)
+int	fill_group(t_group *group, char **cmd, int breakpoint)
 {
-	if (is_control_operator(cmd[0]) && cmd[0][0] != '(')
+	if (cmd[0][0] == '(')
 	{
-		list->operator = get_operator(cmd[0]);
+		group->operator = OPEN_SUBSHELL;
+		group->subshell = parser(&cmd[1], group->env_ptr, group->exitcode);
+		breakpoint = find_closing_parenth(&cmd[1]) + 1;
+	}
+	else if (cmd[0][0] == ')')
+	{
+		group->operator = CLOSE_SUBSHELL;
+		breakpoint = -1;
+	}
+	else if (is_control_operator(cmd[0]))
+	{
+		group->operator = get_operator(cmd[0]);
 		breakpoint = 1;
 	}
-	else if (cmd[0][0] == '(')
+	else
 	{
-		list->operator = OPEN_SUBSHELL;
-		breakpoint = find_closing_parenth(cmd);
-	}
-	if (list->operator == NONE || list->operator == OPEN_SUBSHELL)
-	{
-		list->cmd = get_left_side(cmd, breakpoint);
-		protect_malloc(list, list->cmd);
+		group->cmd = get_left_side(cmd, breakpoint);
+		protect_malloc(group, group->cmd);
 	}
 	return (breakpoint);
 }
@@ -119,7 +126,7 @@ t_group	*parser(char **cmd, char ***env_ptr, int *exitcode)
 		return (list);
 	}
 	breakpoint = fill_group(list, cmd, breakpoint);
-	if (cmd[breakpoint] == NULL)
+	if (breakpoint == -1 || cmd[breakpoint] == NULL)
 		return (list);
 	right_side = get_right_side(cmd, breakpoint);
 	protect_malloc(list, right_side);

@@ -45,7 +45,7 @@ void	ft_pipe(t_group *group)
 	{
 		dup_and_close(group);
 		if (group->operator == OPEN_SUBSHELL)
-			open_subshell(group);
+			open_subshell(group->subshell, group);
 		else if (group->cmd && group->cmd[0])
 			simple_command(group);
 		cleanup_and_exit(group, *group->exitcode);

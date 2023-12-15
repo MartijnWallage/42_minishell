@@ -30,7 +30,7 @@ t_group	*next_complete_command(t_group *group);
 /*	executor.c		*/
 void	exec(t_group *group);
 void	*simple_command(t_group *group);
-void	open_subshell(t_group *group);
+void	open_subshell(t_group *subshell, t_group *supershell);
 /*	exec_heredoc.c	*/
 int		handle_heredoc(t_group *group, char *eof);
 void	write_heredoc(t_group *group, char *eof, int pipefd[2]);

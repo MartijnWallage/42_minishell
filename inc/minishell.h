@@ -74,6 +74,7 @@ typedef struct s_group
 	int				infile;
 	int				outfile;
 	int				*exitcode;
+	struct s_group	*subshell;
 	struct s_group	*previous;
 	struct s_group	*next;
 }					t_group;

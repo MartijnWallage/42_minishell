@@ -44,6 +44,17 @@ static void	main_routine(char *line, char ***mini_env, int *exitcode)
 	}
 	list = parser(tokens, mini_env, exitcode);
 	free_tab(tokens);
+/* 	t_group *current = list;
+	while (current)
+	{
+		if (current->cmd == NULL)
+			printf("Operator %d", current->operator);
+		else
+			for (int i = 0; i < tab_len(current->cmd); i++)
+				printf("%s -- ", current->cmd[i]);
+		printf("\n");
+		current = current->next;
+	} */
 	executor(list);
 	check_signal_flag(list);
 	cleanup(list);

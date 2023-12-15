@@ -62,27 +62,21 @@ void	*simple_command(t_group *group)
 	return (restore_redirection(group));
 }
 
-void	open_subshell(t_group *group)
+void	open_subshell(t_group *subshell, t_group *supershell)
 {
-	t_group	*list;
-
-	if (!is_valid_syntax(group->cmd, group->exitcode))
-		return ;
-	group->pid = fork();
-	if (group->pid == -1)
+	supershell->pid = fork();
+	if (supershell->pid == -1)
 	{
 		error_msg("could not create subshell");
 		return ;
 	}
-	if (group->pid == 0)
+	if (supershell->pid == 0)
 	{
-		list = parser(&group->cmd[1], group->env_ptr, group->exitcode);
-		expander(list);
-		cleanup(group);
-		executor(list);
-		cleanup_and_exit(list, *list->exitcode);
+		cleanup(supershell);
+		executor(subshell);
+		cleanup_and_exit(subshell, *subshell->exitcode); // probably redundant
 	}
-	ft_waitpid(group);
+	ft_waitpid(supershell);
 }
 
 void	executor(t_group *group)
@@ -95,7 +89,7 @@ void	executor(t_group *group)
 	if (group->next && group->next->operator == PIPE)
 		pipeline(group);
 	else if (group->operator == OPEN_SUBSHELL)
-		open_subshell(group);
+		open_subshell(group->subshell, group);
 	else if (group->operator == AND && *group->exitcode != 0)
 		group = group->next;
 	else if (group->operator == OR && *group->exitcode == 0)

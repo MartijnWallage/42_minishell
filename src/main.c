@@ -44,6 +44,8 @@ static void	main_routine(char *line, char ***mini_env, int *exitcode)
 	}
 	list = parser(tokens, mini_env, exitcode);
 	free_tab(tokens);
+	if (!list)
+		return ;
 /* 	t_group *current = list;
 	while (current)
 	{

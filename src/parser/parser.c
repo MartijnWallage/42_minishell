@@ -30,6 +30,7 @@ static t_group	*init_group(char **cmd, char ***env_ptr, int *exitcode)
 	list->subshell = NULL;
 	list->env_ptr = env_ptr;
 	list->infile = STDIN_FILENO;
+	list->heredoc = STDIN_FILENO;
 	list->outfile = STDOUT_FILENO;
 	list->original_stdin = STDIN_FILENO;
 	list->original_stdout = STDOUT_FILENO;
@@ -123,9 +124,19 @@ t_group	*parser(char **cmd, char ***env_ptr, int *exitcode)
 	{
 		if (cmd && cmd[0])
 			list->cmd = copy_tab(cmd);
+		if (!parse_heredoc(list))
+		{
+			cleanup(list);
+			return (NULL);
+		}
 		return (list);
 	}
 	breakpoint = fill_group(list, cmd, breakpoint);
+	if (!parse_heredoc(list))
+	{
+		cleanup(list);
+		return (NULL);
+	}
 	if (breakpoint == -1 || cmd[breakpoint] == NULL)
 		return (list);
 	right_side = get_right_side(cmd, breakpoint);

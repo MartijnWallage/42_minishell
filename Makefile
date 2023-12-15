@@ -25,6 +25,7 @@ HOST		:= $(shell hostname)
 SRC			:= main.c \
 				reader/reader.c \
 				tokenizer/tokenizer.c \
+				parser/parse_heredoc.c \
 				parser/parser.c \
 				parser/parser_utils.c \
 				parser/syntax_check.c \

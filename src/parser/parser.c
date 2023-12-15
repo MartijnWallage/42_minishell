@@ -91,6 +91,8 @@ int	fill_group(t_group *group, char **cmd, int breakpoint)
 	{
 		group->operator = OPEN_SUBSHELL;
 		group->subshell = parser(&cmd[1], group->env_ptr, group->exitcode);
+		if (group->subshell == (void *)-1)
+			return (-2);
 		breakpoint = find_closing_parenth(&cmd[1]) + 1;
 	}
 	else if (cmd[0][0] == ')')
@@ -127,7 +129,7 @@ t_group	*parser(char **cmd, char ***env_ptr, int *exitcode)
 		if (!parse_heredoc(list))
 		{
 			cleanup(list);
-			return (NULL);
+			return ((void *)-1);
 		}
 		return (list);
 	}
@@ -135,13 +137,17 @@ t_group	*parser(char **cmd, char ***env_ptr, int *exitcode)
 	if (!parse_heredoc(list))
 	{
 		cleanup(list);
-		return (NULL);
+		return ((void *)-1);
 	}
+	if (breakpoint == -2)
+		return ((void *)-1);
 	if (breakpoint == -1 || cmd[breakpoint] == NULL)
 		return (list);
 	right_side = get_right_side(cmd, breakpoint);
 	protect_malloc(list, right_side);
 	list->next = parser(right_side, env_ptr, exitcode);
+	if (list->next == (void *) -1)
+		return ((void *) -1);
 	free_tab(right_side);
 	if (list->next)
 		list->next->previous = list;

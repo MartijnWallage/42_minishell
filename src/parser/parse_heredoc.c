@@ -67,6 +67,7 @@ static int	handle_heredoc(t_group *group, char *eof)
 	if (WIFEXITED(status))
 	{
 		*group->exitcode = WEXITSTATUS(status);
+		printf("Heredoc exitcode: %d\n", *group->exitcode);
 		if (*group->exitcode)
 			return (0);
 	}
@@ -84,8 +85,10 @@ int	parse_heredoc(t_group *group)
 		return (1);
 	i = -1;
 	while (group->cmd[++i])
+	{
 		if (group->cmd[i][0] == '<' && group->cmd[i][1] == '<'
 			&& !handle_heredoc(group, group->cmd[i + 1]))
 				return (0);
+	}
 	return (1);
 }

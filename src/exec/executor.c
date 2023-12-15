@@ -47,6 +47,7 @@ void	*simple_command(t_group *group)
 {
 	if (!group->cmd || !group->cmd[0])
 		return (NULL);
+	expand_heredoc(group);
 	if (!redirect(group))
 		return (restore_redirection(group));
 	expander(group);

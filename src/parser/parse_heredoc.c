@@ -16,6 +16,11 @@ static void	write_heredoc(t_group *group, char *eof, int pipefd[2])
 {
 	char	*line;
 
+	if (is_quotation_mark(*eof))
+	{
+		eof++;
+		eof[ft_strlen(eof) - 1] = 0;
+	}
 	handle_signals(HEREDOC);
 	close(pipefd[0]);
 	while (1)

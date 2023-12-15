@@ -90,6 +90,7 @@ int		is_valid_syntax(char **cmd, int *exitcode);
 t_group	*parser(char **tokens, char ***env_ptr, int *exitcode);
 /*	expander	*/
 void	expander(t_group *list);
+void	expand_heredoc(t_group *group);
 /*	exec			*/
 void	executor(t_group *group);
 int		ft_dup2(t_group *group, int fd1, int fd2);

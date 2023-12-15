@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jmuller <jmuller@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/22 18:14:58 by mwallage          #+#    #+#             */
-/*   Updated: 2023/12/14 18:23:13 by mwallage         ###   ########.fr       */
+/*   Updated: 2023/12/15 15:22:48 by jmuller          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,33 @@ void	open_subshell(t_group *group)
 	}
 	ft_waitpid(group);
 }
+
+/**
+ * @brief Recursively executes control groups by breaking them down 
+ * into executable commands.
+ * 
+ * his function processes a list of control groups, 
+ * each potentially representing a complex command structure.
+ * We distinguish between complex command structure, complete commands 
+ * and simple commands
+ * 
+ * It handles different types of control groups as follows:
+ * a) Executes simple commands directly.
+ * b) If cp is part of a pipeline, it activates the pl execution function.
+ * c) Manages subshells, executing the enclosed commands as either sc or pls.
+ * d) Evaluates logical operators (AND, OR) to determine the flow of execution.
+ * 
+ * The function works like this:
+ * 1. Sets the signal handler to NON_INTERACTIVE MODE
+ * 2. If pipe in the next group, the pipeline function is activated
+ * 3. If open paranthesis, then the opensubshell function is activated
+ * 4. The function checks for logical operators
+ * 5. If no group operator is found, then simple command is executed
+ * 6. The function goes through the list until it finds the end of a set of
+ * control groups that form a complete command by checking pipes.
+ * @param group A pointer to the head of the list of cgs to be executed.
+ * @return Returns after the each control group was executed.
+ */
 
 void	executor(t_group *group)
 {

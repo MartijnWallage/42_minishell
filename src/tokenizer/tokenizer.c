@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenizer.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jmuller <jmuller@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/02 11:13:16 by mwallage          #+#    #+#             */
-/*   Updated: 2023/12/13 15:59:46 by mwallage         ###   ########.fr       */
+/*   Updated: 2023/12/15 13:01:44 by jmuller          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,6 +94,15 @@ static void	fill_str(char *tab, const char *s, int wordlen)
 		s++;
 	}
 }
+
+/*
+ * @brief Splits string from readline and produces a 2D array of words.
+ *
+ * @param The Input string produced by readline.
+ * @return Returns a pointer to a 2D array of words. Each word being a 
+ * null-terminated string. Returns Null if memory allocation fails or input
+ * string is NULL.
+ */
 
 char	**tokenizer(const char *s)
 {

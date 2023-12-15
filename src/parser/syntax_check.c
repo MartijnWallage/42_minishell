@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   syntax_check.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jmuller <jmuller@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/22 18:15:14 by mwallage          #+#    #+#             */
-/*   Updated: 2023/12/10 16:23:38 by mwallage         ###   ########.fr       */
+/*   Updated: 2023/12/15 13:20:03 by jmuller          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,20 @@ int	check_redirect(char **cmd, int index, int *exitcode)
 	}
 	return (1);
 }
+
+/**
+ * @brief Checks 2D-Array produced by tokenizer for syntax errors
+ * in command strings
+ *
+ * This function 
+ * 1. Verifies that parentheses are correctly matched.
+ * 2. Ensures that quotes within each command string are properly closed.
+ * 3. Checks for correct syntax around control operators (eg. logical operators).
+ * 4. Validates the syntax for command redirections.
+ * @param cmd Double pointer to 2D-Array of strings produced by tokenizer.
+ * @param exitcode Pointer to an integer where the exitcode can be stored.
+ * @return Returns 0 if it finds an error and 1 if no error is detected
+ */
 
 int	is_valid_syntax(char **cmd, int *exitcode)
 {

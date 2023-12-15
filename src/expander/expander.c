@@ -79,6 +79,8 @@ char	*expand_heredoc_var(t_group *group, char *old_line, int dollar_sign)
 
  	keylen = get_keylen(&old_line[dollar_sign + 1]);
 	value = get_value(group, &old_line[dollar_sign + 1]);
+	if (value == NULL)
+		value = "";
 	old_line[dollar_sign] = 0;
 	new_line = ft_strjoin(old_line, value);
 	temp = new_line;

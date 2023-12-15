@@ -54,6 +54,19 @@ static void	main_routine(char *line, char ***mini_env, int *exitcode)
 		else
 			for (int i = 0; i < tab_len(current->cmd); i++)
 				printf("%s -- ", current->cmd[i]);
+		if (current->subshell)
+		{
+			t_group	*current2 = current->subshell;
+			while (current2)
+			{
+				if (current->cmd == NULL)
+					printf("Subshell Operator %d", current->operator);
+				else
+					for (int i = 0; i < tab_len(current->cmd); i++)
+						printf("subshell %s -- ", current->cmd[i]);
+				current2 = current2->next;
+			}
+		}
 		printf("\n");
 		current = current->next;
 	} */

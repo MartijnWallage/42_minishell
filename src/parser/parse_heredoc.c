@@ -67,7 +67,7 @@ static int	handle_heredoc(t_group *group, char *eof)
 	if (WIFEXITED(status))
 	{
 		*group->exitcode = WEXITSTATUS(status);
-		printf("Heredoc exitcode: %d\n", *group->exitcode);
+//		printf("Heredoc exitcode: %d\n", *group->exitcode);
 		if (*group->exitcode)
 			return (0);
 	}

@@ -39,4 +39,3 @@ Our minishell (called "philoshell", since both authors are philosophers) consist
 
 - Here_Doc inside of a pipe does not quit in the right way.
 - `cat >outfile | << EOF cat` behaves weirdly.
-- `ls | >outfile | ls`

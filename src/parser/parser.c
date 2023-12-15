@@ -89,11 +89,11 @@ int	fill_group(t_group *group, char **cmd, int breakpoint)
 {
 	if (cmd[0][0] == '(')
 	{
+		breakpoint = find_closing_parenth(cmd);
 		group->operator = OPEN_SUBSHELL;
 		group->subshell = parser(&cmd[1], group->env_ptr, group->exitcode);
 		if (group->subshell == (void *)-1)
 			return (-2);
-		breakpoint = find_closing_parenth(&cmd[1]) + 1;
 	}
 	else if (cmd[0][0] == ')')
 	{

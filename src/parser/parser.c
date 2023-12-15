@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jmuller <jmuller@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/22 18:15:14 by mwallage          #+#    #+#             */
-/*   Updated: 2023/12/10 12:38:56 by mwallage         ###   ########.fr       */
+/*   Updated: 2023/12/15 13:50:01 by jmuller          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,6 +112,26 @@ int	fill_group(t_group *group, char **cmd, int breakpoint)
 	}
 	return (breakpoint);
 }
+
+/**
+ * @brief Parses the syntax-checked 2D-Array of tokens into a linked list of 
+ * control group.
+ * 
+ * Each entry in the resulting list represents a control group, 
+ * separated by operators such as '|', '||', '&&', and '('.
+ * The function performs the following steps:
+ * 1. Initializes the list to store control groups.
+ * 2. Locates the first control group by checking for operators.
+ * 3. Fills struct of the control group left to the operator
+ * 4. Identifies the right-side of the operator for further parsing, i.e.
+ *    the left-over bit of the 2D-Array. 
+ * 5. Recursively processes the right side of the operator to build 
+ * 	  the next list entry.
+ * @param cmd Pointer to syntax-checked 2D-Array of tokens (original input).
+ * @param env_ptr Tripple pointr to environmental variables (allows editing env).
+ * @param exitcode Pointer to an int that stores exit codes.
+ * @return Returns a pointer to the head of a linked list of control groups.
+ */
 
 t_group	*parser(char **cmd, char ***env_ptr, int *exitcode)
 {

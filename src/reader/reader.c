@@ -6,7 +6,7 @@
 /*   By: jmuller <jmuller@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/22 18:15:25 by mwallage          #+#    #+#             */
-/*   Updated: 2023/12/14 15:56:38 by jmuller          ###   ########.fr       */
+/*   Updated: 2023/12/15 13:19:31 by jmuller          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,17 @@ static char	*get_prompt(char **env)
 	prompt_cat(prompt, user, path, home);
 	return (prompt);
 }
+/**
+ * @brief Reads user input after displaying a customized prompt
+ *
+ * This function 
+ * 1. Creates a prompt using env.
+ * 2. Reads user input continuously and returns it as a string.
+ * 3. Handles signals for interactive input.
+ * 4. Updates the command history if the input is not empty.
+ * @param env Pointer to the array of environment variables.
+ * @return Returns the line of input read from user. 
+ */
 
 char	*reader(char **env)
 {

@@ -17,7 +17,7 @@ volatile sig_atomic_t	g_sigid;
 void	display_prompt(int sig)
 {
 	(void) sig;
-	write(1, "\n", 2);
+	write(STDOUT_FILENO, "\n", 2);
 	rl_on_new_line();
 	rl_redisplay();
 	rl_replace_line("", 0);
@@ -25,14 +25,15 @@ void	display_prompt(int sig)
 
 void	interrupt_child(int sig)
 {
-	write(1, "\n", 1);
+	write(STDOUT_FILENO, "\n", 1);
 	g_sigid = SIGINT;
 	(void) sig;
 }
 
 void	quit_child(int sig)
 {
-	write(2, "Quit (core dumped)\n", ft_strlen("Quit (core dumped)\n)"));
+	write(STDERR_FILENO, "Quit (core dumped)\n",
+		ft_strlen("Quit (core dumped)\n)"));
 	g_sigid = SIGQUIT;
 	(void) sig;
 }
@@ -41,7 +42,7 @@ void	interrupt_heredoc(int sig)
 {
 	g_sigid = SIGINT;
 	(void) sig;
-	write(2, "\n", 1);
+	write(STDERR_FILENO, "\n", 1);
 	exit(130);
 }
 

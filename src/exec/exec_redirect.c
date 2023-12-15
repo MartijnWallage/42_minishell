@@ -17,6 +17,9 @@ void	*restore_redirection(t_group *group)
 	if (group->infile != STDIN_FILENO
 		&& dup2(group->original_stdin, STDIN_FILENO) == -1)
 		error_msg("could not restore redirection");
+	if (group->heredoc != STDIN_FILENO
+		&& dup2(group->original_stdin, STDIN_FILENO) == -1)
+		error_msg("could not restore redirection");
 	if (group->outfile != STDOUT_FILENO
 		&& dup2(group->original_stdout, STDOUT_FILENO) == -1)
 		error_msg("could not restore redirection");
@@ -68,13 +71,8 @@ int	redirect(t_group *group)
 	while (group->cmd[++i])
 	{
 		if (ft_strncmp(group->cmd[i], "<<", 3) == 0
-			&& handle_heredoc(group, group->cmd[i + 1]))
-		{
-			if (*group->exitcode)
-				return (0);
-			else
-				return (redirect_error(group, "incomplete here_doc"));
-		}
+			&& !open_heredoc(group))
+			return (redirect_error(group, "heredoc"));
 		else if (ft_strncmp(group->cmd[i], "<", 2) == 0
 			&& !open_infile(group, group->cmd[i + 1]))
 			return (redirect_error(group, group->cmd[i + 1]));

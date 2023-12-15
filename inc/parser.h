@@ -22,5 +22,7 @@ t_operator	get_operator(char *str);
 /*	syntax_utils.c	*/
 int			check_left_arg(char **cmd, int index, int *exitcode);
 int			check_right_arg(char **cmd, int index, int *exitcode);
+/*	parse_heredoc.c */
+int			parse_heredoc(t_group *group);
 
 #endif

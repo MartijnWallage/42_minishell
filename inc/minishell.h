@@ -71,9 +71,11 @@ typedef struct s_group
 	pid_t			pid;
 	int				original_stdin;
 	int				original_stdout;
+	int				heredoc;
 	int				infile;
 	int				outfile;
 	int				*exitcode;
+	struct s_group	*subshell;
 	struct s_group	*previous;
 	struct s_group	*next;
 }					t_group;
@@ -90,6 +92,9 @@ t_group	*parser(char **tokens, char ***env_ptr, int *exitcode);
 void	expander(t_group *list);
 /*	exec			*/
 void	executor(t_group *group);
+int		ft_dup2(t_group *group, int fd1, int fd2);
+void	ft_waitpid(t_group *group);
+void	*restore_redirection(t_group *group);
 /*	builtin			*/
 int		builtin(t_group *group);
 /*	error.c			*/

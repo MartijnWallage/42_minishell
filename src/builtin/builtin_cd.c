@@ -6,7 +6,7 @@
 /*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/09 09:44:07 by jmuller           #+#    #+#             */
-/*   Updated: 2023/12/09 20:25:15 by mwallage         ###   ########.fr       */
+/*   Updated: 2023/12/18 17:08:25 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,10 @@ int	builtin_cd(t_group *group)
 	if (group->cmd[1][0] == '~')
 		goto_home(group);
 	else if (ft_strcmp(group->cmd[1], "-") == 0)
+	{
 		goto_previous_dir(group);
+		// print new destination
+	}
 	if (chdir(group->cmd[1]) == 0)
 	{
 		update_oldpwd(group);

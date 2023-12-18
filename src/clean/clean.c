@@ -6,7 +6,7 @@
 /*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/22 18:14:40 by mwallage          #+#    #+#             */
-/*   Updated: 2023/12/09 20:38:36 by mwallage         ###   ########.fr       */
+/*   Updated: 2023/12/18 22:29:55 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@ void	*free_tab(char **tab)
 	i = -1;
 	while (tab[++i])
 		free(tab[i]);
-	free(tab[i]);
 	free(tab);
 	return (NULL);
 }
@@ -36,6 +35,7 @@ void	cleanup(t_group *list)
 	head = list;
 	while (head && head->previous)
 		head = head->previous;
+	cleanup(head->subshell);
 	if (head->original_stdin != STDIN_FILENO)
 		close(head->original_stdin);
 	if (head->original_stdout != STDOUT_FILENO)

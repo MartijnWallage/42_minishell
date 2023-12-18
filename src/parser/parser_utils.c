@@ -6,7 +6,7 @@
 /*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/22 18:15:14 by mwallage          #+#    #+#             */
-/*   Updated: 2023/12/09 15:30:17 by mwallage         ###   ########.fr       */
+/*   Updated: 2023/12/18 19:05:27 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,8 +48,10 @@ int	first_operator(char **tokens)
 t_operator	get_operator(char *str)
 {
 	t_operator	operator;
-
-	if (ft_strncmp(str, "|", 2) == 0)
+	
+	if (str == NULL)
+		operator = NONE;
+	else if (ft_strncmp(str, "|", 2) == 0)
 		operator = PIPE;
 	else if (ft_strncmp(str, "&&", 3) == 0)
 		operator = AND;

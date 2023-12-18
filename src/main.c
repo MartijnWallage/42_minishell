@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmuller <jmuller@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 16:46:09 by mwallage          #+#    #+#             */
-/*   Updated: 2023/12/15 13:19:14 by jmuller          ###   ########.fr       */
+/*   Updated: 2023/12/18 22:11:03 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,9 +62,12 @@ static void	main_routine(char *line, char ***mini_env, int *exitcode)
 	}
 	list = parser(tokens, mini_env, exitcode);
 	free_tab(tokens);
-	if (list == (void *)-1)
-		return ;
-/* 	t_group *current = list;
+	if (list == NULL)
+	{
+		free_tab(*mini_env);
+		exit(MALLOC_CODE);
+	}
+ /* 	t_group *current = list;
 	while (current)
 	{
 		if (current->cmd == NULL)
@@ -119,6 +122,8 @@ int	main(int argc, char **argv, char **envp)
 	if (argc != 1 || argv[1])
 		return (1);
 	mini_env = copy_tab(envp);
+	if (mini_env == NULL)
+		return (error_msg(MALLOC_MSG), MALLOC_CODE);
 	exitcode = 0;
 	while (1)
 	{

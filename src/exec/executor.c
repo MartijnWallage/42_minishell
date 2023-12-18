@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmuller <jmuller@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/22 18:14:58 by mwallage          #+#    #+#             */
-/*   Updated: 2023/12/15 15:22:48 by jmuller          ###   ########.fr       */
+/*   Updated: 2023/12/18 22:32:27 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,7 @@ void	open_subshell(t_group *subshell, t_group *supershell)
 	}
 	if (supershell->pid == 0)
 	{
+		supershell->subshell = NULL;
 		cleanup(supershell);
 		executor(subshell);
 		cleanup_and_exit(subshell, *subshell->exitcode); // probably redundant

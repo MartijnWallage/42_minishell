@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signals.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmuller <jmuller@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/14 14:16:11 by jmuller           #+#    #+#             */
-/*   Updated: 2023/12/14 16:11:35 by jmuller          ###   ########.fr       */
+/*   Updated: 2023/12/18 17:36:29 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ void	handle_signals(t_mode mode)
 
 void	check_signal_flag(t_group *group)
 {
-	if (g_sigid == 0 || group->pid <= 0)
+	if (!group || g_sigid == 0 || group->pid <= 0)
 		return ;
 	if (g_sigid == SIGINT)
 		*group->exitcode = 130;

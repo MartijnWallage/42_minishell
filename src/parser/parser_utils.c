@@ -6,7 +6,7 @@
 /*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/22 18:15:14 by mwallage          #+#    #+#             */
-/*   Updated: 2023/12/19 16:06:06 by mwallage         ###   ########.fr       */
+/*   Updated: 2023/12/19 18:53:19 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ char	**get_next_cmd(t_group *group, char **cmd)
 t_operator	get_operator(char *str)
 {
 	t_operator	operator;
-	
+
 	if (str == NULL)
 		operator = NONE;
 	else if (ft_strncmp(str, "|", 2) == 0)

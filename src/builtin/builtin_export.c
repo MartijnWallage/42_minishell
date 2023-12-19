@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_export.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmuller <jmuller@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/03 12:10:00 by mwallage          #+#    #+#             */
-/*   Updated: 2023/11/07 10:44:19 by jmuller          ###   ########.fr       */
+/*   Updated: 2023/12/19 19:08:13 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,10 +43,18 @@ void	append_var(t_group *group, char *var)
 	while (++i < tablen)
 	{
 		new_env[i] = ft_strdup((*group->env_ptr)[i]);
-		protect_malloc(group, new_env[i]);
+		if (new_env[i] == NULL)
+		{
+			free_tab(new_env);
+			protect_malloc(group, NULL);
+		}
 	}
 	new_env[i] = ft_strdup(var);
-	protect_malloc(group, new_env[i]);
+	if (new_env[i] == NULL)
+	{
+		free_tab(new_env);
+		protect_malloc(group, NULL);
+	}
 	new_env[i + 1] = NULL;
 	free_tab(old_env);
 	*group->env_ptr = new_env;

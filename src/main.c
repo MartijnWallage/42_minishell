@@ -6,7 +6,7 @@
 /*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 16:46:09 by mwallage          #+#    #+#             */
-/*   Updated: 2023/12/19 18:23:23 by mwallage         ###   ########.fr       */
+/*   Updated: 2023/12/19 18:43:50 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,7 @@ static void	*main_routine(char *line, char ***mini_env, int *exitcode)
 	if (list == NULL)
 	{
 		free_tab(*mini_env);
+		error_msg(MALLOC_MSG);
 		exit(MALLOC_CODE);
 	}
 	if (!parse_heredoc(list))

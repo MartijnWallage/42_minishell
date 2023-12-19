@@ -6,7 +6,7 @@
 /*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/03 12:08:00 by mwallage          #+#    #+#             */
-/*   Updated: 2023/12/13 16:21:05 by mwallage         ###   ########.fr       */
+/*   Updated: 2023/12/19 18:58:02 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,12 +72,12 @@ static void	find_and_expand_vars(t_group *group, int word_index)
 
 char	*expand_heredoc_var(t_group *group, char *old_line, int dollar_sign)
 {
- 	int		keylen;
+	int		keylen;
 	char	*value;
 	char	*new_line;
 	char	*temp;
 
- 	keylen = get_keylen(&old_line[dollar_sign + 1]);
+	keylen = get_keylen(&old_line[dollar_sign + 1]);
 	value = get_value(group, &old_line[dollar_sign + 1]);
 	if (value == NULL)
 		value = "";
@@ -122,7 +122,7 @@ void	expand_heredoc(t_group *group)
 			}
 			while (1)
 			{
- 				line = get_next_line(group->heredoc);
+				line = get_next_line(group->heredoc);
 				if (line == NULL)
 					break ;
 				line = find_and_expand_heredoc_vars(group, line);

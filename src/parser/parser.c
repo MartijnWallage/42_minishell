@@ -6,7 +6,7 @@
 /*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/22 18:15:14 by mwallage          #+#    #+#             */
-/*   Updated: 2023/12/19 18:26:41 by mwallage         ###   ########.fr       */
+/*   Updated: 2023/12/19 18:52:58 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,30 +42,29 @@ static t_group	*init_group(char **cmd, char ***env_ptr, int *exitcode)
 
 t_group	*parser(char **cmd, char ***env_ptr, int *exitcode)
 {
-	char	**next_cmd;
 	t_group	*group;
 
 	group = init_group(cmd, env_ptr, exitcode);
 	if (group == NULL)
-		return (error_msg(MALLOC_MSG), NULL);		
+		return (NULL);
 	if (group->operator == NONE)
 	{
 		group->cmd = copy_tab_until_operator(cmd);
 		if (group->cmd == NULL)
-			return (error_msg(MALLOC_MSG), free(group), NULL);
+			return (cleanup(group), NULL);
 	}
 	else if (group->operator == OPEN_SUBSHELL)
 	{
 		group->subshell = parser(&cmd[1], env_ptr, exitcode);
 		if (group->subshell == NULL)
-			return (error_msg(MALLOC_MSG), free(group), NULL);
+			return (cleanup(group), NULL);
 	}
-	next_cmd = get_next_cmd(group, cmd);
-	if (next_cmd == NULL || *next_cmd == NULL)
+	cmd = get_next_cmd(group, cmd);
+	if (cmd == NULL || *cmd == NULL)
 		return (group);
-	group->next = parser(next_cmd, env_ptr, exitcode);
+	group->next = parser(cmd, env_ptr, exitcode);
 	if (group->next == NULL)
-		return (error_msg(MALLOC_MSG), cleanup(group->subshell), free_tab(group->cmd), free(group), NULL);
+		return (cleanup(group), NULL);
 	group->next->previous = group;
 	return (group);
 }

@@ -6,7 +6,7 @@
 /*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/09 09:44:07 by jmuller           #+#    #+#             */
-/*   Updated: 2023/12/19 16:21:47 by mwallage         ###   ########.fr       */
+/*   Updated: 2023/12/19 19:08:52 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,15 +20,19 @@ static void	update_oldpwd(t_group *group)
 	oldpwd = ft_strjoin("OLDPWD=", mini_getenv(*group->env_ptr, "PWD"));
 	protect_malloc(group, oldpwd);
 	i = 0;
-	while ((*group->env_ptr)[i] && ft_strncmp((*group->env_ptr)[i], "OLDPWD=", 7))
-		i++ ;
+	while ((*group->env_ptr)[i]
+		&& ft_strncmp((*group->env_ptr)[i], "OLDPWD=", 7))
+		i++;
 	if ((*group->env_ptr)[i])
 	{
 		free((*group->env_ptr)[i]);
 		(*group->env_ptr)[i] = oldpwd;
 	}
 	else
+	{
 		append_var(group, oldpwd);
+		free(oldpwd);
+	}
 }
 
 static void	update_pwd(t_group *group)

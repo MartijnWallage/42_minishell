@@ -6,7 +6,7 @@
 /*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/22 18:14:40 by mwallage          #+#    #+#             */
-/*   Updated: 2023/12/19 16:51:35 by mwallage         ###   ########.fr       */
+/*   Updated: 2023/12/19 18:48:24 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ void	cleanup(t_group *list)
 	head = list;
 	while (head && head->previous)
 		head = head->previous;
+	free_tab(head->cmd);
 	cleanup(head->subshell);
 	if (head->original_stdin != STDIN_FILENO)
 		close(head->original_stdin);
@@ -46,7 +47,6 @@ void	cleanup(t_group *list)
 		close(head->original_stdout);
 	if (head->outfile != STDOUT_FILENO)
 		close(head->outfile);
-	free_tab(head->cmd);
 	temp = head->next;
 	free(head);
 	if (temp)

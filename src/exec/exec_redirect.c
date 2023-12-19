@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_redirect.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmuller <jmuller@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/30 15:20:23 by mwallage          #+#    #+#             */
-/*   Updated: 2023/12/14 16:27:35 by jmuller          ###   ########.fr       */
+/*   Updated: 2023/12/19 17:29:00 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,9 @@ void	*restore_redirection(t_group *group)
 	if (group->outfile != STDOUT_FILENO
 		&& dup2(group->original_stdout, STDOUT_FILENO) == -1)
 		error_msg("could not restore redirection");
+	group->infile = STDIN_FILENO;
+	group->heredoc = STDIN_FILENO;
+	group->outfile = STDOUT_FILENO;
 	return (NULL);
 }
 

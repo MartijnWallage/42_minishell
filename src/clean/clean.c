@@ -6,7 +6,7 @@
 /*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/22 18:14:40 by mwallage          #+#    #+#             */
-/*   Updated: 2023/12/19 15:47:23 by mwallage         ###   ########.fr       */
+/*   Updated: 2023/12/19 16:51:35 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,10 +50,8 @@ void	cleanup(t_group *list)
 	temp = head->next;
 	free(head);
 	if (temp)
-	{
 		temp->previous = NULL;
-		cleanup(temp);
-	}
+	cleanup(temp);
 }
 
 void	cleanup_and_exit(t_group *list, int exitcode)

@@ -6,7 +6,7 @@
 /*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/22 18:14:58 by mwallage          #+#    #+#             */
-/*   Updated: 2023/12/19 16:14:37 by mwallage         ###   ########.fr       */
+/*   Updated: 2023/12/19 17:12:40 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,10 +23,10 @@ void	exec(t_group *group)
 	{
 		if (ft_strncmp(path, group->cmd[0], ft_strlen(group->cmd[0])))
 			free(path);
-		ft_putstr_fd("philoshell: ", 2);
+		ft_putstr_fd("philoshell: ", STDERR_FILENO);
 		ft_putstr_fd(group->cmd[0], 2);
-		ft_putendl_fd(": command not found", 2);
-		cleanup_and_exit(group, errno);
+		ft_putendl_fd(": command not found", STDERR_FILENO);
+		cleanup_and_exit(group, 127);
 	}
 }
 

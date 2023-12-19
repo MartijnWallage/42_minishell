@@ -6,7 +6,7 @@
 /*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 16:46:09 by mwallage          #+#    #+#             */
-/*   Updated: 2023/12/19 16:08:19 by mwallage         ###   ########.fr       */
+/*   Updated: 2023/12/19 17:59:08 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,18 @@ static void	exit_after_reader(char **mini_env)
  * It returns early if the syntax is not valid.
  */
 
-static void	main_routine(char *line, char ***mini_env, int *exitcode)
+int	check_heredoc(t_group *group)
+{
+	if (group->heredoc == -1)
+		return (0);
+	if (group->subshell && !check_heredoc(group->subshell))
+		return (0);
+	if (group->next && !check_heredoc(group->next))
+		return (0);
+	return (1);
+}
+
+static void	*main_routine(char *line, char ***mini_env, int *exitcode)
 {
 	t_group	*list;
 	char	**tokens;
@@ -56,10 +67,7 @@ static void	main_routine(char *line, char ***mini_env, int *exitcode)
 	if (!tokens)
 		exit_after_tokenizer(*mini_env);
 	if (!is_valid_syntax(tokens, exitcode))
-	{
-		free_tab(tokens);
-		return ;
-	}
+		return (free_tab(tokens));
 	list = parser(tokens, mini_env, exitcode);
 	free_tab(tokens);
 	if (list == NULL)
@@ -67,9 +75,12 @@ static void	main_routine(char *line, char ***mini_env, int *exitcode)
 		free_tab(*mini_env);
 		exit(MALLOC_CODE);
 	}
+	if (!check_heredoc(list))
+		return (cleanup(list), NULL);
 	executor(list);
 	check_signal_flag(list);
 	cleanup(list);
+	return (NULL);
 }
 
 /**

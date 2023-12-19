@@ -6,7 +6,7 @@
 /*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/22 18:15:14 by mwallage          #+#    #+#             */
-/*   Updated: 2023/12/19 16:09:16 by mwallage         ###   ########.fr       */
+/*   Updated: 2023/12/19 18:00:58 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,12 +16,12 @@ static void	write_heredoc(t_group *group, char *eof, int pipefd[2])
 {
 	char	*line;
 
+	handle_signals(HEREDOC);
 	if (is_quotation_mark(*eof))
 	{
 		eof++;
 		eof[ft_strlen(eof) - 1] = 0;
 	}
-	handle_signals(HEREDOC);
 	close(pipefd[0]);
 	while (1)
 	{
@@ -29,7 +29,6 @@ static void	write_heredoc(t_group *group, char *eof, int pipefd[2])
 		if (line == NULL)
 		{
 			close(pipefd[1]);
-			write(2, "\n", 1);
 			error_msg("warning: here-document delimited by end-of-file");
 			cleanup_and_exit(group, 0);
 		}

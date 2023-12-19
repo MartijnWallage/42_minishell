@@ -6,7 +6,7 @@
 /*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 16:46:09 by mwallage          #+#    #+#             */
-/*   Updated: 2023/12/18 22:11:03 by mwallage         ###   ########.fr       */
+/*   Updated: 2023/12/19 16:08:19 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,30 +67,6 @@ static void	main_routine(char *line, char ***mini_env, int *exitcode)
 		free_tab(*mini_env);
 		exit(MALLOC_CODE);
 	}
- /* 	t_group *current = list;
-	while (current)
-	{
-		if (current->cmd == NULL)
-			printf("Operator %d", current->operator);
-		else
-			for (int i = 0; i < tab_len(current->cmd); i++)
-				printf("%s -- ", current->cmd[i]);
-		if (current->subshell)
-		{
-			t_group	*current2 = current->subshell;
-			while (current2)
-			{
-				if (current->cmd == NULL)
-					printf("Subshell Operator %d", current->operator);
-				else
-					for (int i = 0; i < tab_len(current->cmd); i++)
-						printf("subshell %s -- ", current->cmd[i]);
-				current2 = current2->next;
-			}
-		}
-		printf("\n");
-		current = current->next;
-	} */
 	executor(list);
 	check_signal_flag(list);
 	cleanup(list);

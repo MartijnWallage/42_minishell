@@ -6,7 +6,7 @@
 /*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/09 09:44:07 by jmuller           #+#    #+#             */
-/*   Updated: 2023/12/18 17:08:25 by mwallage         ###   ########.fr       */
+/*   Updated: 2023/12/19 16:21:47 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,12 +20,12 @@ static void	update_oldpwd(t_group *group)
 	oldpwd = ft_strjoin("OLDPWD=", mini_getenv(*group->env_ptr, "PWD"));
 	protect_malloc(group, oldpwd);
 	i = 0;
-	while (*group->env_ptr[i] && ft_strncmp(*group->env_ptr[i], "OLDPWD=", 7))
+	while ((*group->env_ptr)[i] && ft_strncmp((*group->env_ptr)[i], "OLDPWD=", 7))
 		i++ ;
-	if (*group->env_ptr[i])
+	if ((*group->env_ptr)[i])
 	{
-		free(*group->env_ptr[i]);
-		*group->env_ptr[i] = oldpwd;
+		free((*group->env_ptr)[i]);
+		(*group->env_ptr)[i] = oldpwd;
 	}
 	else
 		append_var(group, oldpwd);
@@ -37,11 +37,11 @@ static void	update_pwd(t_group *group)
 	char	buffer[1024];
 
 	i = 0;
-	while (*group->env_ptr[i] && ft_strncmp(*group->env_ptr[i], "PWD=", 4))
+	while ((*group->env_ptr)[i] && ft_strncmp((*group->env_ptr)[i], "PWD=", 4))
 		i++;
-	free(*group->env_ptr[i]);
-	*group->env_ptr[i] = ft_strjoin("PWD=", getcwd(buffer, 1024));
-	protect_malloc(group, *group->env_ptr[i]);
+	free((*group->env_ptr)[i]);
+	(*group->env_ptr)[i] = ft_strjoin("PWD=", getcwd(buffer, 1024));
+	protect_malloc(group, (*group->env_ptr)[i]);
 }
 
 static void	goto_home(t_group *group)
@@ -69,7 +69,10 @@ static void	goto_previous_dir(t_group *group)
 		free(group->cmd[1]);
 		group->cmd[1] = ft_strdup(old_path);
 		protect_malloc(group, group->cmd[1]);
+		printf("%s\n", group->cmd[1]);
 	}
+	else
+		error_msg("cd: OLDPWD not set");
 }
 
 int	builtin_cd(t_group *group)
@@ -79,10 +82,7 @@ int	builtin_cd(t_group *group)
 	if (group->cmd[1][0] == '~')
 		goto_home(group);
 	else if (ft_strcmp(group->cmd[1], "-") == 0)
-	{
 		goto_previous_dir(group);
-		// print new destination
-	}
 	if (chdir(group->cmd[1]) == 0)
 	{
 		update_oldpwd(group);

@@ -6,43 +6,42 @@
 /*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/22 18:15:14 by mwallage          #+#    #+#             */
-/*   Updated: 2023/12/18 19:05:27 by mwallage         ###   ########.fr       */
+/*   Updated: 2023/12/19 16:06:06 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parser.h"
 
-int	find_closing_parenth(char **cmd)
+char	**after_closing_parenth(char **cmd)
 {
-	int	i;
 	int	counter;
 
-	i = 1;
 	counter = 1;
-	while (counter)
+	while (++cmd && counter)
 	{
-		counter += (cmd[i][0] == '(');
-		counter -= (cmd[i][0] == ')');
-		i++;
+		counter += (*cmd[0] == '(');
+		counter -= (*cmd[0] == ')');
 	}
-	return (i);
+	return (cmd);
 }
 
-/// @brief	Find first operator in **tokens
-/// @param tokens  array of strings passed by the tokenizer
-/// @return	Index of the first operator, or -1 if no operator
-int	first_operator(char **tokens)
+char	**get_next_operator(char **cmd)
 {
-	int	i;
+	while (cmd && *cmd && !is_control_operator(*cmd))
+		cmd++;
+	return (cmd);
+}
 
-	i = 0;
-	while (tokens && tokens[i])
-	{
-		if (is_control_operator(tokens[i]))
-			return (i);
-		i++;
-	}
-	return (-1);
+char	**get_next_cmd(t_group *group, char **cmd)
+{
+	if (group->operator == NONE)
+		return (get_next_operator(cmd));
+	else if (group->operator == OPEN_SUBSHELL)
+		return (after_closing_parenth(cmd));
+	else if (group->operator == CLOSE_SUBSHELL)
+		return (NULL);
+	else
+		return (&(cmd[1]));
 }
 
 t_operator	get_operator(char *str)
@@ -64,4 +63,32 @@ t_operator	get_operator(char *str)
 	else
 		operator = NONE;
 	return (operator);
+}
+
+char	**copy_tab_until_operator(char **tab)
+{
+	int		size;
+	int		i;
+	char	**ret;
+
+	if (tab == NULL)
+		return (NULL);
+	size = 0;
+	while (tab[size] && !is_control_operator(tab[size]))
+		size++;
+	ret = malloc((sizeof(char *)) * (size + 1));
+	if (!ret)
+		return (NULL);
+	ret[size] = NULL;
+	i = -1;
+	while (++i < size)
+	{
+		ret[i] = ft_strdup(tab[i]);
+		if (!ret[i])
+		{
+			free_tab(tab);
+			return (NULL);
+		}
+	}
+	return (ret);
 }

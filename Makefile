@@ -6,7 +6,7 @@
 #    By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/10/05 15:16:08 by mwallage          #+#    #+#              #
-#    Updated: 2023/12/18 22:13:50 by mwallage         ###   ########.fr        #
+#    Updated: 2023/12/19 16:02:34 by mwallage         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -42,6 +42,7 @@ SRC			:= main.c \
 				signals/signals.c \
 				utils/utils.c \
 				utils/utils_checks.c \
+				utils/utils_tab.c \
 				clean/error.c \
 				clean/clean.c \
 				builtin/builtin.c \

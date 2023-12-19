@@ -6,7 +6,7 @@
 /*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/22 18:15:14 by mwallage          #+#    #+#             */
-/*   Updated: 2023/12/09 15:30:17 by mwallage         ###   ########.fr       */
+/*   Updated: 2023/12/19 16:09:16 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,6 @@ static int	handle_heredoc(t_group *group, char *eof)
 	if (WIFEXITED(status))
 	{
 		*group->exitcode = WEXITSTATUS(status);
-//		printf("Heredoc exitcode: %d\n", *group->exitcode);
 		if (*group->exitcode)
 			return (0);
 	}

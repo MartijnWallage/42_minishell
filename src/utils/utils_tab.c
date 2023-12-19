@@ -1,44 +1,47 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils.c                                            :+:      :+:    :+:   */
+/*   utils_tab.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/22 18:15:30 by mwallage          #+#    #+#             */
-/*   Updated: 2023/12/19 16:02:04 by mwallage         ###   ########.fr       */
+/*   Updated: 2023/12/19 16:05:56 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	*mini_getenv(char **env, char *key)
+int	tab_len(char **tab)
 {
-	int	i;
-	int	j;
+	int	size;
 
-	if (!env)
-		return (NULL);
-	if (!key)
-		return (env[0]);
-	i = -1;
-	while (env[++i])
-	{
-		j = 0;
-		while (env[i][j] && env[i][j] == key[j])
-			j++;
-		if (key[j] == 0 && env[i][j] == '=')
-			return (&env[i][j + 1]);
-	}
-	return (NULL);
+	size = 0;
+	while (tab && tab[size])
+		size++;
+	return (size);
 }
 
-t_group	*group_last(t_group *group)
+char	**copy_tab(char **tab)
 {
-	t_group	*current;
+	int		size;
+	int		i;
+	char	**ret;
 
-	current = group;
-	while (current && current->next)
-		current = current->next;
-	return (current);
+	size = tab_len(tab);
+	ret = malloc((sizeof(char *)) * (size + 1));
+	if (!ret)
+		return (NULL);
+	ret[size] = NULL;
+	i = -1;
+	while (++i < size)
+	{
+		ret[i] = ft_strdup(tab[i]);
+		if (!ret[i])
+		{
+			free_tab(tab);
+			return (NULL);
+		}
+	}
+	return (ret);
 }

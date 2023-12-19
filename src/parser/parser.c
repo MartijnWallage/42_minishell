@@ -6,7 +6,7 @@
 /*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/22 18:15:14 by mwallage          #+#    #+#             */
-/*   Updated: 2023/12/19 17:53:18 by mwallage         ###   ########.fr       */
+/*   Updated: 2023/12/19 18:26:41 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,8 +53,6 @@ t_group	*parser(char **cmd, char ***env_ptr, int *exitcode)
 		group->cmd = copy_tab_until_operator(cmd);
 		if (group->cmd == NULL)
 			return (error_msg(MALLOC_MSG), free(group), NULL);
-		if (!parse_heredoc(group))
-			group->heredoc = -1;
 	}
 	else if (group->operator == OPEN_SUBSHELL)
 	{

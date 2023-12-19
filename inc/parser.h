@@ -6,7 +6,7 @@
 /*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 15:40:59 by mwallage          #+#    #+#             */
-/*   Updated: 2023/12/19 16:06:24 by mwallage         ###   ########.fr       */
+/*   Updated: 2023/12/19 18:25:33 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,5 @@ t_operator	get_operator(char *str);
 /*	syntax_utils.c	*/
 int			check_left_arg(char **cmd, int index, int *exitcode);
 int			check_right_arg(char **cmd, int index, int *exitcode);
-/*	parse_heredoc.c */
-int			parse_heredoc(t_group *group);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/22 18:15:14 by mwallage          #+#    #+#             */
-/*   Updated: 2023/12/19 18:00:58 by mwallage         ###   ########.fr       */
+/*   Updated: 2023/12/19 18:24:38 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ static int	handle_heredoc(t_group *group, char *eof)
 	return (1);
 }
 
-int	parse_heredoc(t_group *group)
+int	parse_heredoc_group(t_group *group)
 {
 	int		i;
 
@@ -93,5 +93,16 @@ int	parse_heredoc(t_group *group)
 			&& !handle_heredoc(group, group->cmd[i + 1]))
 				return (0);
 	}
+	return (1);
+}
+
+int	parse_heredoc(t_group *group)
+{
+	if (parse_heredoc_group(group) == 0)
+		return (0);
+	if (group->subshell && !parse_heredoc(group->subshell))
+		return (0);
+	if (group->next && !parse_heredoc(group->next))
+		return (0);
 	return (1);
 }

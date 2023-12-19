@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmuller <jmuller@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 15:40:59 by mwallage          #+#    #+#             */
-/*   Updated: 2023/12/14 16:03:54 by jmuller          ###   ########.fr       */
+/*   Updated: 2023/12/19 18:25:26 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,6 +88,7 @@ int		is_token(const char *token);
 /*	parser		*/
 int		is_valid_syntax(char **cmd, int *exitcode);
 t_group	*parser(char **tokens, char ***env_ptr, int *exitcode);
+int		parse_heredoc(t_group *group);
 /*	expander	*/
 void	expander(t_group *list);
 void	expand_heredoc(t_group *group);

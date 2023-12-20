@@ -6,7 +6,7 @@
 #    By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/10/05 15:16:08 by mwallage          #+#    #+#              #
-#    Updated: 2023/12/19 16:02:34 by mwallage         ###   ########.fr        #
+#    Updated: 2023/12/20 15:42:19 by mwallage         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -30,6 +30,7 @@ SRC			:= main.c \
 				parser/parser_utils.c \
 				parser/syntax_check.c \
 				parser/syntax_utils.c \
+				expander/expand_heredoc.c \
 				expander/expander.c \
 				expander/expander_utils.c \
 				expander/expand_wildcards.c \

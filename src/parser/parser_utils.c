@@ -6,7 +6,7 @@
 /*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/22 18:15:14 by mwallage          #+#    #+#             */
-/*   Updated: 2023/12/19 18:53:19 by mwallage         ###   ########.fr       */
+/*   Updated: 2023/12/20 16:32:52 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,10 +85,7 @@ char	**copy_tab_until_operator(char **tab)
 	{
 		ret[i] = ft_strdup(tab[i]);
 		if (!ret[i])
-		{
-			free_tab(tab);
-			return (NULL);
-		}
+			return (free_tab(ret), NULL);
 	}
 	return (ret);
 }

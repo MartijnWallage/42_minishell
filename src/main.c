@@ -6,7 +6,7 @@
 /*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 16:46:09 by mwallage          #+#    #+#             */
-/*   Updated: 2023/12/19 18:43:50 by mwallage         ###   ########.fr       */
+/*   Updated: 2023/12/20 15:40:20 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,16 @@ static void	exit_after_reader(char **mini_env)
 	free_tab(mini_env);
 	printf("exit\n");
 	exit(0);
+}
+
+void	check_signal_flag(t_group *group)
+{
+	if (!group || g_sigid == 0 || group->pid <= 0)
+		return ;
+	if (g_sigid == SIGINT)
+		*group->exitcode = 130;
+	if (g_sigid == SIGQUIT)
+		*group->exitcode = 131;
 }
 
 /**

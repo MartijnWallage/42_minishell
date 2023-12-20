@@ -6,7 +6,7 @@
 /*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/14 14:16:11 by jmuller           #+#    #+#             */
-/*   Updated: 2023/12/19 17:42:01 by mwallage         ###   ########.fr       */
+/*   Updated: 2023/12/20 15:44:38 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,14 +62,4 @@ void	handle_signals(t_mode mode)
 	{
 		signal(SIGINT, interrupt_heredoc);
 	}
-}
-
-void	check_signal_flag(t_group *group)
-{
-	if (!group || g_sigid == 0 || group->pid <= 0)
-		return ;
-	if (g_sigid == SIGINT)
-		*group->exitcode = 130;
-	if (g_sigid == SIGQUIT)
-		*group->exitcode = 131;
 }

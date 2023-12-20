@@ -6,7 +6,7 @@
 /*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/03 12:10:00 by mwallage          #+#    #+#             */
-/*   Updated: 2023/12/19 19:08:13 by mwallage         ###   ########.fr       */
+/*   Updated: 2023/12/20 16:18:55 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,7 @@ static void	update_env(t_group *group, char *var)
 	int		i;
 	int		j;
 	char	**env;
+	char	*new_envi;
 
 	env = *group->env_ptr;
 	i = -1;
@@ -75,9 +76,10 @@ static void	update_env(t_group *group, char *var)
 			++j;
 		if (var[j] == '=')
 		{
+			new_envi = ft_strdup(var);
+			protect_malloc(group, NULL);
 			free(env[i]);
-			env[i] = ft_strdup(var);
-			protect_malloc(group, env[i]);
+			env[i] = new_envi;
 			return ;
 		}
 	}

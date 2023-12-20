@@ -6,7 +6,7 @@
 /*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 15:40:59 by mwallage          #+#    #+#             */
-/*   Updated: 2023/12/19 18:25:26 by mwallage         ###   ########.fr       */
+/*   Updated: 2023/12/20 15:40:37 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,6 +124,5 @@ void	protect_malloc_during_build(char **cmd, char ***env_ptr, void *ptr);
 void	handle_sigint(int sig);
 void	handle_sigquit(int sig);
 void	handle_signals(t_mode mode);
-void	check_signal_flag(t_group *group);
 
 #endif

@@ -6,25 +6,20 @@
 /*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/03 12:08:00 by mwallage          #+#    #+#             */
-/*   Updated: 2023/12/19 18:58:02 by mwallage         ###   ########.fr       */
+/*   Updated: 2023/12/20 17:18:44 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "expander.h"
 
-static void	join_right_side(t_group *group, int i, int dollar, int keylen)
+static void	join_right_side(t_group *group, int i, char *right_side)
 {
-	char	*temp;
 	char	*word;
 
-	word = group->cmd[i];
-	temp = group->cmd[i];
-	group->cmd[i] = ft_strjoin(group->cmd[i], &word[dollar + keylen + 1]);
-	if (word != temp)
-		free(word);
-	if (temp != group->cmd[i])
-		free(temp);
-	protect_malloc(group, group->cmd[i]);
+	word = ft_strjoin(group->cmd[i], right_side);
+	protect_malloc(group, word);
+	free(group->cmd[i]);
+	group->cmd[i] = word;
 }
 
 static char	*expand_var(t_group *group, int word_index, int *dollar_sign)
@@ -33,18 +28,21 @@ static char	*expand_var(t_group *group, int word_index, int *dollar_sign)
 	int		valuelen;
 	char	*word;
 	char	*value;
+	char	*right_side;
 
 	word = group->cmd[word_index];
 	keylen = get_keylen(&word[*dollar_sign + 1]);
 	value = get_value(group, &word[*dollar_sign + 1]);
+	valuelen = ft_strlen(value);
 	word[*dollar_sign] = 0;
 	group->cmd[word_index] = ft_strjoin(word, value);
-	valuelen = ft_strlen(value);
 	if (value)
 		free(value);
 	protect_malloc(group, group->cmd[word_index]);
-	if (word[*dollar_sign + keylen + 1])
-		join_right_side(group, word_index, *dollar_sign, keylen);
+	right_side = &word[*dollar_sign + keylen + 1];
+	if (right_side)
+		join_right_side(group, word_index, right_side);
+	free(word);
 	*dollar_sign += valuelen - 1;
 	return (group->cmd[word_index]);
 }
@@ -67,72 +65,6 @@ static void	find_and_expand_vars(t_group *group, int word_index)
 		else if (waiting_for_quote != '\'' && word[i] == '$'
 			&& (isalnum(word[i + 1]) || word[i + 1] == '?'))
 			word = expand_var(group, word_index, &i);
-	}
-}
-
-char	*expand_heredoc_var(t_group *group, char *old_line, int dollar_sign)
-{
-	int		keylen;
-	char	*value;
-	char	*new_line;
-	char	*temp;
-
-	keylen = get_keylen(&old_line[dollar_sign + 1]);
-	value = get_value(group, &old_line[dollar_sign + 1]);
-	if (value == NULL)
-		value = "";
-	old_line[dollar_sign] = 0;
-	new_line = ft_strjoin(old_line, value);
-	temp = new_line;
-	new_line = ft_strjoin(new_line, &old_line[dollar_sign + keylen + 1]);
-	free(temp);
-	free(old_line);
-	return (new_line);
-}
-
-char	*find_and_expand_heredoc_vars(t_group *group, char *line)
-{
-	int		i;
-
-	i = -1;
-	while (line[++i])
-	{
-		if (line[i] == '$' && (isalnum(line[i + 1]) || line[i + 1] == '?'))
-			line = expand_heredoc_var(group, line, i);
-	}
-	return (line);
-}
-
-void	expand_heredoc(t_group *group)
-{
-	int		i;
-	int		pipefd[2];
-	char	*line;
-
-	i = tab_len(group->cmd);
-	while (--i >= 0)
-	{
-		if (group->cmd[i][0] == '<' && group->cmd[i][1] == '<'
-			&& (!is_quotation_mark(group->cmd[i + 1][0])))
-		{
-			if (pipe(pipefd) == -1)
-			{
-				error_msg("heredoc expansion pipe failed");
-				return ;
-			}
-			while (1)
-			{
-				line = get_next_line(group->heredoc);
-				if (line == NULL)
-					break ;
-				line = find_and_expand_heredoc_vars(group, line);
-				ft_putstr_fd(line, pipefd[1]);
-			}
-			close(pipefd[1]);
-			close(group->heredoc);
-			group->heredoc = pipefd[0];
-			return ;
-		}
 	}
 }
 

@@ -6,7 +6,7 @@
 /*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/03 12:10:00 by mwallage          #+#    #+#             */
-/*   Updated: 2023/12/21 16:44:53 by mwallage         ###   ########.fr       */
+/*   Updated: 2023/12/21 18:33:09 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ static int	is_valid_arg(char *str)
 	if (!equals_sign || (!isalpha(*str) && *str != '_'))
 		return (0);
 	while (++str != equals_sign)
-		if (!(ft_isalnum(*str) && *str != '_'))
+		if (!(ft_isalnum(*str) || *str == '_'))
 			return (0);
 	while (*++str)
 		if (!ft_isascii(*str))
@@ -69,7 +69,7 @@ static void	update_env(t_group *group, char *var)
 		if (var[j] == '=')
 		{
 			new_envi = ft_strdup(var);
-			protect_malloc(group, NULL);
+			protect_malloc(group, new_envi);
 			free(env[i]);
 			env[i] = new_envi;
 			return ;

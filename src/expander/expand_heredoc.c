@@ -6,32 +6,11 @@
 /*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/03 12:08:00 by mwallage          #+#    #+#             */
-/*   Updated: 2023/12/21 10:12:31 by mwallage         ###   ########.fr       */
+/*   Updated: 2023/12/21 18:17:40 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "expander.h"
-
-static char	*expand_heredoc_var(t_group *group, char *old_line, int dollar_sign)
-{
-	int		keylen;
-	char	*value;
-	char	*left_side;
-	char	*new_line;
-
-	keylen = get_keylen(&old_line[dollar_sign + 1]);
-	value = get_value(group, &old_line[dollar_sign + 1]);
-	old_line[dollar_sign] = 0;
-	left_side = ft_strjoin(old_line, value);
-	if (value != NULL)
-		free(value);
-	new_line = ft_strjoin(left_side, &old_line[dollar_sign + keylen + 1]);
-	if (left_side != old_line)
-		free(old_line);
-	if (new_line != left_side)
-		free(left_side);
-	return (new_line);
-}
 
 static char	*find_and_expand_heredoc_vars(t_group *group, char *line)
 {
@@ -41,7 +20,7 @@ static char	*find_and_expand_heredoc_vars(t_group *group, char *line)
 	while (line[++i])
 	{
 		if (line[i] == '$' && (isalnum(line[i + 1]) || line[i + 1] == '?'))
-			line = expand_heredoc_var(group, line, i);
+			line = expand_var(group, line, &i);
 	}
 	return (line);
 }

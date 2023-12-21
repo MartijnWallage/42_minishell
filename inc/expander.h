@@ -6,7 +6,7 @@
 /*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 15:40:59 by mwallage          #+#    #+#             */
-/*   Updated: 2023/12/21 10:45:47 by mwallage         ###   ########.fr       */
+/*   Updated: 2023/12/21 18:14:54 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 # include "minishell.h"
 
 void	expand_wildcards(t_group *group, int index);
+char	*expand_var(t_group *group, char *old_line, int *dollar_sign);
 /*	expander_utils.c	*/
 char	*get_value(t_group *group, char *word);
 int		get_keylen(char *word);

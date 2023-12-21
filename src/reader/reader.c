@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   reader.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmuller <jmuller@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/22 18:15:25 by mwallage          #+#    #+#             */
-/*   Updated: 2023/12/15 13:19:31 by jmuller          ###   ########.fr       */
+/*   Updated: 2023/12/21 11:01:53 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,13 +39,14 @@ static char	*get_prompt(char **env)
 	char	*prompt;
 	char	*user;
 	char	*home;
+	char	buffer[1024];
 
 	user = mini_getenv(env, "USER");
 	if (!user)
 		user = "user";
 	path = mini_getenv(env, "PWD");
 	if (!path)
-		path = "";
+		path = getcwd(buffer, 1024);
 	home = mini_getenv(env, "HOME");
 	if (!home)
 		home = "";

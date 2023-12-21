@@ -6,7 +6,7 @@
 /*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 15:40:59 by mwallage          #+#    #+#             */
-/*   Updated: 2023/12/10 17:19:10 by mwallage         ###   ########.fr       */
+/*   Updated: 2023/12/21 10:45:47 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,5 @@ int		insert_word(t_group *group, char *new_word, int index);
 int		remove_quotes(char *str);
 void	remove_redirect(char **cmd);
 void	remove_first_char(char *str);
-void	remove_word(char **tab, int index);
 
 #endif

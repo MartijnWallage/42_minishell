@@ -6,7 +6,7 @@
 /*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 15:40:59 by mwallage          #+#    #+#             */
-/*   Updated: 2023/12/20 15:40:37 by mwallage         ###   ########.fr       */
+/*   Updated: 2023/12/21 10:45:32 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,6 +106,7 @@ int		redirect_error(t_group *group, const char *info);
 /*	utils.c			*/
 int		tab_len(char **tab);
 char	**copy_tab(char **tab);
+void	remove_word(char **tab, int index);
 char	*mini_getenv(char **env, char *key);
 t_group	*group_last(t_group *group);
 /* utils_checks. */

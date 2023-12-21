@@ -6,7 +6,7 @@
 /*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/03 12:08:00 by mwallage          #+#    #+#             */
-/*   Updated: 2023/12/20 17:27:09 by mwallage         ###   ########.fr       */
+/*   Updated: 2023/12/21 10:12:31 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,19 +16,20 @@ static char	*expand_heredoc_var(t_group *group, char *old_line, int dollar_sign)
 {
 	int		keylen;
 	char	*value;
+	char	*left_side;
 	char	*new_line;
-	char	*temp;
 
 	keylen = get_keylen(&old_line[dollar_sign + 1]);
 	value = get_value(group, &old_line[dollar_sign + 1]);
-	if (value == NULL)
-		value = "";
 	old_line[dollar_sign] = 0;
-	new_line = ft_strjoin(old_line, value);
-	temp = new_line;
-	new_line = ft_strjoin(new_line, &old_line[dollar_sign + keylen + 1]);
-	free(temp);
-	free(old_line);
+	left_side = ft_strjoin(old_line, value);
+	if (value != NULL)
+		free(value);
+	new_line = ft_strjoin(left_side, &old_line[dollar_sign + keylen + 1]);
+	if (left_side != old_line)
+		free(old_line);
+	if (new_line != left_side)
+		free(left_side);
 	return (new_line);
 }
 

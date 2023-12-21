@@ -6,24 +6,11 @@
 /*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/22 18:14:40 by mwallage          #+#    #+#             */
-/*   Updated: 2023/12/19 18:48:24 by mwallage         ###   ########.fr       */
+/*   Updated: 2023/12/21 16:45:28 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-void	*free_tab(char **tab)
-{
-	int	i;
-
-	if (!tab)
-		return (NULL);
-	i = -1;
-	while (tab[++i])
-		free(tab[i]);
-	free(tab);
-	return (NULL);
-}
 
 void	cleanup(t_group *list)
 {
@@ -82,4 +69,17 @@ void	protect_malloc_during_build(char **cmd, char ***env_ptr, void *ptr)
 		rl_clear_history();
 		exit(MALLOC_CODE);
 	}
+}
+
+void	*protect_and_free(t_group *group, void *ptr, char **tab, char *str)
+{
+	if (ptr == NULL)
+	{
+		free_tab(tab);
+		if (str)
+			free(str);
+		error_msg(MALLOC_MSG);
+		cleanup_and_exit(group, MALLOC_CODE);
+	}
+	return (NULL);
 }

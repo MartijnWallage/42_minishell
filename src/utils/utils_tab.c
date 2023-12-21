@@ -6,7 +6,7 @@
 /*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/22 18:15:30 by mwallage          #+#    #+#             */
-/*   Updated: 2023/12/21 10:45:15 by mwallage         ###   ########.fr       */
+/*   Updated: 2023/12/21 16:39:03 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,19 @@ char	**copy_tab(char **tab)
 		}
 	}
 	return (ret);
+}
+
+void	*free_tab(char **tab)
+{
+	int	i;
+
+	if (!tab)
+		return (NULL);
+	i = -1;
+	while (tab[++i])
+		free(tab[i]);
+	free(tab);
+	return (NULL);
 }
 
 void	remove_word(char **tab, int index)

@@ -6,21 +6,11 @@
 /*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/03 12:08:00 by mwallage          #+#    #+#             */
-/*   Updated: 2023/12/20 17:18:44 by mwallage         ###   ########.fr       */
+/*   Updated: 2023/12/21 17:21:48 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "expander.h"
-
-static void	join_right_side(t_group *group, int i, char *right_side)
-{
-	char	*word;
-
-	word = ft_strjoin(group->cmd[i], right_side);
-	protect_malloc(group, word);
-	free(group->cmd[i]);
-	group->cmd[i] = word;
-}
 
 static char	*expand_var(t_group *group, int word_index, int *dollar_sign)
 {
@@ -28,21 +18,29 @@ static char	*expand_var(t_group *group, int word_index, int *dollar_sign)
 	int		valuelen;
 	char	*word;
 	char	*value;
-	char	*right_side;
+	char	*temp;
 
-	word = group->cmd[word_index];
-	keylen = get_keylen(&word[*dollar_sign + 1]);
-	value = get_value(group, &word[*dollar_sign + 1]);
+	keylen = get_keylen(&group->cmd[word_index][*dollar_sign + 1]);
+	value = get_value(group, &group->cmd[word_index][*dollar_sign + 1]);
 	valuelen = ft_strlen(value);
-	word[*dollar_sign] = 0;
-	group->cmd[word_index] = ft_strjoin(word, value);
+	group->cmd[word_index][*dollar_sign] = 0;
+	word = ft_strjoin(group->cmd[word_index], value);
 	if (value)
+	{
 		free(value);
-	protect_malloc(group, group->cmd[word_index]);
-	right_side = &word[*dollar_sign + keylen + 1];
-	if (right_side)
-		join_right_side(group, word_index, right_side);
-	free(word);
+		protect_malloc(group, word);
+	}
+	if (group->cmd[word_index][*dollar_sign + keylen + 1] != '\0')
+	{
+		temp = word;
+		word = ft_strjoin(word, group->cmd[word_index] + *dollar_sign + keylen + 1);
+		if (temp != group->cmd[word_index])
+			free(temp);
+		protect_malloc(group, word);
+	}
+	if (word != group->cmd[word_index])
+		free(group->cmd[word_index]);
+	group->cmd[word_index] = word;
 	*dollar_sign += valuelen - 1;
 	return (group->cmd[word_index]);
 }

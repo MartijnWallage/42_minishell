@@ -6,7 +6,7 @@
 /*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 15:40:59 by mwallage          #+#    #+#             */
-/*   Updated: 2023/12/21 10:45:32 by mwallage         ###   ########.fr       */
+/*   Updated: 2023/12/21 16:43:30 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,10 +103,12 @@ int		builtin(t_group *group);
 int		error_msg(const char *info);
 int		syntax_error(const char *token, int *exitcode);
 int		redirect_error(t_group *group, const char *info);
-/*	utils.c			*/
+/*	utils_tab.c	*/
 int		tab_len(char **tab);
 char	**copy_tab(char **tab);
+void	*free_tab(char **tab);
 void	remove_word(char **tab, int index);
+/*	utils.c			*/
 char	*mini_getenv(char **env, char *key);
 t_group	*group_last(t_group *group);
 /* utils_checks. */
@@ -116,11 +118,11 @@ int		is_meta_char(const char c);
 int		is_control_operator(const char *token);
 int		is_quotation_mark(const char c);
 /*	clean.c			*/
-void	*free_tab(char **tab);
 void	cleanup(t_group *list);
 void	cleanup_and_exit(t_group *list, int exitcode);
 void	protect_malloc(t_group *group, void *ptr);
 void	protect_malloc_during_build(char **cmd, char ***env_ptr, void *ptr);
+void	*protect_and_free(t_group *group, void *ptr, char **tab, char *str);
 /* signals.c */
 void	handle_sigint(int sig);
 void	handle_sigquit(int sig);

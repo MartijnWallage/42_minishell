@@ -6,7 +6,7 @@
 /*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/03 12:10:00 by mwallage          #+#    #+#             */
-/*   Updated: 2023/12/20 16:18:55 by mwallage         ###   ########.fr       */
+/*   Updated: 2023/12/21 16:44:53 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,18 +43,10 @@ void	append_var(t_group *group, char *var)
 	while (++i < tablen)
 	{
 		new_env[i] = ft_strdup((*group->env_ptr)[i]);
-		if (new_env[i] == NULL)
-		{
-			free_tab(new_env);
-			protect_malloc(group, NULL);
-		}
+		protect_and_free(group, new_env[i], new_env, NULL);
 	}
 	new_env[i] = ft_strdup(var);
-	if (new_env[i] == NULL)
-	{
-		free_tab(new_env);
-		protect_malloc(group, NULL);
-	}
+	protect_and_free(group, new_env[i], new_env, NULL);
 	new_env[i + 1] = NULL;
 	free_tab(old_env);
 	*group->env_ptr = new_env;

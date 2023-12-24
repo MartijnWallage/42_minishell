@@ -6,7 +6,7 @@
 /*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/03 12:08:00 by mwallage          #+#    #+#             */
-/*   Updated: 2023/12/21 18:14:40 by mwallage         ###   ########.fr       */
+/*   Updated: 2023/12/24 17:20:45 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,8 @@ static void	find_and_expand_vars(t_group *group, int word_index)
 			&& group->cmd[word_index][i] == '$'
 			&& (isalnum(group->cmd[word_index][i + 1])
 			|| group->cmd[word_index][i + 1] == '?'))
-			group->cmd[word_index] = expand_var(group, group->cmd[word_index], &i);
+			group->cmd[word_index]
+				= expand_var(group, group->cmd[word_index], &i);
 	}
 }
 

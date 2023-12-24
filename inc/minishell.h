@@ -6,7 +6,7 @@
 /*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 15:40:59 by mwallage          #+#    #+#             */
-/*   Updated: 2023/12/21 16:43:30 by mwallage         ###   ########.fr       */
+/*   Updated: 2023/12/24 17:34:11 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,7 @@ t_group	*parser(char **tokens, char ***env_ptr, int *exitcode);
 int		parse_heredoc(t_group *group);
 /*	expander	*/
 void	expander(t_group *list);
-void	expand_heredoc(t_group *group);
+void	expand_heredocs(t_group *group);
 /*	exec			*/
 void	executor(t_group *group);
 int		ft_dup2(t_group *group, int fd1, int fd2);

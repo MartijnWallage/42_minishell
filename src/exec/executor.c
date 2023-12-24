@@ -6,7 +6,7 @@
 /*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/22 18:14:58 by mwallage          #+#    #+#             */
-/*   Updated: 2023/12/19 17:12:40 by mwallage         ###   ########.fr       */
+/*   Updated: 2023/12/24 17:35:38 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ void	*simple_command(t_group *group)
 {
 	if (!group->cmd || !group->cmd[0])
 		return (NULL);
-	expand_heredoc(group);
+	expand_heredocs(group);
 	if (!redirect(group))
 		return (restore_redirection(group));
 	expander(group);

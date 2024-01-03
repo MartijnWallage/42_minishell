@@ -11,14 +11,14 @@
 # **************************************************************************** #
 
 CC			:= cc
-CFLAGS		:= -Wall -Wextra -Werror -g #-fsanitize=address
+CFLAGS		:= -Wall -Wextra -Werror #-g -fsanitize=address
 SRCDIR		:= ./src
 OBJDIR		:= ./obj
 INCDIR		:= ./inc
 LIBFTDIR	:= ./libft
 LIBFT		:= $(LIBFTDIR)/libft.a
 HEADERS		:= -I$(INCDIR) -I$(LIBFTDIR)/inc
-READLINE_DIR := $(shell brew --prefix readline)
+#READLINE_DIR := $(shell brew --prefix readline)
 READLINE	:= -lreadline -lhistory -L $(READLINE_DIR)/lib
 LIBFLAGS	:= -L$(LIBFTDIR) -lft $(READLINE)
 HOST		:= $(shell hostname)
@@ -56,9 +56,6 @@ NAME		:= minishell
 
 all: $(NAME)
 
-$(LIBFTDIR):
-	git clone "https://github.com/MartijnWallage/42_libft.git" $(LIBFTDIR);
-
 $(LIBFT): $(LIBFTDIR)
 	make -C$(LIBFTDIR);
 	
@@ -86,7 +83,7 @@ clean:
 
 fclean: clean
 	rm -rf $(OBJDIR);
-	rm -rf $(LIBFTDIR);
+	make fclean -C$(LIBFTDIR);
 	rm $(NAME);
 
 re: fclean all

@@ -57,7 +57,7 @@ int	ft_dup2(t_group *group, int fd1, int fd2)
 {
 	if (fd2 == STDIN_FILENO && group->original_stdin == STDIN_FILENO)
 		group->original_stdin = dup(STDIN_FILENO);
-	if (fd2 == STDOUT_FILENO && group->original_stdout == STDOUT_FILENO)
+	else if (fd2 == STDOUT_FILENO && group->original_stdout == STDOUT_FILENO)
 		group->original_stdout = dup(STDOUT_FILENO);
 	return (dup2(fd1, fd2));
 }

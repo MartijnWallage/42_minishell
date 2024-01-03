@@ -12,11 +12,13 @@
 
 #include "parser.h"
 
-/// @brief 			Initialize group
-/// @param cmd 		list of tokens passed by tokenizer
-/// @param env 		copy of environment
-/// @param exitcode last known exitcode
-/// @return 		the initalized group
+/**
+ * @brief 			Initialize group
+ * @param cmd 		list of tokens passed by tokenizer
+ * @param env 		copy of environment
+ * @param exitcode 	last known exitcode
+ * @return 			the initalized group
+ * */
 static t_group	*init_group(char **cmd, char ***env_ptr, int *exitcode)
 {
 	t_group	*group;
@@ -40,6 +42,13 @@ static t_group	*init_group(char **cmd, char ***env_ptr, int *exitcode)
 	return (group);
 }
 
+/**
+ * @brief	parses the given command line into a linked list.
+ * @param cmd		input from the tokenizer 
+ * @param env_ptr 	a pointer to a copy of the environmental variable
+ * @param exitcode last saved exitcode
+ * @return  the head of the linked list that is created
+ * */
 t_group	*parser(char **cmd, char ***env_ptr, int *exitcode)
 {
 	t_group	*group;

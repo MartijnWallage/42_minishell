@@ -12,35 +12,44 @@
 
 #include "executor.h"
 
+/**
+ * @brief redirect stdin to the read end of the previous pipe, 
+ * and close that pipe, or
+ * redirect stdout to the write end of the next pipe, and close that pipe.
+ * @param group the current group in the pipeline
+ */
+
 void	dup_and_close(t_group *group)
 {
-	if (group->previous && group->previous->previous)
+	if (group->previous && group->previous->operator == PIPE)
 	{
-		ft_dup2(group, group->previous->pipefd[0], STDIN_FILENO);
+		if (ft_dup2(group, group->previous->pipefd[0], STDIN_FILENO) == -1)
+			cleanup_and_exit(group, errno);
 		close(group->previous->pipefd[0]);
 	}
 	if (group->next && group->next->operator == PIPE)
 	{
 		close(group->next->pipefd[0]);
-		ft_dup2(group, group->next->pipefd[1], STDOUT_FILENO);
+		if (ft_dup2(group, group->next->pipefd[1], STDOUT_FILENO) == -1)
+			cleanup_and_exit(group, errno);
 		close(group->next->pipefd[1]);
 	}
 }
+
+/**	
+ * @brief	pipe, fork, and in the child process, run a simple command
+ * 			or a subshell, which is treated as a simple command.
+ * @param group	current group in the pipeline
+ */
 
 void	ft_pipe(t_group *group)
 {
 	if (group->next && group->next->operator == PIPE
 		&& pipe(group->next->pipefd) == -1)
-	{
-		error_msg("pipe failed");
-		return ;
-	}
+		cleanup_and_exit(group, errno);
 	group->pid = fork();
 	if (group->pid == -1)
-	{
-		error_msg("fork failed");
-		return ;
-	}
+		cleanup_and_exit(group, errno);
 	if (group->pid == 0)
 	{
 		dup_and_close(group);

@@ -72,7 +72,8 @@ void	expander(t_group *group)
 	i = -1;
 	while (group->cmd[++i])
 	{
-		expand_wildcards(group, i);
+		if (i > 0)
+			expand_wildcards(group, i);
 		find_and_expand_vars(group, i);
 		remove_quotes(group->cmd[i]);
 	}

@@ -12,7 +12,7 @@
 
 #include "executor.h"
 
-char	*try_paths(char *cmd, char **paths)
+char	*try_paths(t_group *group, char *cmd, char **paths)
 {
 	int		i;
 	char	*whole_cmd;
@@ -23,20 +23,20 @@ char	*try_paths(char *cmd, char **paths)
 	{
 		whole_cmd = ft_strjoin(paths[i], "/");
 		if (!whole_cmd)
-			return (NULL);
+			cleanup_and_exit(group, MALLOC_CODE);
 		temp = whole_cmd;
 		whole_cmd = ft_strjoin(whole_cmd, cmd);
 		free(temp);
 		if (!whole_cmd)
-			return (NULL);
+			cleanup_and_exit(group, MALLOC_CODE);
 		if (access(whole_cmd, F_OK | X_OK) == 0)
 			return (whole_cmd);
 		free(whole_cmd);
 	}
-	return (cmd);
+	return (NULL);
 }
 
-char	*get_path(char *cmd, char **env)
+char	*get_path(t_group *group, char *cmd, char **env)
 {
 	char	*line;
 	char	**paths;
@@ -44,11 +44,11 @@ char	*get_path(char *cmd, char **env)
 
 	line = mini_getenv(env, "PATH");
 	if (line == NULL)
-		return (cmd);
+		return (NULL);
 	paths = ft_split(line, ':');
 	if (!paths)
-		return (NULL);
-	whole_cmd = try_paths(cmd, paths);
+		cleanup_and_exit(group, MALLOC_CODE);
+	whole_cmd = try_paths(group, cmd, paths);
 	free_tab(paths);
 	return (whole_cmd);
 }

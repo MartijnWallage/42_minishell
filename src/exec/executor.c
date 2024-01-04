@@ -16,15 +16,15 @@ void	exec(t_group *group)
 {
 	char	*path;
 
-	path = get_path(group->cmd[0], *group->env_ptr);
-	protect_malloc(group, path);
-	rl_clear_history();
-	if (execve(path, group->cmd, *group->env_ptr) == -1)
+	path = group->cmd[0];
+	if (ft_strchr(group->cmd[0], '/') == NULL)
+		path = get_path(group, group->cmd[0], *group->env_ptr);
+	if (path == NULL || execve(path, group->cmd, *group->env_ptr) == -1)
 	{
-		if (ft_strncmp(path, group->cmd[0], ft_strlen(group->cmd[0])))
+ 		if (path && ft_strncmp(path, group->cmd[0], ft_strlen(group->cmd[0])))
 			free(path);
 		ft_putstr_fd("philoshell: ", STDERR_FILENO);
-		ft_putstr_fd(group->cmd[0], 2);
+		ft_putstr_fd(group->cmd[0], STDERR_FILENO);
 		ft_putendl_fd(": command not found", STDERR_FILENO);
 		cleanup_and_exit(group, 127);
 	}

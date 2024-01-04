@@ -21,8 +21,8 @@ void	child(t_group *group);
 /*	exec_redirect.c	*/
 int		redirect(t_group *group);
 /*	exec_utils.c	*/
-char	*try_paths(char *cmd, char **paths);
-char	*get_path(char *cmd, char **env);
+char	*try_paths(t_group *group, char *cmd, char **paths);
+char	*get_path(t_group *group, char *cmd, char **env);
 t_group	*next_complete_command(t_group *group);
 /*	executor.c		*/
 void	exec(t_group *group);

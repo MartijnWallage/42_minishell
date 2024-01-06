@@ -6,7 +6,7 @@
 /*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/22 18:15:25 by mwallage          #+#    #+#             */
-/*   Updated: 2023/12/21 11:01:53 by mwallage         ###   ########.fr       */
+/*   Updated: 2024/01/06 22:12:26 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ static void	prompt_cat(char *prompt, char *user, char *path, char *home)
 	len = ft_strlcat(prompt, RES, len + ft_strlen(RES) + 1);
 	len = ft_strlcat(prompt, ":", len + 2);
 	len = ft_strlcat(prompt, BLU_BOLD, len + ft_strlen(BLU_BOLD) + 1);
-	if (ft_strncmp(path, home, ft_strlen(home)) == 0)
+	if (ft_strlen(home) > 0 && ft_strncmp(path, home, ft_strlen(home)) == 0)
 	{
 		len = ft_strlcat(prompt, "~", len + 2);
 		path += ft_strlen(home);

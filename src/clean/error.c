@@ -6,7 +6,7 @@
 /*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/22 18:14:52 by mwallage          #+#    #+#             */
-/*   Updated: 2023/12/09 22:14:36 by mwallage         ###   ########.fr       */
+/*   Updated: 2024/01/06 22:03:59 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,20 +15,16 @@
 int	error_msg(const char *info)
 {
 	char	*errno_readable;
-	int		len;
 
-	errno_readable = strerror(errno);
-	len = ft_strlen(errno_readable);
 	write(STDERR_FILENO, "philoshell: ", 12);
+	if (info)
+		write(STDERR_FILENO, info, ft_strlen(info));
+	errno_readable = strerror(errno);
 	if (errno)
 	{
-		write(STDERR_FILENO, errno_readable, len);
 		write(STDERR_FILENO, ": ", 2);
+		write(STDERR_FILENO, errno_readable, ft_strlen(errno_readable));
 	}
-	if (info == NULL)
-		return (0);
-	len = ft_strlen(info);
-	write(STDERR_FILENO, info, len);
 	write(STDERR_FILENO, "\n", 1);
 	return (0);
 }

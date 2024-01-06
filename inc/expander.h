@@ -6,7 +6,7 @@
 /*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 15:40:59 by mwallage          #+#    #+#             */
-/*   Updated: 2023/12/21 18:14:54 by mwallage         ###   ########.fr       */
+/*   Updated: 2024/01/06 21:27:07 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,6 @@ char	*expand_var(t_group *group, char *old_line, int *dollar_sign);
 /*	expander_utils.c	*/
 char	*get_value(t_group *group, char *word);
 int		get_keylen(char *word);
-int		insert_word(t_group *group, char *new_word, int index);
 /*	expander_remove.c	*/
 int		remove_quotes(char *str);
 void	remove_redirect(char **cmd);

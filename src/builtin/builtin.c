@@ -6,7 +6,7 @@
 /*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/03 12:10:00 by mwallage          #+#    #+#             */
-/*   Updated: 2023/12/21 11:01:10 by mwallage         ###   ########.fr       */
+/*   Updated: 2024/01/06 19:36:34 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,9 +42,7 @@ int	builtin_pwd(t_group *group)
 	char	*pwd;
 	char	buffer[1024];
 
-	pwd = mini_getenv(*group->env_ptr, "PWD");
-	if (!pwd)
-		pwd = getcwd(buffer, 1024);
+	pwd = getcwd(buffer, 1024);
 	printf("%s\n", pwd);
 	*group->exitcode = 0;
 	return (1);

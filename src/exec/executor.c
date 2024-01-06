@@ -6,7 +6,7 @@
 /*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/22 18:14:58 by mwallage          #+#    #+#             */
-/*   Updated: 2023/12/24 17:35:38 by mwallage         ###   ########.fr       */
+/*   Updated: 2024/01/06 19:55:45 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	exec(t_group *group)
 		path = get_path(group, group->cmd[0], *group->env_ptr);
 	if (path == NULL || execve(path, group->cmd, *group->env_ptr) == -1)
 	{
- 		if (path && ft_strncmp(path, group->cmd[0], ft_strlen(group->cmd[0])))
+		if (path && ft_strncmp(path, group->cmd[0], ft_strlen(group->cmd[0])))
 			free(path);
 		ft_putstr_fd("philoshell: ", STDERR_FILENO);
 		ft_putstr_fd(group->cmd[0], STDERR_FILENO);

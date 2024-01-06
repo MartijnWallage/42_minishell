@@ -6,13 +6,13 @@
 /*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/03 12:10:00 by mwallage          #+#    #+#             */
-/*   Updated: 2023/12/21 10:59:19 by mwallage         ###   ########.fr       */
+/*   Updated: 2024/01/06 20:01:31 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "builtin.h"
 
-static void	unset_var(char **env, char *var)
+void	unset_var(char **env, char *var)
 {
 	int	i;
 	int	len;

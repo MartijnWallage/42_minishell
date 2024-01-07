@@ -30,6 +30,6 @@ Our minishell (called "philoshell", since both authors are philosophers) consist
 	- Runs subshells.
 
 - SIGNALS
-	- `ctrl-c`: interrupt child process and continue to next iteration of while loop. Sets exit code to 130.
-	- `ctrl-d`: interrupt all child processes and exit shell.
-	- `ctrl-/`: interrupt child process, if there is any. Otherwise do nothing.
+	- `ctrl-c`: interrupts child processes and continues to next iteration of while loop.
+	- `ctrl-d`: end-of-file for here-doc and other child processes. If there are no childs, exits shell.
+	- `ctrl-/`: stops child processes, if there are any; otherwise does nothing.

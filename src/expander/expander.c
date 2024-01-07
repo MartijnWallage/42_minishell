@@ -6,7 +6,7 @@
 /*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/03 12:08:00 by mwallage          #+#    #+#             */
-/*   Updated: 2023/12/24 17:20:45 by mwallage         ###   ########.fr       */
+/*   Updated: 2024/01/07 09:54:30 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,8 +72,7 @@ void	expander(t_group *group)
 	i = -1;
 	while (group->cmd[++i])
 	{
-		if (i > 0)
-			expand_wildcards(group, i);
+		expand_wildcards(group, i);
 		find_and_expand_vars(group, i);
 		remove_quotes(group->cmd[i]);
 	}

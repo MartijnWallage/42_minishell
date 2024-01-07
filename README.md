@@ -22,10 +22,10 @@ Our minishell (called "philoshell", since both authors are philosophers) consist
 - EXECUTOR
 	- Pipes and forks.
 	- Redirects in four ways: 
-		-`< infile`: redirect STD_IN to `infile`.
-		-`<< END`: redirect STD_IN to a here_doc which ends with `END`. If `END` is without quotation marks, variables inside the heredoc get expanded.
-		-`> outfile`: redirect STD_OUT to `outfile`, in truncate mode.
-		-`>> outfile`: redirect STD_OUT to `outfile`, in append mode.
+		- `< infile`: redirect STD_IN to `infile`.
+		- `<< END`: redirect STD_IN to a here_doc which ends with `END`. If `END` is without quotation marks, variables inside the heredoc get expanded.
+		- `> outfile`: redirect STD_OUT to `outfile`, in truncate mode.
+		- `>> outfile`: redirect STD_OUT to `outfile`, in append mode.
 	- Executes each simple command, either as an inbuilt function, a system command (alias) or a path to an executable.
 	- Runs subshells.
 

@@ -6,7 +6,7 @@
 /*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 16:46:09 by mwallage          #+#    #+#             */
-/*   Updated: 2023/12/20 15:40:20 by mwallage         ###   ########.fr       */
+/*   Updated: 2024/01/07 13:09:15 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,7 +110,10 @@ int	main(int argc, char **argv, char **envp)
 		return (1);
 	mini_env = copy_tab(envp);
 	if (mini_env == NULL)
-		return (error_msg(MALLOC_MSG), MALLOC_CODE);
+	{
+		error_msg(MALLOC_MSG);
+		return (MALLOC_CODE);
+	}
 	exitcode = 0;
 	while (1)
 	{

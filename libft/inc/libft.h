@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mwallage <mwallage@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/02 13:05:42 by mwallage          #+#    #+#             */
-/*   Updated: 2023/11/17 22:20:00 by mwallage         ###   ########.fr       */
+/*   Updated: 2024/01/07 13:22:35 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ int		ft_max(int a, int b);
 /* ASCII functions*/
 int		ft_isalpha(int c);
 int		ft_isdigit(int c);
+int		ft_isnumber(const char *str);
 int		ft_isalnum(int c);
 int		ft_isascii(int c);
 int		ft_isprint(int c);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   syntax_check.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmuller <jmuller@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/22 18:15:14 by mwallage          #+#    #+#             */
-/*   Updated: 2023/12/15 13:20:03 by jmuller          ###   ########.fr       */
+/*   Updated: 2024/01/07 13:10:55 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,10 +42,16 @@ static int	check_parentheses(char **cmd, int *exitcode)
 		counter += cmd[i][0] == '(';
 		counter -= cmd[i][0] == ')';
 		if (cmd[i][0] == '(' && cmd[i + 1] && cmd[i + 1][0] == ')')
-			return (syntax_error("empty parentheses", exitcode), 0);
+		{
+			syntax_error("empty parentheses", exitcode);
+			return (0);
+		}
 	}
 	if (counter != 1)
-		return (syntax_error("missing parenthesis", exitcode), 0);
+	{
+		syntax_error("missing parenthesis", exitcode);
+		return (0);
+	}
 	return (1);
 }
 

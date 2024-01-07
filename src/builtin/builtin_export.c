@@ -6,7 +6,7 @@
 /*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/03 12:10:00 by mwallage          #+#    #+#             */
-/*   Updated: 2023/12/21 18:33:09 by mwallage         ###   ########.fr       */
+/*   Updated: 2024/01/07 13:12:40 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ void	append_var(t_group *group, char *var)
 	*group->env_ptr = new_env;
 }
 
-static void	update_env(t_group *group, char *var)
+static int	update_env(t_group *group, char *var)
 {
 	int		i;
 	int		j;
@@ -72,13 +72,14 @@ static void	update_env(t_group *group, char *var)
 			protect_malloc(group, new_envi);
 			free(env[i]);
 			env[i] = new_envi;
-			return ;
+			return (1);
 		}
 	}
 	append_var(group, var);
+	return (1);
 }
 
-static void	export_without_arg(char ***env_ptr)
+static int	export_without_arg(char ***env_ptr)
 {
 	char	**env;
 
@@ -89,19 +90,36 @@ static void	export_without_arg(char ***env_ptr)
 		printf("%s\n", *env);
 		env++;
 	}
+	return (1);
 }
 
 int	builtin_export(t_group *group)
 {
-	int	i;
+	int		i;
+	char	*msg;
+	char	*temp;
 
 	i = 0;
 	if (group->cmd[1] == NULL)
-		export_without_arg(group->env_ptr);
-	else
-		while (group->cmd[++i])
-			if (is_valid_arg(group->cmd[i]))
-				update_env(group, group->cmd[i]);
-	*group->exitcode = 0;
+	{
+		*group->exitcode = 0;
+		return (export_without_arg(group->env_ptr));
+	}
+	while (group->cmd[++i])
+	{
+		if (is_valid_arg(group->cmd[i]))
+			*group->exitcode = !update_env(group, group->cmd[i]);
+		else
+		{
+			msg = ft_strjoin("export: '", group->cmd[i]);
+			protect_malloc(group, msg);
+			temp = msg;
+			msg = ft_strjoin(msg, "' is not a valid identifier");
+			free(temp);
+			protect_malloc(group, msg);
+			*group->exitcode = error_msg(msg);
+			free(msg);
+		}
+	}
 	return (1);
 }

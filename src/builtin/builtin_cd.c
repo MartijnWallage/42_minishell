@@ -6,7 +6,7 @@
 /*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/09 09:44:07 by jmuller           #+#    #+#             */
-/*   Updated: 2024/01/07 12:30:55 by mwallage         ###   ########.fr       */
+/*   Updated: 2024/01/07 12:52:34 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ static void	update_pwd(t_group *group)
 	int		i;
 	char	buffer[1024];
 	char	*new_pwd;
-	
+
 	new_pwd = ft_strjoin("PWD=", getcwd(buffer, 1024));
 	protect_malloc(group, new_pwd);
 	if (mini_getenv(*group->env_ptr, "PWD") == NULL)
@@ -56,7 +56,8 @@ static void	update_pwd(t_group *group)
 	else
 	{
 		i = 0;
-		while ((*group->env_ptr)[i] && ft_strncmp((*group->env_ptr)[i], "PWD=", 4))
+		while ((*group->env_ptr)[i]
+			&& ft_strncmp((*group->env_ptr)[i], "PWD=", 4))
 			i++;
 		free((*group->env_ptr)[i]);
 		(*group->env_ptr)[i] = new_pwd;
@@ -71,7 +72,7 @@ static int	goto_home(t_group *group)
 	home = mini_getenv(*group->env_ptr, "HOME");
 	if (!home)
 	{
-		error_msg("cd: HOME not set");
+		*group->exitcode = error_msg("cd: HOME not set");
 		return (0);
 	}
 	if (group->cmd[1])
@@ -86,32 +87,16 @@ static int	goto_home(t_group *group)
 	return (1);
 }
 
-static int	previous_dir(t_group *group)
-{
-	char	*old_path;
-	char	*temp;
-
-	old_path = mini_getenv(*group->env_ptr, "OLDPWD");
-	if (old_path)
-	{
-		temp = ft_strdup(old_path);
-		protect_malloc(group, temp);
-		free(group->cmd[1]);
-		group->cmd[1] = temp;
-		return (1);
-	}
-	error_msg("cd: OLDPWD not set");
-	*group->exitcode = 1;
-	return (0);
-}
-
 int	builtin_cd(t_group *group)
 {
 	char	*msg;
 
-	if ((group->cmd[1] == NULL || group->cmd[1][0] == '~') && !goto_home(group))
+	if (group->cmd[1] && group->cmd[2])
+	{
+		*group->exitcode = error_msg("cd: too many arguments");
 		return (1);
-	else if (ft_strcmp(group->cmd[1], "-") == 0 && !previous_dir(group))
+	}
+	if ((group->cmd[1] == NULL || group->cmd[1][0] == '~') && !goto_home(group))
 		return (1);
 	if (chdir(group->cmd[1]) == 0)
 	{
@@ -122,9 +107,9 @@ int	builtin_cd(t_group *group)
 	else
 	{
 		msg = ft_strjoin("cd: ", group->cmd[1]);
-		error_msg(msg);
+		protect_malloc(group, msg);
+		*group->exitcode = error_msg(msg);
 		free(msg);
-		*group->exitcode = 1;
 	}
 	return (1);
 }

@@ -6,7 +6,7 @@
 /*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/03 12:10:00 by mwallage          #+#    #+#             */
-/*   Updated: 2024/01/06 19:36:34 by mwallage         ###   ########.fr       */
+/*   Updated: 2024/01/07 13:29:47 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,14 @@ int	builtin_exit(t_group *group)
 {
 	int	exitcode;
 
-	exitcode = 0;
-	if (group->cmd[1])
-		exitcode = ft_atoi(group->cmd[1]);
 	printf("exit\n");
+	if (group->cmd[1] && group->cmd[2])
+		return (*group->exitcode = error_msg("exit: too many arguments"), 1);
+	exitcode = 0;
+	if (group->cmd[1] && ft_isnumber(group->cmd[1]))
+		exitcode = ft_atoi(group->cmd[1]);
+	else if (group->cmd[1])
+		exitcode = 2 * error_msg("exit: numeric argument required");
 	cleanup_and_exit(group, exitcode);
 	return (1);
 }

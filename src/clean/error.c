@@ -6,7 +6,7 @@
 /*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/22 18:14:52 by mwallage          #+#    #+#             */
-/*   Updated: 2024/01/06 22:03:59 by mwallage         ###   ########.fr       */
+/*   Updated: 2024/01/07 13:09:34 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ int	error_msg(const char *info)
 		write(STDERR_FILENO, errno_readable, ft_strlen(errno_readable));
 	}
 	write(STDERR_FILENO, "\n", 1);
-	return (0);
+	return (1);
 }
 
 int	syntax_error(const char *token, int *exitcode)

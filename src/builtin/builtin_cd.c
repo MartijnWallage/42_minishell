@@ -6,7 +6,7 @@
 /*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/09 09:44:07 by jmuller           #+#    #+#             */
-/*   Updated: 2024/01/06 22:05:44 by mwallage         ###   ########.fr       */
+/*   Updated: 2024/01/07 12:30:55 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,13 +44,23 @@ static void	update_pwd(t_group *group)
 {
 	int		i;
 	char	buffer[1024];
-
-	i = 0;
-	while ((*group->env_ptr)[i] && ft_strncmp((*group->env_ptr)[i], "PWD=", 4))
-		i++;
-	free((*group->env_ptr)[i]);
-	(*group->env_ptr)[i] = ft_strjoin("PWD=", getcwd(buffer, 1024));
-	protect_malloc(group, (*group->env_ptr)[i]);
+	char	*new_pwd;
+	
+	new_pwd = ft_strjoin("PWD=", getcwd(buffer, 1024));
+	protect_malloc(group, new_pwd);
+	if (mini_getenv(*group->env_ptr, "PWD") == NULL)
+	{
+		append_var(group, new_pwd);
+		free(new_pwd);
+	}
+	else
+	{
+		i = 0;
+		while ((*group->env_ptr)[i] && ft_strncmp((*group->env_ptr)[i], "PWD=", 4))
+			i++;
+		free((*group->env_ptr)[i]);
+		(*group->env_ptr)[i] = new_pwd;
+	}
 }
 
 static int	goto_home(t_group *group)

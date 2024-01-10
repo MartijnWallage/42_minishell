@@ -111,12 +111,10 @@ int	builtin_export(t_group *group)
 			*group->exitcode = !update_env(group, group->cmd[i]);
 		else
 		{
-			msg = ft_strjoin("export: '", group->cmd[i]);
+			temp = ft_strjoin("export: '", group->cmd[i]);
+			msg = ft_strjoin(temp, "' is not a valid identifier");
 			protect_malloc(group, msg);
-			temp = msg;
-			msg = ft_strjoin(msg, "' is not a valid identifier");
 			free(temp);
-			protect_malloc(group, msg);
 			*group->exitcode = error_msg(msg);
 			free(msg);
 		}

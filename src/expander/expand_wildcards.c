@@ -17,15 +17,15 @@ static int	wildcard_match(const char *pattern, const char *name)
 	while (*pattern == *name || *pattern == '*')
 	{
 		if (*pattern == 0)
-			return (0);
+			return (1);
 		if (*pattern == '*')
 		{
 			while (*pattern == '*')
 				pattern++;
-			while (*name && *name != *pattern)
+			while (*name && !wildcard_match(pattern, name))
 				name++;
 			if (*name == 0 && *pattern != 0)
-				return (1);
+				return (0);
 		}
 		else
 		{
@@ -33,7 +33,7 @@ static int	wildcard_match(const char *pattern, const char *name)
 			name++;
 		}
 	}
-	return (1);
+	return (0);
 }
 
 void	expand_wildcards(t_group *group, int index)
@@ -54,7 +54,7 @@ void	expand_wildcards(t_group *group, int index)
 	entry = readdir(dir);
 	while (entry)
 	{
-		if (wildcard_match(group->cmd[index], entry->d_name) == 0)
+		if (wildcard_match(group->cmd[index], entry->d_name))
 			is_match = insert_word(group, entry->d_name, index + 1);
 		entry = readdir(dir);
 	}

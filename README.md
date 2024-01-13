@@ -27,10 +27,10 @@ Our minishell (called "philoshell", since both authors are philosophers) consist
 		- `> outfile`: redirect STD_OUT to `outfile`, in truncate mode.
 		- `>> outfile`: redirect STD_OUT to `outfile`, in append mode.
 	- Executes each simple command, either as an inbuilt function, a system command (alias) or a path to an executable.
-	- Runs subshells for pairs of parentheses `()`.
 	- On encountering `&&` or `||`, checks exitcodes and proceeds accordingly.
 		- `A && B` will run B if and only if A succeeds.
 		- `A || B` will run B if and only if A fails.
+	- Runs subshells for pairs of parentheses `()`. This automatically takes care of priority when parentheses are combined with logical operators.
 
 - SIGNALS
 	- `ctrl-c`: interrupts child processes and continues to next iteration of while loop.

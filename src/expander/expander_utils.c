@@ -43,7 +43,7 @@ char	*get_value(t_group *group, char *word)
 	free(key);
 	if (value)
 	{
-		value = ft_strdup(value);
+		value = ft_strtrim(value, " ");
 		protect_malloc(group, value);
 	}
 	return (value);

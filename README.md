@@ -13,7 +13,7 @@ Our minishell (called "philoshell", since both authors are philosophers) consist
 - READER: takes input from the user, using the readline() function from the gnu readline library. It returns a char *.
 - LEXER: a lexer could be a combination of a TOKENIZER, which splits the input into seperate words or tokens, and a - what shall we call it? - TYPER, which assigns a type to each token.
 We found, however, that we only really need a TOKENIZER. It returns a char **.
-If I did this project again, I'd probably use a linked list instead. You often need to 
+If I did this project again, I'd probably use a linked list instead, because it would make insertion and deletion easier.
 - PARSER: takes the char ** that it gets from the TOKENIZER and creates a linked list.
 	- Splits the line up into groups that form a simple command, separated by pipes |.
 	- handles parentheses as subshells.

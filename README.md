@@ -1,8 +1,12 @@
 # Minishell (with Bonus)
 
+![C](https://img.shields.io/badge/c-%2300599C.svg?style=for-the-badge&logo=c&logoColor=white)
+
 Authors: Martijn Wallage (mwallage), Julian Muller (jmuller)
 
-## Project Description
+A project of the 42 Core Curriculum.
+
+## About
 
 Minishell is a project in the Core Curriculum of the 42 school. The aim is to recreate part of the Bash shell. 
 The bonus part of the project is to implement the logical operators with parentheses, and wildcards for the current working directory.
